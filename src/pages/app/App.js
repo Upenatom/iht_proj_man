@@ -1,8 +1,22 @@
-import { Component } from "react";
 import "./App.css";
 
-export default class App extends Component {
-  render() {
-    return <main className="App">App</main>;
-  }
+function App() {
+  return (
+    <div className="App">
+      <header className="App-header">
+        <div>HELLO WORLD!</div>
+        <p>Edit src/App.js and save to reload. </p>{" "}
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {" "}
+          Learn React{" "}
+        </a>{" "}
+      </header>{" "}
+    </div>
+  );
 }
+export default App;
