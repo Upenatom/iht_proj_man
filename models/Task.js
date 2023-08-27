@@ -17,7 +17,7 @@ const taskSchema = new Schema(
     taskStatus: Boolean,
     taskComment: [taskCommentSchema],
     taskOwner: { type: Schema.Types.ObjectId, ref: "User" },
-    taskTodo: { type: Schema.Types.ObjectId, ref: "Todo" },
+    taskTodo: [{ type: Schema.Types.ObjectId, ref: "Todo" }],
   },
   { timestamps: true }
 );

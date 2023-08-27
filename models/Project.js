@@ -6,6 +6,8 @@ const projectSchema = new Schema({
   projStartDate: Date,
   projTargetEndDate: Date,
   projDescription: String,
+  projectOwner: { type: Schema.Types.ObjectId, ref: "User" },
+  projectTask: [{ type: Schema.Types.ObjectId, ref: "Task" }],
 });
 
 module.exports = mongoose.model("Project", projectSchema);
