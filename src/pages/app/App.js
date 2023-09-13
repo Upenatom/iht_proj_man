@@ -2,10 +2,8 @@ import "./App.css";
 import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import AuthPage from "../AuthPage/AuthPage";
-import Dashboard from "../../components/Dashboard/Dashboard";
-import UserDashboard from "../../components/Dashboard/UserDashboard";
-import CreateUser from "../../pages/CreateUser/CreateUser";
-
+import CreateUserPage from "../CreateUserPage/CreateUserPage";
+import UserDashboardPage from "../UserDashboardPage/UserDashboardPage";
 function App() {
   const [user, setUser] = useState(null);
   const setUserInState = (incomingUserData) =>
@@ -15,12 +13,24 @@ function App() {
     <div className="App">
       {user ? (
         <Routes>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/dashboard/user" element={<UserDashboard />} />
-          <Route path="/admin/createUser" element={<CreateUser />} />
+          <Route path="/userDashboard" element={<UserDashboardPage />} />
+          <Route
+            path="/admin/createUser"
+            element={<CreateUserPage setUserInState={setUserInState} />}
+          />
         </Routes>
       ) : (
-        <AuthPage />
+        <CreateUserPage />
+        // <Routes>
+        //   <Route
+        //     path="/"
+        //     elememt={<AuthPage setUserInState={setUserInState} />}
+        //   />
+        //   <Route
+        //     path="/admin/createUser"
+        //     element={<CreateUserPage setUserInState={setUserInState} />}
+        //   />
+        // </Routes>
       )}
     </div>
   );
