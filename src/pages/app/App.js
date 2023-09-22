@@ -20,7 +20,8 @@ function App() {
           />
         </Routes>
       ) : (
-        <CreateUserPage />
+        <AuthPage />
+        // <CreateUserPage />
         // <Routes>
         //   <Route
         //     path="/"

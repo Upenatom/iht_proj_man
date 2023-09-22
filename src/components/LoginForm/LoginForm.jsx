@@ -36,29 +36,35 @@ export default function LoginForm({setUserInState}) {
   }
   }
     return (
-    <div className = "loginform">
+    
         <div className = "loginform">
-            <form autoComplete="off\">
+            <form autoComplete="off" >
+              <div className='lineitem'>
                 <label>User Name:</label>
-                <input className = "input"
+                <input 
                 type="text"
                 name="userName"
                 value={userCreds.userName} 
                 onChange={setUserCreds}
                 required
-                /> <br/><br/>
+                /> </div> <br/><br/>
+                <div className='lineitem'>
                 <label>Password:</label>
-                <input className = "input"
+                <input 
                 type="password"
                 name="password"
                 value={userCreds.userPass} 
                 onChange={setUserCreds}
                 required
-                /><br/><br/>
+                />
+                </div><br/><br/>
+                <div className='lineitem'>
                  <button type="submit"
-                 onClick={handleSubmit}>LOG IN</button>
+                 onClick={handleSubmit} >LOG IN</button>
+                 </div>
+                 
             </form>
         </div>
-        </div>
+      
   )
 }

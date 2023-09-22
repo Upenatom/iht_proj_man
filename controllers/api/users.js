@@ -19,12 +19,14 @@ async function create(req, res) {
       lastName: req.body.lastName,
       authLevel: req.body.authLevel,
       statusLevel: "active",
+      department: req.body.department,
       userName: req.body.userName,
       userPass: hashedPassword,
     });
 
     const token = jwt.sign({ user }, process.env.SECRET);
     res.status(200).json(token);
+    console.log(user);
   } catch (err) {
     res.status(400).json(err);
   }

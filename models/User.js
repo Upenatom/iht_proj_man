@@ -15,6 +15,21 @@ const userSchema = new Schema(
       required: true,
       enum: ["active", "inactive"],
     },
+    department: {
+      type: String,
+      required: true,
+      enum: [
+        "Research and Development",
+        "Office",
+        "Marketing / Promo",
+        "Technical Support, Product Support, QC, ETL",
+        "Warehouse & Packaging",
+        "Inventory & Purchasing",
+        "Building Maintenance",
+        "Safety",
+        "HR",
+      ],
+    },
     userName: {
       type: String,
       unique: true,
