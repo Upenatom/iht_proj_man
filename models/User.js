@@ -19,7 +19,7 @@ const userSchema = new Schema(
       type: String,
       required: true,
       enum: [
-        "Research and Development",
+        "R&D",
         "Office",
         "Marketing / Promo",
         "Technical Support, Product Support, QC, ETL",

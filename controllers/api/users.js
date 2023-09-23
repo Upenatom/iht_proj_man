@@ -24,7 +24,9 @@ async function create(req, res) {
       userPass: hashedPassword,
     });
 
-    const token = jwt.sign({ user }, process.env.SECRET);
+    const token = jwt.sign({ user }, process.env.SECRET, {
+      expiresIn: "24h",
+    });
     res.status(200).json(token);
     console.log(user);
   } catch (err) {
@@ -32,4 +34,19 @@ async function create(req, res) {
   }
 }
 
-async function login(req, res) {}
+async function login(req, res) {
+  console.log("route hit");
+  try {
+    const user = await User.findOne({
+      userName: req.body.userName,
+    });
+    if (!(await bcrypt.compare(req.body.userPass, user.userPass)))
+      throw new Error("Bad Password");
+    const token = jwt.sign({ user }, process.env.SECRET, {
+      expiresIn: "24h",
+    });
+    res.status(200).json(token);
+  } catch (err) {
+    res.status(400).json(err);
+  }
+}

@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import "./LoginForm.css"
 
-export default function LoginForm({setUserInState}) {
+export default function LoginForm({setUser}) {
   const [userCreds,setUserCreds]=useState({userName:"",userPass:""})
 
   const handleChange = (e) =>{
@@ -11,9 +11,8 @@ export default function LoginForm({setUserInState}) {
 
 
   const handleSubmit =async (e) =>{
-    e.preventDevfault()
-    console.log('log in clicked')
-    try{
+    e.preventDefault()
+       try{
       const options = {
       method:"POST",
       headers:{"Content-Type": "application/json"},
@@ -28,11 +27,12 @@ export default function LoginForm({setUserInState}) {
     let token= await fetchResponse.json()
     localStorage.setItem('token',token)
 
-    const user = JSON.parse(atob(token.split(',')[1])).user
-    setUserInState(user)
+    const user = JSON.parse(atob(token.split('.')[1])).user
+    setUser(user)
   }
   catch(err){
-    console.log ("user creation error");
+    console.log ("user login error");
+    console.log(err)
   }
   }
     return (
@@ -45,16 +45,16 @@ export default function LoginForm({setUserInState}) {
                 type="text"
                 name="userName"
                 value={userCreds.userName} 
-                onChange={setUserCreds}
+                onChange={handleChange}
                 required
                 /> </div> <br/><br/>
                 <div className='lineitem'>
                 <label>Password:</label>
                 <input 
                 type="password"
-                name="password"
+                name="userPass"
                 value={userCreds.userPass} 
-                onChange={setUserCreds}
+                onChange={handleChange}
                 required
                 />
                 </div><br/><br/>

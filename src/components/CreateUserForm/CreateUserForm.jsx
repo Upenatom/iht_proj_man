@@ -2,9 +2,9 @@ import React from 'react'
 import "./CreateUserForm.css"
 import { useState} from 'react'
 
-export default function CreateUserForm({setUserInState}) {
+export default function CreateUserForm() {
 
-const [createUser,setCreateUser]=useState({firstName:"",lastName:"",userName:"",userPass:"",authLevel:"",statusLevel:'active'})
+const [createUser,setCreateUser]=useState({firstName:"",lastName:"",userName:"",userPass:"",department:"",authLevel:"",statusLevel:'active'})
 
 
 const handleChange = (e) =>{
@@ -20,6 +20,7 @@ const handleSubmit = async (e) =>{
       body: JSON.stringify({
         firstName:createUser.firstName,
         lastName:createUser.lastName,
+        department:createUser.department,
         userName:createUser.userName,
         userPass:createUser.userPass,
         authLevel:createUser.authLevel,
@@ -34,7 +35,7 @@ const handleSubmit = async (e) =>{
     localStorage.setItem('token',token)
 
     let user= JSON.parse(atob()(token.split('.')[1])).user
-    setUserInState(user)
+    
 
 
   }
@@ -67,11 +68,28 @@ const handleSubmit = async (e) =>{
         required
         />
         <br/><br/>
+        <label>Department: </label>
+        <select className = "input"
+        name="department"
+        onChange={handleChange}
+        required>
+          <option>Select Option</option>
+          <option value="R&D">R&D</option>
+          <option value="Office">Office</option>
+          <option value="Marketing / Promo">Marketing / Promo</option>
+          <option value="Technical Support, Product Support, QC, ETL">Technical Support, Product Support, QC, ETL</option>
+          <option value="Warehouse & Packaging">Warehouse & Packaging</option>
+          <option value="Inventory & Purchasing">Inventory & Purchasing</option>
+          <option value="Building Maintenance">Building Maintenance</option>
+          <option value="Safety">Safety</option>
+          <option value="HR">HR</option>
+        </select><br/><br/>
         <label>Authorization Level: </label>
         <select className = "input"
         name="authLevel"
         onChange={handleChange}
         required>
+          <option>Select Option</option>
           <option value="superadmin">Super Admin</option>
           <option value="admin">Admin</option>
           <option value="user">User</option>
