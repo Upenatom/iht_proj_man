@@ -1,0 +1,11 @@
+.userdashboard{
+    display:flex;
+    flex-direction:column;
+    position:relative;
+   
+}
+.headerNav{
+    position:sticky;
+    width:100vw;
+    height:10vh;
+}
