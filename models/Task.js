@@ -14,10 +14,15 @@ const taskSchema = new Schema(
     taskStartDate: Date,
     taskTargetEndDate: Date,
     taskDescription: String,
-    taskStatus: Boolean,
-    taskComment: [taskCommentSchema],
+    taskStatus: {
+      type: String,
+      required: true,
+      enum: ["In Progress", "Paused", "Cancelled", "Completed", "Not Started"],
+    },
+    taskComments: [taskCommentSchema],
     taskOwner: { type: Schema.Types.ObjectId, ref: "User" },
     taskTodo: [{ type: Schema.Types.ObjectId, ref: "Todo" }],
+    taskParentProject: { type: Schema.Types.ObjectId, ref: "Project" },
   },
   { timestamps: true }
 );

@@ -10,22 +10,19 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { ThemeProvider } from "@mui/material/styles";
+import { SignalCellularNull } from "@mui/icons-material";
 
 function App() {
   const [user, setUser] = useState(null);
-  // const setUserInState = (incomingUserData) =>
-  //   setUser({ user: incomingUserData });
-
   let theme = utils.uiTheme();
   useEffect(() => {
     let token = localStorage.getItem("token");
     if (token) {
       const payload = JSON.parse(atob(token.split(".")[1]));
-      if (payload.esp < Date.now() / 1000) {
+      if (payload.exp < Date.now() / 1000) {
         localStorage.removeItem("token");
         token = null;
       } else {
-        console.log("else");
         const user = payload.user;
         setUser(user);
       }
@@ -38,7 +35,15 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={<UserDashboardPage setUser={setUser} user={user} />}
+            element={
+              <ThemeProvider theme={theme}>
+                <UserDashboardPage
+                  setUser={setUser}
+                  user={user}
+                  theme={theme}
+                />
+              </ThemeProvider>
+            }
           />
           <Route path="/admin/createUser" element={<UserAdminPage />} />
         </Routes>

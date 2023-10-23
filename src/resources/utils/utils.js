@@ -1,4 +1,8 @@
 import { createTheme } from "@mui/material/styles";
+import { ReactComponent as IhtHeatingLogo } from "../logo/iht-heating-avatar-gradient.svg";
+import { ReactComponent as IhtCoolingLogo } from "../logo/iht-cooling-avatar-gradient.svg";
+import { ReactComponent as IhtGroupLogo } from "../logo/iht-group-avatar-gradient.svg";
+import { ReactComponent as IhtLightingLogo } from "../logo/iht-lighting-avatar-colour.svg";
 
 export function uiTheme() {
   //create theme for material UI
@@ -49,4 +53,15 @@ export function uiTheme() {
     },
   });
   return theme;
+}
+export function logoSelect(division) {
+  if (division === "IHTheating") {
+    return <IhtHeatingLogo style={{ height: "20px", width: "20px" }} />;
+  } else if (division === "IHTcooling") {
+    return <IhtCoolingLogo style={{ height: "20px", width: "20px" }} />;
+  } else if (division === "IHTlighting") {
+    return <IhtLightingLogo style={{ height: "20px", width: "20px" }} />;
+  } else if (division === "IHTplastic") {
+    return <IhtGroupLogo style={{ height: "20px", width: "20px" }} />;
+  } else return <IhtGroupLogo style={{ height: "20px", width: "20px" }} />;
 }

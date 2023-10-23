@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState} from "react";
 import {ReactComponent as NavLogo} from '../../resources/logo/navbarlogo.svg'
-
+import './HeaderNav.css'
 //component imports
 import LogoutButton from '../../components/LogoutButton/LogoutButton'
 import * as utils from "../../resources/utils/utils";
@@ -67,7 +67,7 @@ export default function HeaderNav({setUser,user,setResource}) {
 
 return(
     
-    <div>
+    <div className='header-nav'>
         <ThemeProvider theme={theme}>
             <Box sx={{ flexGrow: 1 }}>
         <AppBar position="sticky">
@@ -110,7 +110,7 @@ return(
                 value='dashboard'
                 onClick={handleNavigation}
                 >
-                <DashboardIcon style={{pointerEvents: 'none'}}/>Dashboard
+                <DashboardIcon style={{pointerEvents: 'none'}}/>&nbsp;Dashboard
                 </ToggleButton>
                
 

@@ -1,21 +1,27 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const projectRequirementSchema = new Schema(
-  {
-    requirement: String,
-    requirementmet: Boolean,
-  },
-  { timestamps: true }
-);
 const projectSchema = new Schema({
   projName: String,
-  projStartDate: Date,
+  projStatus: {
+    type: String,
+    required: true,
+    enum: ["In Progress", "Paused", "Cancelled", "Completed", "Not Started"],
+  },
+  projDivision: {
+    type: String,
+    required: true,
+    enum: ["IHTheating", "IHTcooling", "IHTlighting", "IHTplastic", "IHTgroup"],
+  },
+  projStartDate: { type: Date, required: true },
   projTargetEndDate: Date,
   projDescription: String,
-  projectRequirements: [projectRequirementSchema],
-  projectOwner: { type: Schema.Types.ObjectId, ref: "User" },
-  projectTask: [{ type: Schema.Types.ObjectId, ref: "Task" }],
+  projDepartment: String,
+  // projRequirements: [String],
+  // projRequirementMet: [String],
+  projMembers: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  projOwner: { type: Schema.Types.ObjectId, ref: "User" },
+  projTasks: [{ type: Schema.Types.ObjectId, ref: "Task" }],
 });
 
 module.exports = mongoose.model("Project", projectSchema);
