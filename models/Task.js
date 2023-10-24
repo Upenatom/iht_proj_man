@@ -14,6 +14,10 @@ const taskSchema = new Schema(
     taskStartDate: Date,
     taskTargetEndDate: Date,
     taskDescription: String,
+    taskPriority: {
+      type: String,
+      enum: ["1-High", "2-Medium", "3-Low"],
+    },
     taskStatus: {
       type: String,
       required: true,

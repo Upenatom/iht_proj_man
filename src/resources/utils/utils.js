@@ -39,9 +39,8 @@ export function uiTheme() {
         contrastText: "#000",
       },
       info: {
-        light: "#ff7961",
-        main: "#f44336",
-        dark: "#ba000d",
+        main: "#876478",
+
         contrastText: "#000",
       },
       success: {

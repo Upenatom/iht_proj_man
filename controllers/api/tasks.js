@@ -19,6 +19,7 @@ async function create(req, res) {
     res.status(200).json("OK. New task added to Project!");
   } catch (err) {
     res.json(err);
+    console.log(err);
   }
 }
 

@@ -1,4 +1,3 @@
-import React from 'react'
 import { useState, useEffect} from "react";
 import TaskList from './TaskList'
 import IconButton from '@mui/material/IconButton';
@@ -135,25 +134,38 @@ console.log(projectTasks)
           <DialogContentText>
             Enter the details of your Task
           </DialogContentText>
-          <Stack spacing={2}>
-          
-          
-          
+          <Stack spacing={2}>             
           <FormControl>
              <TextField
-          id="Task Description"
-          label="Task Description"
-          name = 'taskDescription'
-          onChange={handleChange}
-          value = {taskInfo.taskDescription}
-          multiline
-          rows={4}
-          
-        />
+             id="Task Description"
+             label="Task Description"
+             name = 'taskDescription'
+             onChange={handleChange}
+             value = {taskInfo.taskDescription}
+             multiline
+             rows={4}/>
           </FormControl>
+        
+          <FormControl fullWidth>
+  <InputLabel id="Task Priority">Priority</InputLabel>
+  <Select
+    labelId="Task Priority"
+    id="Task Priority"
+    name='taskPriority'
+    value={taskInfo.taskPriority}
+    label="Age"
+    onChange={handleChange}
+  >
+    <MenuItem value={"1-High"} >High</MenuItem>
+    <MenuItem value={"2-Medium"} >Medium</MenuItem>
+    <MenuItem value={"3-Low"} >Low</MenuItem>
+  </Select>
+</FormControl>
+
           <FormControlLabel
-      control={<Switch onChange={handleOngoingChange}/>} label='Ongoing?' 
-  />
+          control={<Switch onChange={handleOngoingChange}/>} label='Ongoing?'
+          />
+
           <FormControl fullWidth>
            <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer components={['DatePicker', 'DatePicker']}>
