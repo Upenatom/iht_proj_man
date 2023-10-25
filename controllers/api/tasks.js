@@ -25,9 +25,12 @@ async function create(req, res) {
 
 async function projectTasksIndex(req, res) {
   try {
-    let projectTask = await Project.findById(req.params.projectid).populate(
-      "projTasks"
-    );
+    let projectTask = await Project.findById(req.params.projectid).populate([
+      {
+        path: "projTasks",
+        populate: [{ path: "taskOwner" }],
+      },
+    ]);
 
     res.status(200).json(projectTask);
   } catch (err) {

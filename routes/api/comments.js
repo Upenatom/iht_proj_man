@@ -1,7 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const taskCtrl = require("../../controllers/api/comments");
+const commentCtrl = require("../../controllers/api/comments");
 
-router.post("/projectTasks/:projectid/comments/create", taskCtrl.create);
+router.post("/projectTasks/:taskid/comments/create", commentCtrl.create);
+router.get("/projectComments/:taskid/", commentCtrl.index);
+router.get("/projectComments/:taskid/getfirst", commentCtrl.getfirst);
 
 module.exports = router;

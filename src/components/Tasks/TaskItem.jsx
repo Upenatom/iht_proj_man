@@ -1,26 +1,49 @@
 import { useState, useEffect} from "react";
 import IconButton from '@mui/material/IconButton';
 import AddCircleIcon from '@mui/icons-material/AddCircle';  
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import OutlinedInput from '@mui/material/OutlinedInput';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import FormControlLabel from '@mui/material/FormControlLabel';
+
 
 export default function TaskItem({task}) {
   const [open, setOpen] = useState(false);
   const [commentInfo, setCommentInfo]=useState("")
   const[commentAdded,setCommentAdded]=useState(false)
+  const[recentComment,setRecentComment]=useState([])
+
+  useEffect(()=>{
+    
+    const fetchSingleComment = async()=>{
+      try{
+        let jwt = localStorage.getItem("token");
+        const options = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+           Authorization: "Bearer " + jwt,
+      },
+    };
+    const fetchResponse = await fetch(`/api/comments/projectComments/${task._id}/getfirst`, options);
+    if (!fetchResponse.ok) {
+      throw new Error("Fetch failed - Bad Request");
+    }
+    let comment = await fetchResponse.json();
+    let comment0= comment[0]
+    if(comment0!==null){setRecentComment(comment0)
+    }else return
+      }
+      catch(err){console.log(err);
+    console.log("Latest comment Fetch failed");}
+    }
+    fetchSingleComment()
+  },[commentAdded])
+
   const handleOpenCreateCommentModal=()=>{
   setOpen(true);
  }
@@ -65,17 +88,25 @@ export default function TaskItem({task}) {
     <ul className='projectItem'>
         <li>Description: {task.taskDescription}</li>
         <li>Due date: {task.taskTargetEndDate}</li>
-        <li>Assigned to: {task.taskOwner}</li>
+        <li>Assigned to: {task["taskOwner"]["firstName"]} {task["taskOwner"]["lastName"]}</li>
         <li>Status: {task.taskStatus}</li>
         <li>Priority: {task.taskPriority}</li>
               
       </ul>
       <div>
-        Comment
+        
         <div>
           <IconButton onClick={handleOpenCreateCommentModal} color= 'info'><AddCircleIcon /></IconButton>
           Add a Comment
         </div>
+
+      {recentComment?<div className='commentitem'>
+        <p>Comment: {recentComment.comment}</p>
+        Added by: {recentComment.taskCommentOwner}
+        Created:{recentComment.createdAt}
+        edited at:{recentComment.updatedAt}
+        </div>:null}
+
         <div className='.modal'>
           <Dialog open={open} 
           onClose={handleClose}>
