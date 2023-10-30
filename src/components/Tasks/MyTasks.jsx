@@ -1,7 +1,43 @@
-import React from 'react'
+import { useState, useEffect} from "react";
+import TaskItem from '../Tasks/TaskItem'
 
 export default function MyTasks() {
+  const[allMyTasks,setAllMyTasks]=useState([])
+  const[taskUpdateWatch,setTaskUpdateWatch] = useState(false)
+  //fetch tasks on mount
+  useEffect(()=>{
+    const fetchMyTasks = async () =>{
+      try {
+    let jwt = localStorage.getItem("token");
+    const options = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + jwt,
+      },
+     
+    };
+    const fetchResponse = await fetch(`/api/tasks/myTasks`, options);
+    if (!fetchResponse.ok) {
+      throw new Error("Fetch failed - Bad Request");
+    }
+    let tasks = await fetchResponse.json();
+    setAllMyTasks(tasks)
+
+    
+  } catch (err) {
+    console.log(err);
+    console.log("Project Tasks fetch failed");
+  }
+  }
+fetchMyTasks()
+console.log(allMyTasks)
+    },[taskUpdateWatch])
   return (
-    <div>MyTasks</div>
+    <div>
+      {allMyTasks.length?
+      allMyTasks.map(task=>(<TaskItem task={task}   key={task._id} setTaskUpdateWatch={setTaskUpdateWatch} taskUpdateWatch={taskUpdateWatch}/>)):<h4>No Tasks for this project. To add a task click +</h4>
+    }
+    </div>
   )
 }

@@ -1,6 +1,12 @@
 const Task = require("../../models/Task");
 const Project = require("../../models/Project");
-module.exports = { create, myTasksIndex, projectTasksIndex };
+module.exports = {
+  create,
+  myTasksIndex,
+  projectTasksIndex,
+  update,
+  delete: deleteTask,
+};
 
 async function create(req, res) {
   try {
@@ -31,7 +37,6 @@ async function projectTasksIndex(req, res) {
         populate: [{ path: "taskOwner" }],
       },
     ]);
-
     res.status(200).json(projectTask);
   } catch (err) {
     res.status(400).json(err);
@@ -41,10 +46,44 @@ async function projectTasksIndex(req, res) {
 
 async function myTasksIndex(req, res) {
   try {
-    let myProjects = await Task.find({ projOwner: req.user._id });
-    res.status(200).json(myProjects);
+    let myTasks = await Task.find({ taskOwner: req.user._id }).populate(
+      "taskOwner"
+    );
+    res.status(200).json(myTasks);
   } catch (err) {
     res.status(400).json(err);
+    console.log(err);
+  }
+}
+
+async function update(req, res) {
+  const filter = { _id: req.params.taskid };
+  const update = {
+    taskStartDate: req.body.taskStartDate,
+    taskTargetEndDate: req.body.taskTargetEndDate,
+    taskDescription: req.body.taskDescription,
+    taskPriority: req.body.taskPriority,
+    taskStatus: req.body.taskStatus,
+    taskOwner: req.body.taskOwner,
+  };
+  try {
+    let task = await Task.findOneAndUpdate(filter, update, {
+      new: true,
+    });
+    res.status(200).json("OK. Task reassigned to user");
+  } catch (err) {
+    res.json(err);
+    console.log(err);
+  }
+}
+
+async function deleteTask(req, res) {
+  try {
+    let task = await Task.findByIdAndDelete(req.params.taskid);
+
+    res.status(200).json("OK. Task and related comments deleted");
+  } catch (err) {
+    res.json(err);
     console.log(err);
   }
 }

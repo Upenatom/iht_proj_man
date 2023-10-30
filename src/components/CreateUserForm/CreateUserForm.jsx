@@ -35,12 +35,13 @@ const handleSubmit = async (e) =>{
     localStorage.setItem('token',token)
 
     let user= JSON.parse(atob()(token.split('.')[1])).user
-    
+    setCreateUser({firstName:"",lastName:"",userName:"",userPass:"",department:"",authLevel:"",statusLevel:'active'})
 
 
   }
   catch(err){
     console.log ("user creation error",err);
+    setCreateUser({firstName:"",lastName:"",userName:"",userPass:"",department:"",authLevel:"",statusLevel:'active'})
   }
   }
   return (

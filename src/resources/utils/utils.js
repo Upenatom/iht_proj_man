@@ -20,12 +20,10 @@ export function uiTheme() {
         dark: "#3b4f4e",
         contrastText: "#d2d6d9",
       },
-      // secondary: {
-      //   light: "#d2cecc",
-      //   main: "#877364",
-      //   dark: "##675241",
-      //   contrastText: "#ececec",
-      // },
+      chip: {
+        main: "#aa9d93",
+        contrastText: "#000",
+      },
       error: {
         light: "#ff7961",
         main: "#f44336",
@@ -63,4 +61,49 @@ export function logoSelect(division) {
   } else if (division === "IHTplastic") {
     return <IhtGroupLogo style={{ height: "20px", width: "20px" }} />;
   } else return <IhtGroupLogo style={{ height: "20px", width: "20px" }} />;
+}
+
+export function departmentEnums() {
+  const departments = [
+    "R&D",
+    "Office",
+    "Marketing & Promo",
+    "Technical Support, Product Support, QC, ETL",
+    "Warehouse & Packaging",
+    "Inventory & Purchasing",
+    "Building Maintenance",
+    "Safety",
+    "HR",
+  ];
+  return departments;
+}
+
+export function taskStatusEnums() {
+  const status = [
+    "In Progress",
+    "Paused",
+    "Cancelled",
+    "Completed",
+    "Not Started",
+  ];
+  return status;
+}
+
+export function priorityEnums() {
+  const priority = ["1-High", "2-Medium", "3-Low"];
+  return priority;
+}
+
+export function putBuilder(bdy) {
+  let body = bdy; //object to send to database
+  let jwt = localStorage.getItem("token");
+  const options = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + jwt,
+    },
+    body: JSON.stringify(body),
+  };
+  return options;
 }

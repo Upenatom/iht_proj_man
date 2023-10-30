@@ -24,6 +24,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 
 export default function Tasks({project}) {
+  const[taskUpdateWatch,setTaskUpdateWatch] = useState(false)
   const[projectTasks,setProjectTasks]=useState([])
   const[taskAdded,setTaskAdded]=useState(false)
   //fetch tasks on mount
@@ -54,8 +55,8 @@ export default function Tasks({project}) {
   }
   }
 fetchProjectTasks()
-console.log(projectTasks)
-    },[taskAdded])
+
+    },[taskAdded,taskUpdateWatch])
 
   const [startDate, setStartDate] = useState(null)
   const [endDate,setEndDate] = useState(null)
@@ -125,7 +126,8 @@ console.log(projectTasks)
     <div>
       <div><IconButton onClick={handleOpenTaskCreateModal} color= 'secondary'><AddCircleIcon /></IconButton>
       Add a Task</div>
-      <TaskList projectTasks={projectTasks}/>
+      <TaskList projectTasks={projectTasks} taskUpdateWatch={taskUpdateWatch}
+      setTaskUpdateWatch={setTaskUpdateWatch}/>
       <div className='.modal'>
        <Dialog open={open} 
          onClose={handleClose}>
@@ -153,7 +155,7 @@ console.log(projectTasks)
     id="Task Priority"
     name='taskPriority'
     value={taskInfo.taskPriority}
-    label="Age"
+    label="Task Priority"
     onChange={handleChange}
   >
     <MenuItem value={"1-High"} >High</MenuItem>

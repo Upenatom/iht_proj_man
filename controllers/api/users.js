@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 module.exports = {
   create,
   login,
+  getUsersByDepartment,
 };
 
 async function create(req, res) {
@@ -48,5 +49,14 @@ async function login(req, res) {
     res.status(200).json(token);
   } catch (err) {
     res.status(400).json(err);
+  }
+}
+async function getUsersByDepartment(req, res) {
+  console.log("req.params.department = ", req.params.department);
+  try {
+    const usersByDept = await User.find({ department: req.params.department });
+    res.status(200).json(usersByDept);
+  } catch (err) {
+    console.log(err);
   }
 }

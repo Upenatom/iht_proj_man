@@ -19,10 +19,18 @@ async function create(req, res) {
   }
 }
 async function index(req, res) {
-  console.log("index controller hit");
   try {
-    let taskComments = await Task.findById(req.params.taskid);
-    res.status(200).json(taskComments.taskComments);
+    let task = await Task.findById(req.params.taskid).populate([
+      {
+        path: "taskComments",
+        populate: [{ path: "taskCommentOwner" }],
+      },
+    ]);
+    const taskComments = task.taskComments;
+    //sort to ascending and return to frontend
+    let reverseTaskComments = taskComments.toReversed();
+
+    res.status(200).json(reverseTaskComments);
   } catch (err) {
     res.status(400).json(err);
     console.log(err);
@@ -31,8 +39,12 @@ async function index(req, res) {
 
 async function getfirst(req, res) {
   try {
-    console.log("get first comment controller hit");
-    let taskComments = await Task.findById(req.params.taskid);
+    let taskComments = await Task.findById(req.params.taskid).populate([
+      {
+        path: "taskComments",
+        populate: [{ path: "taskCommentOwner" }],
+      },
+    ]);
     let commentArray = taskComments.taskComments;
     firstComment = commentArray.slice(-1);
     res.status(200).json(firstComment);

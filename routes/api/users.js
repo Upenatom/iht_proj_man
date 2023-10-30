@@ -6,5 +6,6 @@ const usersCtrl = require("../../controllers/api/users");
 router.post("/signup", usersCtrl.create);
 //POST /api/users/login
 router.post("/login", usersCtrl.login);
+router.get("/findBy/:department", usersCtrl.getUsersByDepartment);
 
 module.exports = router;

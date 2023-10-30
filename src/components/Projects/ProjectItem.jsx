@@ -5,9 +5,9 @@ import InfoIcon from '@mui/icons-material/Info';
 import Tasks from '../Tasks/Tasks'
 export default function ProjectItem({project,user}) {
   const [taskShow,setTaskShow] =useState(false)
-  let handleClick = (e)=>{console.log(project._id)
+  let handleClick = (e)=>{
   setTaskShow(!taskShow)
-  console.log(taskShow)
+  
   }
   return (
     <div >

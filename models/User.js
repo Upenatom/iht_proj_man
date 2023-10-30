@@ -21,7 +21,7 @@ const userSchema = new Schema(
       enum: [
         "R&D",
         "Office",
-        "Marketing / Promo",
+        "Marketing & Promo",
         "Technical Support, Product Support, QC, ETL",
         "Warehouse & Packaging",
         "Inventory & Purchasing",

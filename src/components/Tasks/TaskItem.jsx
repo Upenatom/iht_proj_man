@@ -1,6 +1,11 @@
 import { useState, useEffect} from "react";
+import Comment from '../Comments/Comments'
 import IconButton from '@mui/material/IconButton';
 import AddCircleIcon from '@mui/icons-material/AddCircle';  
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import Menu from '@mui/material/Menu';
+import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
+import EditIcon from '@mui/icons-material/Edit';
 import FormControl from '@mui/material/FormControl';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -10,16 +15,106 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 
+import AssignTask from '../Modals/AssignTask/AssignTask'
+import DeleteTask from '../Modals/DeleteTask/DeleteTask'
+import * as utils from '../../resources/utils/utils'
 
-export default function TaskItem({task}) {
+
+export default function TaskItem({task,setTaskUpdateWatch,taskUpdateWatch}) {
   const [open, setOpen] = useState(false);
   const [commentInfo, setCommentInfo]=useState("")
   const[commentAdded,setCommentAdded]=useState(false)
   const[recentComment,setRecentComment]=useState([])
+  const[reassignModal,setReassignModal]=useState(false)
+  let recentCommentUser = recentComment.taskCommentOwner
+  const[department,setDepartment] = useState("")
+  const[usersByDept,setUsersByDept]=useState([])
+  const[newStatus,setNewStatus]=useState(task.taskStatus)
+
+  //status menu stuff
+  const [anchorEl, setAnchorEl] = useState(null);
+  const openEditStatus = Boolean(anchorEl);
+  const handleStatusMenuClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleStatusEditClose = () => {
+    setAnchorEl(null);
+  };
+  const handleStatusClick =async (e)=>{
+    e.preventDefault();
+        let body = {
+        taskStatus:e.currentTarget.value,
+        }
+       let options=utils.putBuilder(body)
+       try{
+        
+        const fetchResponse = await fetch(`/api/tasks/update/${task._id}`, options)
+        if(!fetchResponse.ok)
+        { throw new Error('Fetch failed - Bad Request')}
+        setTaskUpdateWatch(!taskUpdateWatch)
+        handlePriorityEditClose()}
+        catch(err){
+          console.log(err)
+        }
+    handleStatusEditClose()
+  }
+//priority menu stuff
+const [priorityAnchorEl, setPriorityAnchorEl] = useState(null)
+ const openEditPriority = Boolean(priorityAnchorEl);
+ const handlePriorityMenuClick = (event) => {
+    setPriorityAnchorEl(event.currentTarget);
+  };
+  const handlePriorityEditClose = () => {
+    setPriorityAnchorEl(null);
+  };
+  const handlePriorityClick =async(e)=>{
+    e.preventDefault();
+        let body = {
+        taskPriority:e.currentTarget.value,
+        }
+       let options=utils.putBuilder(body)
+       try{
+        
+        const fetchResponse = await fetch(`/api/tasks/update/${task._id}`, options)
+        if(!fetchResponse.ok)
+        { throw new Error('Fetch failed - Bad Request')}
+        setTaskUpdateWatch(!taskUpdateWatch)
+        handlePriorityEditClose()}
+        catch(err){
+          console.log(err)
+        }
+  }
+  
+//delete task
+const [deleteConfirmation,setDeleteConfirmation]=useState(false)
+const onDeleteClick = async ()=>{
+  try{
+    let jwt = localStorage.getItem("token");
+    const options = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + jwt,
+    },
+  }
+  const fetchResponse= await fetch(`api/tasks/delete/${task._id}`,options)
+  if(!fetchResponse.ok)
+    { throw new Error('Fetch failed - Bad Request')}
+    setTaskUpdateWatch(!taskUpdateWatch)
+    setDeleteConfirmation(false)
+}
+  catch(err){
+
+  }
+  setDeleteConfirmation(false)
+}
+const onDeleteCancel =()=>{
+  setDeleteConfirmation(false)
+}
 
   useEffect(()=>{
     
-    const fetchSingleComment = async()=>{
+    const fetchSingleComment = async ()=>{
       try{
         let jwt = localStorage.getItem("token");
         const options = {
@@ -35,26 +130,36 @@ export default function TaskItem({task}) {
     }
     let comment = await fetchResponse.json();
     let comment0= comment[0]
-    if(comment0!==null){setRecentComment(comment0)
+    
+    
+
+    if(comment0!==null){
+      let commentAuthorFirst= comment0['taskCommentOwner']['firstName']
+      let commentAuthorLast = comment0['taskCommentOwner']['lastName']
+      let fullName = commentAuthorFirst.concat(" ")
+      fullName = fullName.concat(commentAuthorLast)
+      
+      setRecentComment({...comment0,author:fullName})
     }else return
       }
-      catch(err){console.log(err);
-    console.log("Latest comment Fetch failed");}
+      catch(err){
+        console.log(err);
+        console.log("Latest comment Fetch failed");}
     }
     fetchSingleComment()
   },[commentAdded])
-
+  
   const handleOpenCreateCommentModal=()=>{
   setOpen(true);
  }
+ 
 
  const handleChange= (e)=>{
     setCommentInfo(e.target.value)
   }
 
  const handleClose = () => {
-        setOpen(false);
-  };
+        setOpen(false);};
 
   const handleSubmit = async(e) => {
     e.preventDefault();
@@ -69,7 +174,7 @@ export default function TaskItem({task}) {
             },
             body: JSON.stringify(body)
         }
-        const fetchResponse = await fetch(`/api/comments//projectTasks/${task._id}/comments/create`, options)
+        const fetchResponse = await fetch(`/api/comments/projectTasks/${task._id}/comments/create`, options)
     if(!fetchResponse.ok)
     { throw new Error('Fetch failed - Bad Request')}
         setCommentInfo("")
@@ -81,31 +186,81 @@ export default function TaskItem({task}) {
     console.log ("Task Creation error");
     
   }
-      };
+}
+const openReassign =()=>{setReassignModal(true)}
+const closeReassign =()=>{
+  setReassignModal(false)
+  setDepartment("")
+  setUsersByDept(null)
+}
+
 
   return (
     <div>
     <ul className='projectItem'>
         <li>Description: {task.taskDescription}</li>
         <li>Due date: {task.taskTargetEndDate}</li>
-        <li>Assigned to: {task["taskOwner"]["firstName"]} {task["taskOwner"]["lastName"]}</li>
-        <li>Status: {task.taskStatus}</li>
-        <li>Priority: {task.taskPriority}</li>
+        <li>Assigned to: {task["taskOwner"]["firstName"]} {task["taskOwner"]["lastName"]} 
+        <IconButton onClick={openReassign} size={'small'}><ChangeCircleIcon /></IconButton>
+        </li>
+        
+        <li>
+      
+          Status: {task.taskStatus} 
+        <IconButton
+        id="status-button"
+        onClick={handleStatusMenuClick}
+          ><EditIcon size={'small'}/></IconButton>
+          <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={openEditStatus}
+        onClose={handleStatusEditClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      ><Stack spacing ={1}>
+        {utils.taskStatusEnums().map(status=><Button onClick={handleStatusClick} value= {status}>{status}</Button>)}
+      
+        </Stack>
+      </Menu>
+          </li>
+          
+        <li>Priority: {task.taskPriority}  
+        <IconButton
+        id="priority-button"
+        onClick={handlePriorityMenuClick}>
+          <EditIcon size={'small'}/></IconButton></li>
+        <li><IconButton onClick={()=>{setDeleteConfirmation(true)}}><DeleteForeverIcon/></IconButton></li>
+         <Menu
+        id="basic-menu"
+        anchorEl={priorityAnchorEl}
+        open={openEditPriority}
+        onClose={handlePriorityEditClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      ><Stack spacing ={1}>
+        {utils.priorityEnums().map(priority=><Button onClick={handlePriorityClick} value= {priority}>{priority}</Button>)}
+      
+        </Stack>
+      </Menu>
               
       </ul>
+      
+      
       <div>
         
         <div>
-          <IconButton onClick={handleOpenCreateCommentModal} color= 'info'><AddCircleIcon /></IconButton>
+          <IconButton onClick={handleOpenCreateCommentModal} color= 'info'><AddCircleIcon size={'small'}/></IconButton>
           Add a Comment
         </div>
+        
 
-      {recentComment?<div className='commentitem'>
-        <p>Comment: {recentComment.comment}</p>
-        Added by: {recentComment.taskCommentOwner}
-        Created:{recentComment.createdAt}
-        edited at:{recentComment.updatedAt}
-        </div>:null}
+      {recentComment?<Comment task={task} recentComment={recentComment} recentCommentUser={recentCommentUser}/>
+        
+        
+        :null}
 
         <div className='.modal'>
           <Dialog open={open} 
@@ -130,6 +285,20 @@ export default function TaskItem({task}) {
         </DialogActions>
           </Dialog>
       </div>
+      <AssignTask reassignModal={reassignModal} closeReassign={closeReassign} 
+      department={department}
+      setDepartment={setDepartment}
+      usersByDept={usersByDept}
+      setUsersByDept={setUsersByDept}
+      task={task}
+      setTaskUpdateWatch={setTaskUpdateWatch}
+      taskUpdateWatch={taskUpdateWatch}/>
+      <DeleteTask
+      deleteConfirmation={deleteConfirmation}
+      onDeleteClick={onDeleteClick}
+      onDeleteCancel={onDeleteCancel}
+      />
+
       </div>
       </div>
   )
