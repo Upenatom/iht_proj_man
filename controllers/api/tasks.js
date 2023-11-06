@@ -10,7 +10,6 @@ module.exports = {
 
 async function create(req, res) {
   try {
-    console.log("Tasks controller hit");
     let newTask = await Task.create({
       ...req.body,
       taskOwner: req.user._id,
@@ -70,7 +69,7 @@ async function update(req, res) {
     let task = await Task.findOneAndUpdate(filter, update, {
       new: true,
     });
-    res.status(200).json("OK. Task reassigned to user");
+    res.status(200).json("OK. Task updated");
   } catch (err) {
     res.json(err);
     console.log(err);
@@ -79,9 +78,20 @@ async function update(req, res) {
 
 async function deleteTask(req, res) {
   try {
-    let task = await Task.findByIdAndDelete(req.params.taskid);
+    console.log("req.user.id =>", typeof req.user._id);
+    let task = await Task.findById(req.params.taskid);
 
-    res.status(200).json("OK. Task and related comments deleted");
+    let project = await Project.findById(task.taskParentProject);
+    console.log("project owner =>", typeof project.projOwner);
+    let projectOwner = project.projOwner.toString();
+    if (req.user._id === projectOwner) {
+      let deletedTask = await Task.findByIdAndDelete(req.params.taskid);
+      res.status(200).json(`Task and related comments deleted`);
+    } else {
+      res
+        .status(403)
+        .json(`You cannot delete the task if you are not the project owner`);
+    }
   } catch (err) {
     res.json(err);
     console.log(err);

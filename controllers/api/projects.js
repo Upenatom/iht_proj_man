@@ -1,6 +1,6 @@
 const Project = require("../../models/Project");
 
-module.exports = { create, myProjectsIndex };
+module.exports = { create, myProjectsIndex, update };
 
 async function create(req, res) {
   try {
@@ -23,5 +23,32 @@ async function myProjectsIndex(req, res) {
   } catch (err) {
     res.status(400).json(err);
     console.log(err);
+  }
+}
+
+async function update(req, res) {
+  const filter = { _id: req.params.projectid };
+  const update = {
+    projName: req.body.projName,
+    projStatus: req.body.projStatus,
+    projDivision: req.body.projDivision,
+    projStartDate: req.body.projStartDate,
+    projTargetEndDate: req.body.projTargetEndDate,
+    projDescription: req.body.projDescription,
+    projDepartment: req.body.projDepartment,
+    projMembers: req.body.projMembers,
+    projOwner: req.body.projOwner,
+    projTasks: req.body.projTasks,
+  };
+  try {
+    if (req.user._id === update.projOwner) {
+      let project = await Project.findOneAndUpdate(filter, update, {
+        new: true,
+      });
+
+      res.status(200).json("OK. Project updated ");
+    }
+  } catch (err) {
+    console.log(error);
   }
 }

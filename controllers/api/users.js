@@ -6,9 +6,14 @@ module.exports = {
   create,
   login,
   getUsersByDepartment,
+  index,
 };
 
 async function create(req, res) {
+  let firstName = req.body.firstName;
+  let lastName = req.body.lastName;
+  let fullName = firstName.concat(" ");
+  fullName = fullName.concat(lastName);
   try {
     const hashedPassword = await bcrypt.hash(
       req.body.userPass,
@@ -18,6 +23,7 @@ async function create(req, res) {
     const user = await User.create({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
+      fullName: fullName,
       authLevel: req.body.authLevel,
       statusLevel: "active",
       department: req.body.department,
@@ -52,10 +58,20 @@ async function login(req, res) {
   }
 }
 async function getUsersByDepartment(req, res) {
-  console.log("req.params.department = ", req.params.department);
   try {
-    const usersByDept = await User.find({ department: req.params.department });
+    const usersByDept = await User.find({
+      department: req.params.department,
+    }).select("-userPass");
     res.status(200).json(usersByDept);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+async function index(req, res) {
+  try {
+    const allUsers = await User.find({}).select("-userPass");
+    res.status(200).json(allUsers);
   } catch (err) {
     console.log(err);
   }

@@ -1,13 +1,23 @@
-import React from 'react'
 import "./CreateUserForm.css"
 import { useState} from 'react'
+import MenuItem from '@mui/material/MenuItem';
+import InputLabel from '@mui/material/InputLabel';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import Select from '@mui/material/Select';
+import FormControl from '@mui/material/FormControl';
+import * as utils from '../../resources/utils/utils'
+import './CreateUserForm.css'
 
-export default function CreateUserForm() {
+export default function CreateUserForm({user}) {
 
 const [createUser,setCreateUser]=useState({firstName:"",lastName:"",userName:"",userPass:"",department:"",authLevel:"",statusLevel:'active'})
 
+let departments=utils.departmentEnums()
 
 const handleChange = (e) =>{
+  console.log(user)
   setCreateUser({...createUser,[e.target.name]:e.target.value})
   }
 const handleSubmit = async (e) =>{
@@ -45,76 +55,84 @@ const handleSubmit = async (e) =>{
   }
   }
   return (
-  <div>
+  <div className='createUser' >
     CREATE USER
     <br/>
     <br/>
-    <div className = "createuserform">
-      <form autoComplete="off\">
-        <label>First Name: </label>
-        <input className = "input"
-        type="text"
-        name="firstName"
-        value={createUser.firstName}
-        onChange={handleChange}
-        required
+    
+      <Stack spacing={2}>
+        <FormControl >
+          <InputLabel>First Name</InputLabel>
+          <OutlinedInput label="Project Name"
+          name='firstName'
+          value={createUser.firstName}
+          onChange={handleChange}
         />
-        <br/><br/>
-        <label>Last Name: </label>
-        <input className = "input"
-        type="text"
-        name="lastName"
-        value={createUser.lastName}
-        onChange={handleChange}
-        required
-        />
-        <br/><br/>
-        <label>Department: </label>
-        <select className = "input"
-        name="department"
-        onChange={handleChange}
-        required>
-          <option>Select Option</option>
-          <option value="R&D">R&D</option>
-          <option value="Office">Office</option>
-          <option value="Marketing / Promo">Marketing / Promo</option>
-          <option value="Technical Support, Product Support, QC, ETL">Technical Support, Product Support, QC, ETL</option>
-          <option value="Warehouse & Packaging">Warehouse & Packaging</option>
-          <option value="Inventory & Purchasing">Inventory & Purchasing</option>
-          <option value="Building Maintenance">Building Maintenance</option>
-          <option value="Safety">Safety</option>
-          <option value="HR">HR</option>
-        </select><br/><br/>
-        <label>Authorization Level: </label>
-        <select className = "input"
-        name="authLevel"
-        onChange={handleChange}
-        required>
-          <option>Select Option</option>
-          <option value="superadmin">Super Admin</option>
-          <option value="admin">Admin</option>
-          <option value="user">User</option>
-        </select><br/><br/>
-        <label>User Name: </label>
-        <input className = "input"
-        type="text"
-        name="userName"
-        value={createUser.userName}
-        onChange={handleChange}
-        required
-        /><br/><br/>
-        <label>Temporary Password: </label>
-        <input className = "input"
-        type="password"
-        name="userPass"
-        value={createUser.userPass}
-        onChange={handleChange}
-        required
-        /><br/><br/>
-        <button type="submit"
-        onClick={handleSubmit}>Add User</button>
-        </form>
-    </div>
+        </FormControl>
+
+        <FormControl>
+          <InputLabel>Last Name</InputLabel>
+          <OutlinedInput label="Last Name"
+          name='lastName'
+          value={createUser.lastName}
+          onChange={handleChange}
+          />
+        </FormControl>
+
+        <FormControl fullWidth>
+            <InputLabel>Division</InputLabel>
+            <Select
+                label="Division"
+                name='department'
+                value={createUser.department}
+                onChange={handleChange}
+               >
+                 <MenuItem  value=""></MenuItem>
+                {departments.map(department=><MenuItem  value={department} key={department}>{department}</MenuItem>)}
+             
+            </Select>
+          </FormControl>
+        
+         <FormControl fullWidth>
+            <InputLabel>Authorization Level</InputLabel>
+            <Select
+                label="Authorization Level"
+                name='authLevel'
+                value={createUser.authLevel}
+                onChange={handleChange}
+               >
+                 <MenuItem  value=""></MenuItem>
+                 {user.authLevel==='superadmin'?
+                 <MenuItem  value="superadmin">Super Admin</MenuItem>:null}
+                 <MenuItem  value="admin">Admin</MenuItem>
+                 <MenuItem  value="user">User</MenuItem>
+            </Select>
+          </FormControl>
+
+          <FormControl>
+          <InputLabel>E-mail</InputLabel>
+          <OutlinedInput label="E-mail"
+          name='userName'
+          value={createUser.userName}
+          onChange={handleChange}
+          />
+        </FormControl>
+
+        <FormControl>
+          <InputLabel>Temporary Password</InputLabel>
+          <OutlinedInput label="Temporary Password"
+          name='userPass'
+          value={createUser.userPass}
+          onChange={handleChange}
+          />
+        </FormControl>
+        <Button onClick={handleSubmit}>
+         Add User
+        </Button>
+
+      </Stack>
+       
   </div>
   )
 }
+ 

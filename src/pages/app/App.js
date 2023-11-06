@@ -10,7 +10,6 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { ThemeProvider } from "@mui/material/styles";
-import { SignalCellularNull } from "@mui/icons-material";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -45,13 +44,19 @@ function App() {
               </ThemeProvider>
             }
           />
-          <Route path="/admin/createUser" element={<UserAdminPage />} />
+          <Route
+            path="/admin/createUser"
+            element={
+              <ThemeProvider theme={theme}>
+                <UserAdminPage user={user} />
+              </ThemeProvider>
+            }
+          />
         </Routes>
       ) : (
         <ThemeProvider theme={theme}>
           <AuthPage setUser={setUser} />
         </ThemeProvider>
-        // <UserAdminPage />
       )}
     </div>
   );

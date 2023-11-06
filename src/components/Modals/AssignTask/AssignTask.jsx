@@ -13,12 +13,14 @@ import DialogTitle from '@mui/material/DialogTitle';
 import * as fetches from '../../../resources/utils/fetches'
 import * as utils from '../../../resources/utils/utils'
 
-export default function AssignTask({reassignModal,closeReassign,department,setDepartment,usersByDept,setUsersByDept,task,setTaskUpdateWatch,taskUpdateWatch}) {
+export default function AssignTask({reassignModal,closeReassign,department,setDepartment,usersByDept,setUsersByDept,task,setTaskUpdateWatch,taskUpdateWatch})
+ {
 const[newAssignedUser,setNewAssignedUser] =useState("")
 
 useEffect(()=>{
     
     },[usersByDept])
+    
     let user="null"
     const handleSubmit = async (e)=> {
         e.preventDefault();

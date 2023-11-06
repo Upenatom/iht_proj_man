@@ -17,8 +17,9 @@ app.use(express.static(path.join(__dirname, "build")));
 
 //API routes here
 app.use("/api/users", require("./routes/api/users"));
-// all routes below will have access to req.user
 app.use(require("./config/auth"));
+// all routes below will have access to req.user
+app.use("/api/user", require("./routes/api/user"));
 app.use("/api/projects", require("./routes/api/projects"));
 app.use("/api/tasks", require("./routes/api/tasks"));
 app.use("/api/comments", require("./routes/api/comments"));

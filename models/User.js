@@ -45,10 +45,23 @@ const userSchema = new Schema(
     },
   },
   {
+    virtuals: {
+      fullName: {
+        get() {
+          return `${this.firstName} ${this.lastName}`;
+        },
+        set(v) {
+          const firstName = v.substring(0, v.indexOf(" "));
+          const lastName = v.substring(v.indexOf(" ") + 1);
+          this.set({ firstName, lastName });
+        },
+      },
+    },
     timestamps: true,
     toJSON: {
+      virtuals: true,
       transform: function (doc, ret) {
-        delete ret.password;
+        delete ret.userPass;
         return ret;
       },
     }, //anytime we call JSON stringify we don't want users password (from mongoose docs)

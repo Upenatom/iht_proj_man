@@ -1,6 +1,7 @@
 .userdashboard{
     display:flex;
     flex-direction:column;
+    align-items:center;
     position:relative;
     height:100%;
     top:10vh;

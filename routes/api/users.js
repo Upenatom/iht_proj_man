@@ -7,5 +7,6 @@ router.post("/signup", usersCtrl.create);
 //POST /api/users/login
 router.post("/login", usersCtrl.login);
 router.get("/findBy/:department", usersCtrl.getUsersByDepartment);
+router.get("/index", usersCtrl.index);
 
 module.exports = router;
