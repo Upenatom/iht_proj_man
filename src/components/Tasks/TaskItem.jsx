@@ -21,8 +21,7 @@ import * as utils from '../../resources/utils/utils'
 
 
 export default function TaskItem({task,setTaskUpdateWatch,taskUpdateWatch}) {
-  const [open, setOpen] = useState(false);
-  const [commentInfo, setCommentInfo]=useState("")
+
   const[commentAdded,setCommentAdded]=useState(false)
   const[recentComment,setRecentComment]=useState([])
   const[reassignModal,setReassignModal]=useState(false)
@@ -149,44 +148,7 @@ const onDeleteCancel =()=>{
     fetchSingleComment()
   },[commentAdded])
   
-  const handleOpenCreateCommentModal=()=>{
-  setOpen(true);
- }
- 
 
- const handleChange= (e)=>{
-    setCommentInfo(e.target.value)
-  }
-
- const handleClose = () => {
-        setOpen(false);};
-
-  const handleSubmit = async(e) => {
-    e.preventDefault();
-    let body = { comment:commentInfo
-      }
-    let jwt = localStorage.getItem('token')
-    try{
-    const options = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json", 'Authorization': 'Bearer ' + jwt
-            },
-            body: JSON.stringify(body)
-        }
-        const fetchResponse = await fetch(`/api/comments/projectTasks/${task._id}/comments/create`, options)
-    if(!fetchResponse.ok)
-    { throw new Error('Fetch failed - Bad Request')}
-        setCommentInfo("")
-        setOpen(false)
-        setCommentAdded(!commentAdded)
-      }
-   catch(err){
-    console.log(err)
-    console.log ("Task Creation error");
-    
-  }
-}
 const openReassign =()=>{setReassignModal(true)}
 const closeReassign =()=>{
   setReassignModal(false)
@@ -198,10 +160,12 @@ const closeReassign =()=>{
   return (
     <div>
     <ul className='projectItem'>
-        <li>Description: {task.taskDescription}</li>
-        <li>Due date: {task.taskTargetEndDate}</li>
+       
+        <li>Due date:{utils.shortDate(task.taskTargetEndDate)}</li>
         <li>Assigned to: {task["taskOwner"]["firstName"]} {task["taskOwner"]["lastName"]} 
-        <IconButton onClick={openReassign} size={'small'}><ChangeCircleIcon /></IconButton>
+        <IconButton onClick={openReassign} ><ChangeCircleIcon sx={{
+          fontSize:'20px'
+        }}/></IconButton>
         </li>
         
         <li>
@@ -210,7 +174,9 @@ const closeReassign =()=>{
         <IconButton
         id="status-button"
         onClick={handleStatusMenuClick}
-          ><EditIcon size={'small'}/></IconButton>
+          ><EditIcon sx={{
+          fontSize:'20px'
+        }}/></IconButton>
           <Menu
         id="basic-menu"
         anchorEl={anchorEl}
@@ -230,8 +196,12 @@ const closeReassign =()=>{
         <IconButton
         id="priority-button"
         onClick={handlePriorityMenuClick}>
-          <EditIcon size={'small'}/></IconButton></li>
-        <li><IconButton onClick={()=>{setDeleteConfirmation(true)}}><DeleteForeverIcon/></IconButton></li>
+          <EditIcon sx={{
+          fontSize:'20px'
+        }}/></IconButton></li>
+        <li><IconButton onClick={()=>{setDeleteConfirmation(true)}}><DeleteForeverIcon sx={{
+          fontSize:'20px'
+        }}/></IconButton></li>
          <Menu
         id="basic-menu"
         anchorEl={priorityAnchorEl}
@@ -245,46 +215,25 @@ const closeReassign =()=>{
       
         </Stack>
       </Menu>
-              
       </ul>
+          <p>{task.taskDescription}</p>
       
       
       <div>
         
-        <div>
-          <IconButton onClick={handleOpenCreateCommentModal} color= 'info'><AddCircleIcon size={'small'}/></IconButton>
-          Add a Comment
-        </div>
-        
+               
 
-      {recentComment?<Comment task={task} recentComment={recentComment} recentCommentUser={recentCommentUser}/>
+      {recentComment?<Comment 
+      task={task} 
+      recentComment={recentComment} 
+      recentCommentUser={recentCommentUser}
+      commentAdded={commentAdded}
+      setCommentAdded={setCommentAdded}/>
         
         
         :null}
 
-        <div className='.modal'>
-          <Dialog open={open} 
-          onClose={handleClose}>
-            <DialogTitle>Create Comment</DialogTitle>
-            <DialogContent>
-              <Stack spacing={2}>
-                <FormControl>
-                  <TextField
-                  id="Task comment"
-                  label="Task comment"
-                  onChange={handleChange}
-                  value = {commentInfo}
-                  multiline
-                  rows={4}/>
-                </FormControl>
-              </Stack>
-            </DialogContent>
-             <DialogActions>
-          <Button variant='contained' onClick={handleClose}>Cancel</Button>
-          <Button variant='contained' onClick={handleSubmit}>Save Comment</Button>
-        </DialogActions>
-          </Dialog>
-      </div>
+        
       <AssignTask reassignModal={reassignModal} closeReassign={closeReassign} 
       department={department}
       setDepartment={setDepartment}

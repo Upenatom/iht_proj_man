@@ -7,13 +7,10 @@ module.exports = {
   login,
   getUsersByDepartment,
   index,
+  updatePass,
 };
 
 async function create(req, res) {
-  let firstName = req.body.firstName;
-  let lastName = req.body.lastName;
-  let fullName = firstName.concat(" ");
-  fullName = fullName.concat(lastName);
   try {
     const hashedPassword = await bcrypt.hash(
       req.body.userPass,
@@ -74,5 +71,26 @@ async function index(req, res) {
     res.status(200).json(allUsers);
   } catch (err) {
     console.log(err);
+  }
+}
+async function updatePass(req, res) {
+  try {
+    console.log("update controller hit");
+    const user = await User.findById(req.user._id);
+    if (!(await bcrypt.compare(req.body.userPass, user.userPass)))
+      throw new Error("Bad Password");
+    const hashedPassword = await bcrypt.hash(
+      req.body.userPass,
+      parseInt(process.env.SALT_ROUNDS)
+    );
+    user.userPass = hashedPassword;
+    user = await user.save();
+    const token = jwt.sign({ user }, process.env.SECRET, {
+      expiresIn: "24h",
+    });
+    const response = { token: token, message: "ok" };
+    res.status(200).json(response);
+  } catch (err) {
+    res.status(400).json(err);
   }
 }

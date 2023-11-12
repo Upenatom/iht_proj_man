@@ -3,6 +3,7 @@ import { ReactComponent as IhtHeatingLogo } from "../logo/iht-heating-avatar-gra
 import { ReactComponent as IhtCoolingLogo } from "../logo/iht-cooling-avatar-gradient.svg";
 import { ReactComponent as IhtGroupLogo } from "../logo/iht-group-avatar-gradient.svg";
 import { ReactComponent as IhtLightingLogo } from "../logo/iht-lighting-avatar-colour.svg";
+import dayjs from "dayjs";
 
 export function uiTheme() {
   //create theme for material UI
@@ -46,6 +47,10 @@ export function uiTheme() {
         main: "#f44336",
         dark: "#ba000d",
         contrastText: "#000",
+      },
+      text: {
+        primary: "#173A5E",
+        secondary: "#46505A",
       },
     },
   });
@@ -106,4 +111,15 @@ export function putBuilder(bdy) {
     body: JSON.stringify(body),
   };
   return options;
+}
+
+export function shortDate(date) {
+  let stringDate = dayjs(date).format("MMM-D-YYYY").toString();
+  return stringDate;
+}
+export function calcDaysRemain(endDate) {
+  let projEnd = dayjs(endDate);
+  let today = dayjs();
+  let date = projEnd.diff(today, "day");
+  return date;
 }

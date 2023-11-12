@@ -6,6 +6,7 @@ import MyTasks from '../../components/Tasks/MyTasks'
 import UserDashboard from'../../components/Dashboard/UserDashboard'
 import CreateUserForm from '../../components/CreateUserForm/CreateUserForm'
 import EditUserForm from '../../components/EditUserForm/EditUserForm'
+import ChangePass from '../../components/ChangePass/ChangePass'
 import './UserDashboardPage.css'
 export default function UserDashboardPage({setUser,user,theme}) {
   const[resource,setResource]=useState('dashboard')
@@ -18,6 +19,7 @@ export default function UserDashboardPage({setUser,user,theme}) {
      {resource==='projects'?<Projects  user={user} />:null}
      {resource==='editUser'?<EditUserForm user={user}/>:null}
      {resource==='addUser'?<CreateUserForm user={user}/>:null}
+     {resource==='changePass'?<ChangePass user={user}/>:null}
     </div>
   )
 }

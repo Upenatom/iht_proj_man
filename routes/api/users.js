@@ -8,5 +8,6 @@ router.post("/signup", usersCtrl.create);
 router.post("/login", usersCtrl.login);
 router.get("/findBy/:department", usersCtrl.getUsersByDepartment);
 router.get("/index", usersCtrl.index);
+router.put("/update", usersCtrl.updatePass);
 
 module.exports = router;

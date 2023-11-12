@@ -1,19 +1,30 @@
 import { useState, useEffect} from "react";
 import CommentItem from '../Comments/CommentItem'
-
+import { Box} from '@mui/system'
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-
+import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import * as utils from '../../resources/utils/utils'
+import IconButton from '@mui/material/IconButton';
+import AddCircleIcon from '@mui/icons-material/AddCircle'
+import AddComment from '../Modals/AddComment/AddComment'
 
-
-export default function Comment({task,recentComment}) {
+export default function Comment({task,recentComment,commentAdded,setCommentAdded}) {
 
     const [allComments, setAllComments]=useState([])
     const [historyModal, sethistoryModal] = useState(false);
+    const [commentModal,setCommentModal] =useState(false)
+
+    const handleOpenCreateCommentModal=()=>{
+  setCommentModal(true);
+ }
+ const handleClose = () => {
+        setCommentModal(false);}
+        
     const historyClose = () => {
         console.log('comemnt history exit')
         sethistoryModal(false);
@@ -51,15 +62,23 @@ export default function Comment({task,recentComment}) {
 
 
   return (
-    <div  
-      onClick={historyOpen} >  
+    <div>  
       {recentComment.comment? <div className='commentitem'>
         <p>Comment: {recentComment.comment}</p>
-        Added by: {recentComment.author}
-                      
-        Created:{recentComment.createdAt}
-        edited at:{recentComment.updatedAt}
-        </div> : <>Comment: No comments for this task yet</>}
+        <Box sx={{
+          fontSize:'12px',color:'text.secondary',fontWeight:'light',fontStyle:'italic'
+        }}>
+        <IconButton onClick={handleOpenCreateCommentModal} color= 'info'><AddCircleIcon sx={{
+          fontSize:'20px'
+        }}/></IconButton><IconButton onClick={historyOpen}><HistoryEduIcon sx={{
+          fontSize:'20px'
+        }}/></IconButton>
+        
+        Added by:&nbsp; {recentComment.author}  &emsp;                    
+        Created:&nbsp;{utils.shortDate(recentComment.createdAt)}&emsp;
+        Edited:&nbsp;{utils.shortDate(recentComment.updatedAt)}
+        </Box>
+        </div> : <>No comments for this task yet</>}
         
         <Dialog open={historyModal} taskid={task._id}
           onClose={historyClose} fullWidth>
@@ -70,11 +89,16 @@ export default function Comment({task,recentComment}) {
               </Stack>
             </DialogContent>
              <DialogActions>
-          <Button variant='contained' onClick={historyClose}> (press Esc key to exit)</Button>
+          <Button variant='contained' onClick={historyClose}> Exit</Button>
          
         </DialogActions>
           </Dialog>
-
+        <AddComment commentModal={commentModal}
+                commentAdded={commentAdded}
+        setCommentAdded={setCommentAdded}
+        task={task}
+        handleClose={handleClose}
+        setCommentModal={setCommentModal}/>
         </div>
   )
 }

@@ -78,7 +78,7 @@ export default function DropDownMenu({open,setAnchorEl,anchorEl,setUser,user,set
             </MenuItem>
             <Collapse in={accSet} timeout="auto" unmountOnExit>
                 <List component="div" disablePadding>
-                    <ListItemButton onClick={handleChangePassword}dense ='true'sx={{ pl: 3 }}>
+                    <ListItemButton onClick={handleChangePassword} dense sx={{ pl: 3 }}>
                         <ListItemIcon>
                             <LockResetIcon />
                         </ListItemIcon>
@@ -99,20 +99,20 @@ export default function DropDownMenu({open,setAnchorEl,anchorEl,setUser,user,set
 
 
             <Collapse in={adminPan} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding>
-                    <ListItemButton  onClick={handleAddNewUser} dense ='true'sx={{ pl: 3 }}>
+                <List  component="div" disablePadding>
+                    <ListItemButton  onClick={handleAddNewUser} dense sx={{ pl: 3 }}>
                         <ListItemIcon>
                             <PersonAddIcon />
                         </ListItemIcon>
                         <ListItemText primary="Add New User" />
                     </ListItemButton>
-                     <ListItemButton onClick={handleEditUser} dense ='true' sx={{ pl: 3 }}>
+                     <ListItemButton onClick={handleEditUser} dense sx={{ pl: 3 }}>
                         <ListItemIcon>
                             <ManageAccountsIcon />
                         </ListItemIcon>
                         <ListItemText primary="Edit User" />
                     </ListItemButton>
-                    <ListItemButton name='Audit Projects' onClick={handleAuditProjects}sx={{ pl: 3 }} dense ='true' >
+                    <ListItemButton name='Audit Projects' onClick={handleAuditProjects}sx={{ pl: 3 }} dense  >
                         <ListItemIcon>
                             <GradingIcon />
                         </ListItemIcon>

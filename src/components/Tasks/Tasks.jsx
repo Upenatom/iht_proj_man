@@ -124,7 +124,9 @@ fetchProjectTasks()
 
     return (
     <div>
-      <div><IconButton onClick={handleOpenTaskCreateModal} color= 'secondary'><AddCircleIcon /></IconButton>
+      <div><IconButton onClick={handleOpenTaskCreateModal} color= 'secondary'><AddCircleIcon sx={{
+          fontSize:'20px'
+        }}/></IconButton>
       Add a Task</div>
       <TaskList projectTasks={projectTasks} taskUpdateWatch={taskUpdateWatch}
       setTaskUpdateWatch={setTaskUpdateWatch}/>

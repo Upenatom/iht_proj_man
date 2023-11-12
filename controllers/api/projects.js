@@ -18,7 +18,9 @@ async function create(req, res) {
 }
 async function myProjectsIndex(req, res) {
   try {
-    let myProjects = await Project.find({ projOwner: req.user._id });
+    let myProjects = await Project.find({ projOwner: req.user._id }).sort({
+      projTargetEndDate: "desc",
+    });
     res.status(200).json(myProjects);
   } catch (err) {
     res.status(400).json(err);

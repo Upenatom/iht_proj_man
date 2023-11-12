@@ -52,8 +52,7 @@ export default function HeaderNav({setUser,user,setResource}) {
     //handle avatarclick
     const handleAvatarClick = (e) => {
     setAnchorEl(e.currentTarget)
-    console.log(user);
-  };
+    };
 
 
     //handle navigation on click
@@ -91,20 +90,20 @@ return(
                 <ToggleButton
                 value='dashboard'
                 onClick={handleNavigation}>
-                <DashboardIcon style={{pointerEvents: 'none'}}/>&nbsp;Dashboard
+                <DashboardIcon style={{pointerEvents: 'none'}}/>&nbsp;My Dashboard
                 </ToggleButton>
                
 
                 <ToggleButton 
                 value='tasks'                
                 onClick={handleNavigation}>
-                    <TaskIcon style={{pointerEvents: 'none'}}/>&nbsp;Tasks
+                    <TaskIcon style={{pointerEvents: 'none'}}/>&nbsp;My Tasks
                 </ToggleButton>
 
                 <ToggleButton variant="contained"
                 value='projects'                
                 onClick={handleNavigation}>
-                    <TrackChangesIcon style={{pointerEvents: 'none'}}/>&nbsp;Projects
+                    <TrackChangesIcon style={{pointerEvents: 'none'}}/>&nbsp;My Projects
                 </ToggleButton>
                 </ToggleButtonGroup>
 
