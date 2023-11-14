@@ -14,6 +14,7 @@ async function create(req, res) {
       ...req.body,
       taskOwner: req.user._id,
       taskStatus: "Not Started",
+      taskPriority: "2-Medium",
       taskComments: [],
       taskTodo: [],
     });

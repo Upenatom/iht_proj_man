@@ -1,5 +1,5 @@
 import { useState, useEffect} from "react";
-import Comment from '../Comments/Comments'
+import Comments from '../Comments/Comments'
 import IconButton from '@mui/material/IconButton';
 import AddCircleIcon from '@mui/icons-material/AddCircle';  
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
@@ -14,11 +14,12 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import Divider from '@mui/material/Divider';
 
 import AssignTask from '../Modals/AssignTask/AssignTask'
 import DeleteTask from '../Modals/DeleteTask/DeleteTask'
 import * as utils from '../../resources/utils/utils'
-
+import './TaskItem.css'
 
 export default function TaskItem({task,setTaskUpdateWatch,taskUpdateWatch}) {
 
@@ -158,82 +159,76 @@ const closeReassign =()=>{
 
 
   return (
-    <div>
-    <ul className='projectItem'>
+    <div className='tasks'>
+     
+    <div className='taskDetails'>
        
-        <li>Due date:{utils.shortDate(task.taskTargetEndDate)}</li>
-        <li>Assigned to: {task["taskOwner"]["firstName"]} {task["taskOwner"]["lastName"]} 
-        <IconButton onClick={openReassign} ><ChangeCircleIcon sx={{
-          fontSize:'20px'
-        }}/></IconButton>
-        </li>
+        <div className='leftpanel'><span style={{fontWeight:'bold',fontSize:'15px'}}>Due date:</span>
+        {utils.shortDate(task.taskTargetEndDate)}</div>
+        <Divider/>
         
-        <li>
-      
-          Status: {task.taskStatus} 
-        <IconButton
+        {/* <div className='leftpanel'><IconButton onClick={openReassign} ><ChangeCircleIcon sx={{
+          fontSize:'15px' 
+        }}/></IconButton>
+        <span style={{fontWeight:'bold'}}>Assigned to:</span>
+        </div> */}
+        <div>
+          <IconButton onClick={openReassign} ><ChangeCircleIcon sx={{
+          fontSize:'15px' 
+        }}/></IconButton>
+         {task["taskOwner"]["firstName"]} {task["taskOwner"]["lastName"]} 
+        
+        </div>
+        
+        
+          <div>
+            <IconButton
         id="status-button"
         onClick={handleStatusMenuClick}
           ><EditIcon sx={{
-          fontSize:'20px'
+          fontSize:'15px'
         }}/></IconButton>
-          <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={openEditStatus}
-        onClose={handleStatusEditClose}
-        MenuListProps={{
-          'aria-labelledby': 'basic-button',
-        }}
-      ><Stack spacing ={1}>
-        {utils.taskStatusEnums().map(status=><Button onClick={handleStatusClick} value= {status}>{status}</Button>)}
-      
-        </Stack>
-      </Menu>
-          </li>
+           {task.taskStatus}
           
-        <li>Priority: {task.taskPriority}  
-        <IconButton
+        
+          </div>
+      
+        <div>
+          <IconButton
         id="priority-button"
         onClick={handlePriorityMenuClick}>
           <EditIcon sx={{
-          fontSize:'20px'
-        }}/></IconButton></li>
-        <li><IconButton onClick={()=>{setDeleteConfirmation(true)}}><DeleteForeverIcon sx={{
-          fontSize:'20px'
-        }}/></IconButton></li>
-         <Menu
-        id="basic-menu"
-        anchorEl={priorityAnchorEl}
-        open={openEditPriority}
-        onClose={handlePriorityEditClose}
-        MenuListProps={{
-          'aria-labelledby': 'basic-button',
-        }}
-      ><Stack spacing ={1}>
-        {utils.priorityEnums().map(priority=><Button onClick={handlePriorityClick} value= {priority}>{priority}</Button>)}
-      
-        </Stack>
-      </Menu>
-      </ul>
-          <p>{task.taskDescription}</p>
-      
-      
-      <div>
+          fontSize:'15px'
+        }}/></IconButton>
+          {task.taskPriority}  
+        </div>
         
-               
-
-      {recentComment?<Comment 
+        <div><IconButton onClick={()=>{setDeleteConfirmation(true)}}><DeleteForeverIcon sx={{
+          fontSize:'20px'
+        }}/></IconButton></div>
+         
+      </div>
+      <Divider orientation="vertical" flexItem/>
+          
+      
+      
+      <div className='taskDesc'>
+        <div style={{fontWeight:'bold',display:'flex',}}>
+        {task.taskDescription}
+        </div>
+        <Divider/>
+      {recentComment?<Comments
       task={task} 
       recentComment={recentComment} 
       recentCommentUser={recentCommentUser}
       commentAdded={commentAdded}
       setCommentAdded={setCommentAdded}/>
-        
-        
         :null}
+      </div>
 
-        
+
+
+      {/* Edit menu items */}
       <AssignTask reassignModal={reassignModal} closeReassign={closeReassign} 
       department={department}
       setDepartment={setDepartment}
@@ -247,8 +242,34 @@ const closeReassign =()=>{
       onDeleteClick={onDeleteClick}
       onDeleteCancel={onDeleteCancel}
       />
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={openEditStatus}
+        onClose={handleStatusEditClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      ><Stack spacing ={1}>
+        {utils.taskStatusEnums().map(status=><Button onClick={handleStatusClick} value= {status}>{status}</Button>)}
+      
+        </Stack>
+      </Menu>
+      <Menu
+        id="basic-menu"
+        anchorEl={priorityAnchorEl}
+        open={openEditPriority}
+        onClose={handlePriorityEditClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      ><Stack spacing ={1}>
+        {utils.priorityEnums().map(priority=><Button onClick={handlePriorityClick} value= {priority}>{priority}</Button>)}
+      
+        </Stack>
+      </Menu>
 
-      </div>
+      
       </div>
   )
 }

@@ -6,11 +6,12 @@ export default function CommentItem({comment}) {
   let user = comment.taskCommentOwner
   return (
     <div>
+      <div>{comment.comment}</div>
       <Box sx={{
           fontSize:'12px',color:'text.secondary',fontWeight:'light',fontStyle:'italic'
         }}>
       <p>Created:&nbsp;{utils.shortDate(created)}&emsp;Edited:&nbsp;{utils.shortDate(edited)}&emsp;By:&nbsp;{user["firstName"]} {user["lastName"]}</p></Box>
-      <p>{comment.comment}</p>
+      
     </div>
   )
 }

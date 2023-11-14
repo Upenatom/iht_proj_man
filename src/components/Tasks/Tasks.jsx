@@ -3,6 +3,7 @@ import TaskList from './TaskList'
 import IconButton from '@mui/material/IconButton';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import dayjs from 'dayjs';
+import EditIcon from '@mui/icons-material/Edit';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -22,6 +23,11 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
+import * as utils from '../../resources/utils/utils'
+import Menu from '@mui/material/Menu';
+import './Tasks.css'
+import Paper from '@mui/material/Paper';
+
 
 export default function Tasks({project}) {
   const[taskUpdateWatch,setTaskUpdateWatch] = useState(false)
@@ -71,6 +77,7 @@ fetchProjectTasks()
     taskTargetEndDate:endDate,
     taskDescription:"",
     
+    
   })
   const handleChange= (e)=>{
     setTaskInfo({...taskInfo,[e.target.name]:e.target.value})
@@ -85,6 +92,8 @@ fetchProjectTasks()
     setTaskInfo({...taskInfo,
         taskStatus:"Not Started",
         taskDescription:"",
+        
+        
         
         })
       setOpen(false);
@@ -121,9 +130,11 @@ fetchProjectTasks()
     
   }
       };
+      
 
     return (
-    <div>
+    <div >
+      <Paper square={false} elevation={20} sx={{margin:'10px',bgcolor:'#d2cecc',borderRadius: 5}}>
       <div><IconButton onClick={handleOpenTaskCreateModal} color= 'secondary'><AddCircleIcon sx={{
           fontSize:'20px'
         }}/></IconButton>
@@ -151,19 +162,9 @@ fetchProjectTasks()
           </FormControl>
         
           <FormControl fullWidth>
-  <InputLabel id="Task Priority">Priority</InputLabel>
-  <Select
-    labelId="Task Priority"
-    id="Task Priority"
-    name='taskPriority'
-    value={taskInfo.taskPriority}
-    label="Task Priority"
-    onChange={handleChange}
-  >
-    <MenuItem value={"1-High"} >High</MenuItem>
-    <MenuItem value={"2-Medium"} >Medium</MenuItem>
-    <MenuItem value={"3-Low"} >Low</MenuItem>
-  </Select>
+             
+  
+  
 </FormControl>
 
           <FormControlLabel
@@ -198,6 +199,7 @@ fetchProjectTasks()
         </DialogActions>
        </Dialog>
        </div>
+       </Paper>
       </div>
   )
 }

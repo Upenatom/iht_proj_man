@@ -1,0 +1,5 @@
+.tasksPaper{
+    
+   display:flex;
+   flex-direction: column;
+}

@@ -12,6 +12,8 @@ import * as utils from '../../resources/utils/utils'
 import IconButton from '@mui/material/IconButton';
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import AddComment from '../Modals/AddComment/AddComment'
+import './Comments.css'
+import Divider from '@mui/material/Divider';
 
 export default function Comment({task,recentComment,commentAdded,setCommentAdded}) {
 
@@ -62,12 +64,20 @@ export default function Comment({task,recentComment,commentAdded,setCommentAdded
 
 
   return (
-    <div>  
-      {recentComment.comment? <div className='commentitem'>
-        <p>Comment: {recentComment.comment}</p>
+    <div style={{display:'flex'}}>  
+      {recentComment.comment? 
+      <div>
+        <div className='commentitem' 
+      >{recentComment.comment}</div>
+      
+      <Divider/>
+        
         <Box sx={{
-          fontSize:'12px',color:'text.secondary',fontWeight:'light',fontStyle:'italic'
+          fontSize:'12px',color:'text.secondary',fontWeight:'light',fontStyle:'italic',display:'flex', alignItems:'center',
+          width:'100%',
         }}>
+          <Divider/>
+          
         <IconButton onClick={handleOpenCreateCommentModal} color= 'info'><AddCircleIcon sx={{
           fontSize:'20px'
         }}/></IconButton><IconButton onClick={historyOpen}><HistoryEduIcon sx={{
@@ -78,7 +88,9 @@ export default function Comment({task,recentComment,commentAdded,setCommentAdded
         Created:&nbsp;{utils.shortDate(recentComment.createdAt)}&emsp;
         Edited:&nbsp;{utils.shortDate(recentComment.updatedAt)}
         </Box>
-        </div> : <>No comments for this task yet</>}
+        </div> : <>No comments for this task yet<IconButton onClick={handleOpenCreateCommentModal} color= 'info'><AddCircleIcon sx={{
+          fontSize:'20px'
+        }}/></IconButton></>}
         
         <Dialog open={historyModal} taskid={task._id}
           onClose={historyClose} fullWidth>

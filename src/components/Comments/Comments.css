@@ -1,0 +1,14 @@
+.commentitem{
+    
+    display: flex;
+    flex-direction: column;
+    /* align-self:flex-end; */
+    align-items: flex-start;
+    text-align: left;
+    padding-top: 5px;
+    font-style: italic;
+    font-size: 15px;
+    height: 100%;
+
+    
+}
