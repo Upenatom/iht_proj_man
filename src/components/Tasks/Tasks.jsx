@@ -33,6 +33,7 @@ export default function Tasks({project}) {
   const[taskUpdateWatch,setTaskUpdateWatch] = useState(false)
   const[projectTasks,setProjectTasks]=useState([])
   const[taskAdded,setTaskAdded]=useState(false)
+  
   //fetch tasks on mount
   useEffect(()=>{
     const fetchProjectTasks = async () =>{
@@ -55,6 +56,7 @@ export default function Tasks({project}) {
     let tasks = await fetchResponse.json();
 
     setProjectTasks(tasks.projTasks)
+    
   } catch (err) {
     console.log(err);
     console.log("Project Tasks fetch failed");

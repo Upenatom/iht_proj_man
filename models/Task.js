@@ -1,16 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const todoSchema = new Schema(
-  {
-    todo: String,
-    todoStatus: Boolean,
-    todoOwner: { type: Schema.Types.ObjectId, ref: "User" },
-    todoComment: { type: Schema.Types.ObjectId, ref: "TodoComment" },
-  },
-  { timestamps: true }
-);
-
 const taskCommentSchema = new Schema(
   {
     comment: String,
@@ -35,7 +25,7 @@ const taskSchema = new Schema(
     },
     taskComments: [taskCommentSchema],
     taskOwner: { type: Schema.Types.ObjectId, ref: "User" },
-    taskTodos: [todoSchema],
+    taskTodos: [{ type: Schema.Types.ObjectId, ref: "Todo" }],
     taskParentProject: { type: Schema.Types.ObjectId, ref: "Project" },
   },
   { timestamps: true }

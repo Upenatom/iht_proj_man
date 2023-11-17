@@ -1,38 +1,31 @@
 import { useState, useEffect} from "react";
 import Comments from '../Comments/Comments'
 import IconButton from '@mui/material/IconButton';
-import AddCircleIcon from '@mui/icons-material/AddCircle';  
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Menu from '@mui/material/Menu';
 import ChangeCircleIcon from '@mui/icons-material/ChangeCircle';
 import EditIcon from '@mui/icons-material/Edit';
-import FormControl from '@mui/material/FormControl';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
 import Divider from '@mui/material/Divider';
-
 import AssignTask from '../Modals/AssignTask/AssignTask'
 import DeleteTask from '../Modals/DeleteTask/DeleteTask'
 import ChecklistIcon from '@mui/icons-material/Checklist';
-
+import Badge from '@mui/material/Badge';
 import TodoModal from '../Modals/Todo/Todo'
 import * as utils from '../../resources/utils/utils'
+import * as utilfetch from '../../resources/utils/fetches'
 import './TaskItem.css'
 
 export default function TaskItem({task,setTaskUpdateWatch,taskUpdateWatch}) {
-
+  
   const[commentAdded,setCommentAdded]=useState(false)
   const[recentComment,setRecentComment]=useState([])
   const[reassignModal,setReassignModal]=useState(false)
   let recentCommentUser = recentComment.taskCommentOwner
   const[department,setDepartment] = useState("")
   const[usersByDept,setUsersByDept]=useState([])
-  const[newStatus,setNewStatus]=useState(task.taskStatus)
+  const[todoNum, setTodoNum]=useState(0)
 
   //status menu stuff
   const [anchorEl, setAnchorEl] = useState(null);
@@ -115,6 +108,35 @@ const onDeleteCancel =()=>{
   setDeleteConfirmation(false)
 }
 
+const[todoWatch,setTodoWatch]=useState(true)
+const[taskTodos,setTaskTodos]=useState([])
+//fetch all todos on modal load
+useEffect (()=>{
+  const fetchTodos = async ()=>{
+    try{const fetchResponse = await fetch(`/api/todos/index/${task._id}`,utilfetch.getFetchOptions())
+     if (!fetchResponse.ok) {
+      throw new Error("Fetch failed - Bad Request");
+    }
+    let allTodos = await fetchResponse.json()
+   //frontend Sort to show incomplete first
+   allTodos.sort((a, b) => a.todoStatus - b.todoStatus);
+      //get number of active todos
+  const results=allTodos.filter((todo)=>todo.todoStatus<1)
+  console.log(results)
+  let count = results.length
+  console.log(count)
+  setTodoNum(count)
+    setTaskTodos(allTodos)   
+    }catch(err){
+      console.log(err);
+      console.log("Todos fetch failed");
+    }
+  }
+  fetchTodos()
+
+},[todoWatch])
+
+//fetch comments onload
   useEffect(()=>{
     
     const fetchSingleComment = async ()=>{
@@ -143,6 +165,7 @@ const onDeleteCancel =()=>{
       fullName = fullName.concat(commentAuthorLast)
       
       setRecentComment({...comment0,author:fullName})
+
     }else return
       }
       catch(err){
@@ -151,8 +174,6 @@ const onDeleteCancel =()=>{
     }
     fetchSingleComment()
   },[commentAdded])
-  
-
   
 const openReassign =()=>{setReassignModal(true)}
 const closeReassign =()=>{
@@ -220,7 +241,12 @@ const handleCloseModal=()=>{
      
       <div className='taskDesc'>
         <div style={{fontWeight:'bold',display:'flex',alignItems:'center'}}>
-        <IconButton onClick={handleOpenModal}><ChecklistIcon color={'info'} /></IconButton>{task.taskDescription}
+        <IconButton onClick={handleOpenModal}>
+          <Badge badgeContent={todoNum} color="info" 
+          >
+            <ChecklistIcon  color={'info'} />
+            </Badge>
+            </IconButton>{task.taskDescription}
         </div>
         <Divider/>
       {recentComment?<Comments
@@ -276,7 +302,12 @@ const handleCloseModal=()=>{
       
         </Stack>
       </Menu>
-      <TodoModal todoOpen={todoOpen} 
+      <TodoModal 
+      todoWatch={todoWatch}
+      setTodoWatch={setTodoWatch}
+      taskTodos={taskTodos}
+      setTaskTodos={setTaskTodos}
+      todoOpen={todoOpen} 
       handleCloseModal={handleCloseModal}
       task={task}
       />

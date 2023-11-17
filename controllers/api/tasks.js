@@ -80,10 +80,19 @@ async function update(req, res) {
 
 async function deleteTask(req, res) {
   try {
-    console.log("req.user.id =>", typeof req.user._id);
     let task = await Task.findById(req.params.taskid);
     let project = await Project.findById(task.taskParentProject);
-    console.log("project owner =>", typeof project.projOwner);
+    //delete task reference in project
+    //find index of task id stored in project.projTasks
+    let array = project.projTasks;
+    let index = array.indexOf(req.params.taskid);
+
+    if (index > -1) {
+      //delete and save model only if it is found
+      project.projTasks.splice(index, 1);
+      project.save();
+    }
+    //now delete task after validation that requester is the project owner
     let projectOwner = project.projOwner.toString();
     if (req.user._id === projectOwner) {
       let deletedTask = await Task.findByIdAndDelete(req.params.taskid);
