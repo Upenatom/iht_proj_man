@@ -22,13 +22,17 @@ import * as utils from '../../resources/utils/utils'
 import './MyTaskItem.css'
 import ChecklistIcon from '@mui/icons-material/Checklist';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import Badge from '@mui/material/Badge';
+import TodoModal from '../Modals/Todo/Todo'
+import * as utilfetch from '../../resources/utils/fetches'
+import './TaskItem.css'
 
 export default function TaskItem({task,setTaskUpdateWatch,taskUpdateWatch,user}) {
 
   const[commentAdded,setCommentAdded]=useState(false)
   const[recentComment,setRecentComment]=useState([])
   let recentCommentUser = recentComment.taskCommentOwner
-  const[newStatus,setNewStatus]=useState(task.taskStatus)
+  const[todoNum, setTodoNum]=useState(0)
 
   //status menu stuff
   const [anchorEl, setAnchorEl] = useState(null);
@@ -111,7 +115,37 @@ const onDeleteCancel =()=>{
   setDeleteConfirmation(false)
 }
 
-  useEffect(()=>{
+
+const[todoWatch,setTodoWatch]=useState(true)
+const[taskTodos,setTaskTodos]=useState([])
+//fetch all todos on modal load
+useEffect (()=>{
+  const fetchTodos = async ()=>{
+    try{const fetchResponse = await fetch(`/api/todos/index/${task._id}`,utilfetch.getFetchOptions())
+     if (!fetchResponse.ok) {
+      throw new Error("Fetch failed - Bad Request");
+    }
+    let allTodos = await fetchResponse.json()
+   //frontend Sort to show incomplete first
+   allTodos.sort((a, b) => a.todoStatus - b.todoStatus);
+      //get number of active todos
+  const results=allTodos.filter((todo)=>todo.todoStatus<1)
+  console.log(results)
+  let count = results.length
+  console.log(count)
+  setTodoNum(count)
+    setTaskTodos(allTodos)   
+    }catch(err){
+      console.log(err);
+      console.log("Todos fetch failed");
+    }
+  }
+  fetchTodos()
+
+},[todoWatch])
+
+//fetch comments on load
+useEffect(()=>{
     
     const fetchSingleComment = async ()=>{
       try{
@@ -148,7 +182,14 @@ const onDeleteCancel =()=>{
     fetchSingleComment()
   },[commentAdded])
   
-
+//Todo Modal
+const[todoOpen,setTodoOpen]=useState(false)
+const handleOpenModal=()=>{
+  setTodoOpen(true)
+}
+const handleCloseModal=()=>{
+  setTodoOpen(false)
+}
   
 
 let projName=task.taskParentProject.projName
@@ -194,7 +235,10 @@ let projName=task.taskParentProject.projName
 
       <div className='taskDesc'>
         <div style={{paddingBottom:'10px',display:'flex', alignItems:'center'}}>
-       <IconButton ><ChecklistIcon color={'info'} /></IconButton><span style={{color:'black'}}className='projectname'>{projName}</span>
+       <IconButton onClick={handleOpenModal}>
+        <Badge badgeContent={todoNum} color="info" 
+          >
+        <ChecklistIcon color={'info'} /></Badge></IconButton><span style={{color:'black'}}className='projectname'>{projName}</span>
         <KeyboardDoubleArrowRightIcon style={{color:'#485660'}}/> 
         <span className='taskName' >{task.taskDescription}</span>
         
@@ -249,7 +293,15 @@ let projName=task.taskParentProject.projName
       
         </Stack>
       </Menu>
-
+        <TodoModal 
+      todoWatch={todoWatch}
+      setTodoWatch={setTodoWatch}
+      taskTodos={taskTodos}
+      setTaskTodos={setTaskTodos}
+      todoOpen={todoOpen} 
+      handleCloseModal={handleCloseModal}
+      task={task}
+      />
       
       </div>
   )
