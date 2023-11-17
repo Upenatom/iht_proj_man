@@ -20,7 +20,10 @@ import AssignTask from '../Modals/AssignTask/AssignTask'
 import DeleteTask from '../Modals/DeleteTask/DeleteTask'
 import * as utils from '../../resources/utils/utils'
 import './MyTaskItem.css'
-import ChecklistIcon from '@mui/icons-material/Checklist';
+
+import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
+import PlaylistRemoveIcon from '@mui/icons-material/PlaylistRemove';
+import Tooltip from '@mui/material/Tooltip';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import Badge from '@mui/material/Badge';
 import TodoModal from '../Modals/Todo/Todo'
@@ -223,9 +226,7 @@ let projName=task.taskParentProject.projName
         }}/></IconButton>
           {task.taskPriority}  
         </div>
-        {/* <div > 
-        <IconButton ><ChecklistIcon color={'info'} sx={{
-          fontSize:'15px'}} /></IconButton>To-dos</div> */}
+        
         <div><IconButton onClick={()=>{setDeleteConfirmation(true)}}><DeleteForeverIcon sx={{
           fontSize:'20px'
         }}/></IconButton>Delete Task</div>
@@ -236,9 +237,11 @@ let projName=task.taskParentProject.projName
       <div className='taskDesc'>
         <div style={{paddingBottom:'10px',display:'flex', alignItems:'center'}}>
        <IconButton onClick={handleOpenModal}>
-        <Badge badgeContent={todoNum} color="info" 
-          >
-        <ChecklistIcon color={'info'} /></Badge></IconButton><span style={{color:'black'}}className='projectname'>{projName}</span>
+        <Badge badgeContent={todoNum} color="info">
+          {taskTodos.length>0?
+            <Tooltip title="Add and Edit Todos"><PlaylistAddCheckIcon  color={'info'} /></Tooltip>:
+            <Tooltip title="No Todos Added, Click to Add"><PlaylistRemoveIcon color={'info'}/></Tooltip>}
+        </Badge></IconButton><span style={{color:'black'}}className='projectname'>{projName}</span>
         <KeyboardDoubleArrowRightIcon style={{color:'#485660'}}/> 
         <span className='taskName' >{task.taskDescription}</span>
         

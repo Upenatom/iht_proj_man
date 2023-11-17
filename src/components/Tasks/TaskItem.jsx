@@ -10,7 +10,9 @@ import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import AssignTask from '../Modals/AssignTask/AssignTask'
 import DeleteTask from '../Modals/DeleteTask/DeleteTask'
-import ChecklistIcon from '@mui/icons-material/Checklist';
+import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
+import PlaylistRemoveIcon from '@mui/icons-material/PlaylistRemove';
+import Tooltip from '@mui/material/Tooltip';
 import Badge from '@mui/material/Badge';
 import TodoModal from '../Modals/Todo/Todo'
 import * as utils from '../../resources/utils/utils'
@@ -244,7 +246,9 @@ const handleCloseModal=()=>{
         <IconButton onClick={handleOpenModal}>
           <Badge badgeContent={todoNum} color="info" 
           >
-            <ChecklistIcon  color={'info'} />
+            {taskTodos.length>0?
+            <Tooltip title="Add and Edit Todos"><PlaylistAddCheckIcon  color={'info'} /></Tooltip>:
+            <Tooltip title="No Todos Added, Click to Add"><PlaylistRemoveIcon color={'info'}/></Tooltip>}
             </Badge>
             </IconButton>{task.taskDescription}
         </div>
