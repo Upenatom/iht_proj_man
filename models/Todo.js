@@ -3,13 +3,10 @@ const Schema = mongoose.Schema;
 
 const todoSchema = new Schema(
   {
-    todoTitle: String,
-    todoStartDate: Date,
-    todoTargetEndDate: Date,
-    todoDescription: String,
+    todo: String,
     todoStatus: Boolean,
     todoOwner: { type: Schema.Types.ObjectId, ref: "User" },
-    todoComment: { type: Schema.Types.ObjectId, ref: "TodoComment" },
+    todoComment: String,
   },
   { timestamps: true }
 );

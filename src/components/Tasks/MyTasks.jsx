@@ -1,7 +1,7 @@
 import { useState, useEffect} from "react";
-import TaskItem from '../Tasks/TaskItem'
+import MyTaskItem from '../Tasks/MyTaskItem'
 
-export default function MyTasks() {
+export default function MyTasks(user) {
   const[allMyTasks,setAllMyTasks]=useState([])
   const[taskUpdateWatch,setTaskUpdateWatch] = useState(false)
   //fetch tasks on mount
@@ -31,12 +31,14 @@ export default function MyTasks() {
   }
   }
 fetchMyTasks()
-console.log(allMyTasks)
+
     },[taskUpdateWatch])
-  return (
+ 
+    return (
     <div>
+      
       {allMyTasks.length?
-      allMyTasks.map(task=>(<TaskItem task={task}   key={task._id} setTaskUpdateWatch={setTaskUpdateWatch} taskUpdateWatch={taskUpdateWatch}/>)):<h4>No Tasks for this project. To add a task click +</h4>
+      allMyTasks.map(task=>(<MyTaskItem user={user} task={task}   key={task._id} setTaskUpdateWatch={setTaskUpdateWatch} taskUpdateWatch={taskUpdateWatch}/>)):<h4>No Tasks for this project. To add a task click +</h4>
     }
     </div>
   )

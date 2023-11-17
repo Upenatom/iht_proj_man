@@ -114,7 +114,7 @@ fetchProjectTasks()
             },
             body: JSON.stringify(body)
         }
-        const fetchResponse = await fetch('/api/tasks/create', options)
+        const fetchResponse = await fetch(`/api/tasks/create/`, options)
     if(!fetchResponse.ok)
     { throw new Error('Fetch failed - Bad Request')}
     setTaskInfo({...taskInfo,
@@ -134,7 +134,7 @@ fetchProjectTasks()
 
     return (
     <div >
-      <Paper square={false} elevation={20} sx={{margin:'10px',bgcolor:'#d2cecc',borderRadius: 5}}>
+      <Paper square={false} elevation={20} sx={{margin:'10px',bgcolor:'#d2cecc',borderRadius: 5,paddingBottom:'5px'}}>
       <div><IconButton onClick={handleOpenTaskCreateModal} color= 'secondary'><AddCircleIcon sx={{
           fontSize:'20px'
         }}/></IconButton>

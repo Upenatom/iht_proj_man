@@ -1,0 +1,11 @@
+.todotask{
+  
+  font-weight: bold;
+  font-style:italic;
+  background-color:#96aeaa;
+  border:2px solid #96aeaa;
+  border-radius:5px 20px 20px 5px;
+  box-shadow:2px 2px 2px #485660;
+  font-weight: bold;
+  padding: 0 5px 0 5px
+}

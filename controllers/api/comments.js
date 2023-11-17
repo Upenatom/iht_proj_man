@@ -3,14 +3,13 @@ const Project = require("../../models/Project");
 module.exports = { create, index, getfirst };
 
 async function create(req, res) {
-  console.log("comment controller hit");
   try {
     let task = await Task.findById(req.params.taskid);
 
     let newComment = { ...req.body, taskCommentOwner: req.user._id };
 
-    let taskArray = task.taskComments;
-    taskArray.push(newComment);
+    let taskCommentArray = task.taskComments;
+    taskCommentArray.push(newComment);
     task.save();
     res.status(200).json("Comment added to task");
   } catch (err) {

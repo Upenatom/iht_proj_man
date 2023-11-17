@@ -18,20 +18,16 @@ import Divider from '@mui/material/Divider';
 
 import AssignTask from '../Modals/AssignTask/AssignTask'
 import DeleteTask from '../Modals/DeleteTask/DeleteTask'
-import ChecklistIcon from '@mui/icons-material/Checklist';
-
-import TodoModal from '../Modals/Todo/Todo'
 import * as utils from '../../resources/utils/utils'
-import './TaskItem.css'
+import './MyTaskItem.css'
+import ChecklistIcon from '@mui/icons-material/Checklist';
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 
-export default function TaskItem({task,setTaskUpdateWatch,taskUpdateWatch}) {
+export default function TaskItem({task,setTaskUpdateWatch,taskUpdateWatch,user}) {
 
   const[commentAdded,setCommentAdded]=useState(false)
   const[recentComment,setRecentComment]=useState([])
-  const[reassignModal,setReassignModal]=useState(false)
   let recentCommentUser = recentComment.taskCommentOwner
-  const[department,setDepartment] = useState("")
-  const[usersByDept,setUsersByDept]=useState([])
   const[newStatus,setNewStatus]=useState(task.taskStatus)
 
   //status menu stuff
@@ -154,41 +150,18 @@ const onDeleteCancel =()=>{
   
 
   
-const openReassign =()=>{setReassignModal(true)}
-const closeReassign =()=>{
-  setReassignModal(false)
-  setDepartment("")
-  setUsersByDept(null)
-}
-let fullName=task.taskOwner.fullName
 
-//Todo Modal
-const[todoOpen,setTodoOpen]=useState(false)
-const handleOpenModal=()=>{
-  setTodoOpen(true)
-}
-const handleCloseModal=()=>{
-  setTodoOpen(false)
-}
+let projName=task.taskParentProject.projName
 
   return (
-    <div className='tasks' >
+    <div className='tasks'>
      
     <div className='taskDetails'>
        
         <div className='leftpanel'><span style={{fontWeight:'bold',fontSize:'15px'}}>Due date:</span>
         {utils.shortDate(task.taskTargetEndDate)}</div>
-        <Divider/>
         
-        
-        <div>          
-          <IconButton onClick={openReassign} ><ChangeCircleIcon sx={{
-          fontSize:'15px' 
-        }}/></IconButton>
-        {fullName}      
-        </div>
-        
-        
+            
           <div>
             <IconButton
         id="status-button"
@@ -196,8 +169,7 @@ const handleCloseModal=()=>{
           ><EditIcon sx={{
           fontSize:'15px'
         }}/></IconButton>
-           {task.taskStatus}
-          
+           {task.taskStatus}         
         
           </div>
       
@@ -210,17 +182,24 @@ const handleCloseModal=()=>{
         }}/></IconButton>
           {task.taskPriority}  
         </div>
-        
+        {/* <div > 
+        <IconButton ><ChecklistIcon color={'info'} sx={{
+          fontSize:'15px'}} /></IconButton>To-dos</div> */}
         <div><IconButton onClick={()=>{setDeleteConfirmation(true)}}><DeleteForeverIcon sx={{
           fontSize:'20px'
-        }}/></IconButton></div>
+        }}/></IconButton>Delete Task</div>
          
       </div>
       <Divider orientation="vertical" flexItem/>
-     
+
       <div className='taskDesc'>
-        <div style={{fontWeight:'bold',display:'flex',alignItems:'center'}}>
-        <IconButton onClick={handleOpenModal}><ChecklistIcon color={'info'} /></IconButton>{task.taskDescription}
+        <div style={{paddingBottom:'10px',display:'flex', alignItems:'center'}}>
+       <IconButton ><ChecklistIcon color={'info'} /></IconButton><span style={{color:'black'}}className='projectname'>{projName}</span>
+        <KeyboardDoubleArrowRightIcon style={{color:'#485660'}}/> 
+        <span className='taskName' >{task.taskDescription}</span>
+        
+        
+        
         </div>
         <Divider/>
       {recentComment?<Comments
@@ -231,20 +210,14 @@ const handleCloseModal=()=>{
       setCommentAdded={setCommentAdded}/>
         :null}
       </div>
-       <Divider orientation="vertical" flexItem/>
+      <Divider orientation="vertical" flexItem/>
       <div style = {{width:'100px', padding:'0'}}>
         Coming Soon:<br/>Progress Bar
       </div>
 
+
+
       {/* Edit menu items */}
-      <AssignTask reassignModal={reassignModal} closeReassign={closeReassign} 
-      department={department}
-      setDepartment={setDepartment}
-      usersByDept={usersByDept}
-      setUsersByDept={setUsersByDept}
-      task={task}
-      setTaskUpdateWatch={setTaskUpdateWatch}
-      taskUpdateWatch={taskUpdateWatch}/>
       <DeleteTask
       deleteConfirmation={deleteConfirmation}
       onDeleteClick={onDeleteClick}
@@ -276,10 +249,7 @@ const handleCloseModal=()=>{
       
         </Stack>
       </Menu>
-      <TodoModal todoOpen={todoOpen} 
-      handleCloseModal={handleCloseModal}
-      task={task}
-      />
+
       
       </div>
   )

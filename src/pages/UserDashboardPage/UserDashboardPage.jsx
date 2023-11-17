@@ -15,7 +15,7 @@ export default function UserDashboardPage({setUser,user,theme}) {
     <div className='userdashboard'>
       <HeaderNav setUser={setUser} user={user} setResource={setResource} className='headerNav'/>
      {resource==='dashboard'?<UserDashboard />:null}
-     {resource==='tasks'?<MyTasks />:null}
+     {resource==='tasks'?<MyTasks user={user} />:null}
      {resource==='projects'?<Projects  user={user} />:null}
      {resource==='editUser'?<EditUserForm user={user}/>:null}
      {resource==='addUser'?<CreateUserForm user={user}/>:null}

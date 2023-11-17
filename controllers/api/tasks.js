@@ -37,6 +37,7 @@ async function projectTasksIndex(req, res) {
         populate: [{ path: "taskOwner" }],
       },
     ]);
+
     res.status(200).json(projectTask);
   } catch (err) {
     res.status(400).json(err);
@@ -47,7 +48,7 @@ async function projectTasksIndex(req, res) {
 async function myTasksIndex(req, res) {
   try {
     let myTasks = await Task.find({ taskOwner: req.user._id }).populate(
-      "taskOwner"
+      "taskParentProject"
     );
     res.status(200).json(myTasks);
   } catch (err) {
@@ -81,7 +82,6 @@ async function deleteTask(req, res) {
   try {
     console.log("req.user.id =>", typeof req.user._id);
     let task = await Task.findById(req.params.taskid);
-
     let project = await Project.findById(task.taskParentProject);
     console.log("project owner =>", typeof project.projOwner);
     let projectOwner = project.projOwner.toString();

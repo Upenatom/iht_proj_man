@@ -64,9 +64,9 @@ export default function Comment({task,recentComment,commentAdded,setCommentAdded
 
 
   return (
-    <div style={{display:'flex'}}>  
+    <div >  
       {recentComment.comment? 
-      <div>
+      <div style ={{display:'flex', flexDirection:'column'}}>
         <div className='commentitem' 
       >{recentComment.comment}</div>
       
