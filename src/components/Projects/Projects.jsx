@@ -34,7 +34,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
    
-export default function Projects({user}) {
+export default function Projects({user,resource}) {
   const[myProjects,setMyProjects]=useState([])
   const[projectAdded,setProjectAdded]=useState(false)
    
@@ -134,7 +134,7 @@ fetchMyProjects()
   return (
     <div className="projectspage">
       <ProjectHeader handleClickOpen={handleClickOpen} />
-      <ProjectList user={user} myProjects={myProjects}/>
+      <ProjectList user={user} myProjects={myProjects} resource={resource}/>
 
       <div className='.modal'>
        <Dialog open={open} 

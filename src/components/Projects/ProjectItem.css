@@ -4,7 +4,7 @@ ul{
 
 .projectItem{
     
-    height:24px;
+    height:60px;
     border:none;
     cursor: pointer;
     display:flex;

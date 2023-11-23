@@ -42,6 +42,9 @@ export function uiTheme() {
 
         contrastText: "#000",
       },
+      neutral: {
+        main: "#46505A",
+      },
       success: {
         light: "#ff7961",
         main: "#f44336",

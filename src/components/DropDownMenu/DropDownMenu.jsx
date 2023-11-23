@@ -40,6 +40,7 @@ export default function DropDownMenu({open,setAnchorEl,anchorEl,setUser,user,set
     }
 
     const handleAuditProjects = ()=>{
+        setResource('auditProj')
         setAnchorEl(false)
     }
 

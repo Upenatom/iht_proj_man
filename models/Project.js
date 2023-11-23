@@ -24,11 +24,11 @@ const projectSchema = new Schema(
     projTargetEndDate: Date,
     projDescription: String,
     projDepartment: String,
-    // projRequirements: [String],
-    // projRequirementMet: [Boolean],
+    projRequirements: [String],
     projMembers: [{ type: Schema.Types.ObjectId, ref: "User" }],
     projOwner: { type: Schema.Types.ObjectId, ref: "User" },
     projTasks: [{ type: Schema.Types.ObjectId, ref: "Task" }],
+    projBudget: Number,
   },
 
   { timestamps: true }

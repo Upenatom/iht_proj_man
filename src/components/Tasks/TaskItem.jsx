@@ -124,10 +124,8 @@ useEffect (()=>{
    allTodos.sort((a, b) => a.todoStatus - b.todoStatus);
       //get number of active todos
   const results=allTodos.filter((todo)=>todo.todoStatus<1)
-  console.log(results)
-  let count = results.length
-  console.log(count)
-  setTodoNum(count)
+   
+  setTodoNum(results.length)
     setTaskTodos(allTodos)   
     }catch(err){
       console.log(err);

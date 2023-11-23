@@ -5,8 +5,18 @@ import InputLabel from '@mui/material/InputLabel';
 import Box from '@mui/material/Box';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import FormControl from '@mui/material/FormControl';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
+
+
 export default function LoginForm({setUser}) {
   const [userCreds,setUserCreds]=useState({userName:"",userPass:""})
+  const [hidePass,setHidePass]=useState(true)
+  const[serverResp, setServerResp]=useState(null)
 
   const handleChange = (e) =>{
     setUserCreds({...userCreds,[e.target.name]:e.target.value})
@@ -26,7 +36,9 @@ export default function LoginForm({setUser}) {
     }
     const fetchResponse = await fetch ('/api/users/login',options)
     if(!fetchResponse.ok)
-    { throw new Error('Fetch failed - Bad Request')}
+    { let error= await fetchResponse.json()
+      setServerResp(error)  
+      throw new Error('Fetch failed - Bad Request') }
     let token= await fetchResponse.json()
     localStorage.setItem('token',token)
 
@@ -38,10 +50,15 @@ export default function LoginForm({setUser}) {
     console.log(err)
   }
   }
+  const errorDisplay = ()=>{
+    if(serverResp==='Bad Password')return(<Alert variant='filled' severity="error" sx={{ width: '100%' }}>Bad Username or Password</Alert>)
+    else if(serverResp==='ok')return(<Alert  variant='filled' severity="success" sx={{bgcolor:'green',width: '100%'}}>Password change success
+        </Alert>)}
+
   return (
   <div 
   className = "loginform"
-  >
+  ><Stack spacing={2}>
     <Box
       component="form"
       sx={{
@@ -50,7 +67,8 @@ export default function LoginForm({setUser}) {
       noValidate
       autoComplete="off"
     >
-    <FormControl autoComplete="off" >
+      
+    <FormControl autoComplete="off" sx={{ m: 1, width: '25ch' }} >
          <InputLabel htmlFor="E-mail">E-mail</InputLabel>
         <OutlinedInput
           id="E-mail"
@@ -62,20 +80,28 @@ export default function LoginForm({setUser}) {
           onChange={handleChange}
           required
           /> 
+          
           </FormControl>
           <br/>
-          <FormControl autoComplete="off" >
+          
+          <FormControl autoComplete="off"  sx={{ m: 1, width: '25ch' }}>
           <InputLabel htmlFor="Password">Password</InputLabel>
+          
           <OutlinedInput
           id="Password"
           label="Password"           
-          type="password"
+          type={hidePass ? 'password' : 'text'}
           name="userPass"
           value={userCreds.userPass} 
           onChange={handleChange}
           required
+          onClick={()=>setServerResp(null)}
+           endAdornment={
+            <InputAdornment position="end"><IconButton  onClick={()=>setHidePass(!hidePass)}>
+              {hidePass ? <VisibilityIcon color='neutral' /> : <VisibilityOffIcon color='neutral'/>}
+              </IconButton></InputAdornment>}
           />
-         </FormControl>       
+         </FormControl>      
      
       <br/>
       
@@ -83,8 +109,11 @@ export default function LoginForm({setUser}) {
         <Button  variant="contained" type="submit"
         onClick={handleSubmit} >LOG IN</Button>
       
-    
     </Box>
+    <br/>
+    {errorDisplay()}
+    </Stack>
+    
   </div>
       
   )

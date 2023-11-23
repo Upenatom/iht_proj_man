@@ -8,7 +8,7 @@ import Button from '@mui/material/Button'
 
 
 
-export default function ProjectItem({project,user}) {
+export default function ProjectItem({project,user,resource}) {
   const [taskShow,setTaskShow] =useState(false)
   let handleClick = ()=>{
       setTaskShow(!taskShow)
@@ -33,10 +33,10 @@ export default function ProjectItem({project,user}) {
           {project.projStatus}
           </div>&emsp;
         {utils.shortDate(project.projTargetEndDate)}&emsp;
-        {utils.calcDaysRemain(project.projTargetEndDate)<0?<div style={{ backgroundColor: '#d28b89',color:'#921515', borderRadius:'10px', paddingLeft:'10px',paddingRight:'10px'}}>Overdue:&nbsp;{utils.calcDaysRemain(project.projTargetEndDate)*-1} days</div>:
-        <div style={{ backgroundColor: '#a2da9c',color:'#006400', borderRadius:'10px', paddingLeft:'10px',paddingRight:'10px'}}>Remaining:&nbsp;{utils.calcDaysRemain(project.projTargetEndDate)} days</div>
+        {utils.calcDaysRemain(project.projTargetEndDate)<0?<div style={{ backgroundColor: '#d28b89',color:'#921515', borderRadius:'10px', paddingLeft:'10px',paddingRight:'10px'}}>Overdue:&nbsp;{utils.calcDaysRemain(project.projTargetEndDate)*-1} days&emsp;</div>:
+        <div style={{ backgroundColor: '#a2da9c',color:'#006400', borderRadius:'10px', paddingLeft:'10px',paddingRight:'10px'}}>Remaining:&nbsp;{utils.calcDaysRemain(project.projTargetEndDate)} days&emsp;</div>
         }
-              
+        {resource==='auditProj'?<div>&emsp;{project.projOwner.fullName}</div>:null}
       </div>
       
      

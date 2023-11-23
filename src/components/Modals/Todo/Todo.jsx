@@ -16,7 +16,7 @@ export default function Todo({todoOpen,handleCloseModal,task,todoWatch,setTodoWa
   
   const handleSubmitTodo=async (e)=>{
     e.preventDefault()
-    let owner = task.taskOwner._id.toString()
+    let owner = task.taskOwner.toString()
     let body = {todo:todo,
     todoOwner:owner}
     let jwt = localStorage.getItem('token')

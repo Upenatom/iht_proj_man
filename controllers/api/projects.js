@@ -1,6 +1,6 @@
 const Project = require("../../models/Project");
 
-module.exports = { create, myProjectsIndex, update };
+module.exports = { create, myProjectsIndex, update, allProjects };
 
 async function create(req, res) {
   try {
@@ -52,5 +52,19 @@ async function update(req, res) {
     }
   } catch (err) {
     console.log(error);
+  }
+}
+
+async function allProjects(req, res) {
+  try {
+    let allProjects = await Project.find()
+      .sort({
+        projTargetEndDate: "asc",
+      })
+      .populate("projOwner");
+    res.status(200).json(allProjects);
+  } catch (err) {
+    res.status(400).json(err);
+    console.log(err);
   }
 }

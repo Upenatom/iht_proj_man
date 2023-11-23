@@ -133,10 +133,7 @@ useEffect (()=>{
    allTodos.sort((a, b) => a.todoStatus - b.todoStatus);
       //get number of active todos
   const results=allTodos.filter((todo)=>todo.todoStatus<1)
-  console.log(results)
-  let count = results.length
-  console.log(count)
-  setTodoNum(count)
+  setTodoNum(results.length)
     setTaskTodos(allTodos)   
     }catch(err){
       console.log(err);
@@ -240,7 +237,7 @@ let projName=task.taskParentProject.projName
         <Badge badgeContent={todoNum} color="info">
           {taskTodos.length>0?
             <Tooltip title="Add and Edit Todos"><PlaylistAddCheckIcon  color={'info'} /></Tooltip>:
-            <Tooltip title="No Todos Added, Click to Add"><PlaylistRemoveIcon color={'info'}/></Tooltip>}
+            <Tooltip title="No Todos added, click to add"><PlaylistRemoveIcon color={'info'}/></Tooltip>}
         </Badge></IconButton><span style={{color:'black'}}className='projectname'>{projName}</span>
         <KeyboardDoubleArrowRightIcon style={{color:'#485660'}}/> 
         <span className='taskName' >{task.taskDescription}</span>

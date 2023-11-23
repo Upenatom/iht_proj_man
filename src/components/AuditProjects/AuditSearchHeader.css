@@ -1,0 +1,13 @@
+.searchselectsdiv{
+    padding:0;
+    margin:0;
+    position:fixed;
+    top:8vh;
+    width:100%;
+    display:flex;
+    flex-direction: row;
+    align-items:center;
+    justify-content: space-between;
+    
+    z-index:999;
+}

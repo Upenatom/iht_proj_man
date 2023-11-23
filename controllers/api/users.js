@@ -51,7 +51,7 @@ async function login(req, res) {
     });
     res.status(200).json(token);
   } catch (err) {
-    res.status(400).json(err);
+    res.status(400).json(err.message);
   }
 }
 async function getUsersByDepartment(req, res) {
@@ -61,6 +61,7 @@ async function getUsersByDepartment(req, res) {
     }).select("-userPass");
     res.status(200).json(usersByDept);
   } catch (err) {
+    res.status(400).json(err.message);
     console.log(err);
   }
 }
