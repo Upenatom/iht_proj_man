@@ -32,10 +32,8 @@ async function index(req, res) {
       ])
       .sort();
     const taskTodos = task.taskTodos;
-    //sort to ascending by added and return to frontend
-    let reverseTodo = taskTodos.toReversed();
 
-    res.status(200).json(reverseTodo);
+    res.status(200).json(taskTodos);
   } catch (err) {
     res.status(400).json(err);
     console.log(err);

@@ -19,15 +19,17 @@ async function create(req, res) {
 }
 async function index(req, res) {
   try {
-    let task = await Task.findById(req.params.taskid).populate([
-      {
-        path: "taskComments",
-        populate: [{ path: "taskCommentOwner" }],
-      },
-    ]);
+    let task = await Task.findById(req.params.taskid)
+      .populate([
+        {
+          path: "taskComments",
+          populate: [{ path: "taskCommentOwner" }],
+        },
+      ])
+      .sort("createdAt");
     const taskComments = task.taskComments;
-    //sort to ascending and return to frontend
-    let reverseTaskComments = taskComments.toReversed();
+    // sort to ascending and return to frontend
+    let reverseTaskComments = taskComments.reverse();
 
     res.status(200).json(reverseTaskComments);
   } catch (err) {
