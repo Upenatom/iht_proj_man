@@ -8,6 +8,7 @@ export default function MyTasks({user}) {
   useEffect(()=>{
     const fetchMyTasks = async () =>{
       try {
+       
     let jwt = localStorage.getItem("token");
     const options = {
       method: "GET",
@@ -23,6 +24,7 @@ export default function MyTasks({user}) {
     }
     let tasks = await fetchResponse.json();
     setAllMyTasks(tasks)
+    
 
     
   } catch (err) {

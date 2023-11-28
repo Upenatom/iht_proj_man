@@ -1,7 +1,7 @@
-import React from 'react'
 import { useState, useEffect} from "react";
 import ProjectList from '../ProjectList/ProjectList'
 import ProjectHeader from '../../components/ProjectHeader/ProjectHeader'
+import CreateProject from'../Modals/CreateProject/CreateProject'
 import './Projects.css'
 import * as fetches from '../../resources/utils/fetches'
 //component imports
@@ -69,8 +69,8 @@ fetchMyProjects()
   const [startDate, setStartDate] = useState(null)
   const [endDate,setEndDate] = useState(null)
   
-  const [ongoing,setOngoing] = useState(false)
-  const handleOngoingChange = ()=>{setOngoing(!ongoing)}
+  // const [ongoing,setOngoing] = useState(false)
+  // const handleOngoingChange = ()=>{setOngoing(!ongoing)}
   
   const[projInfo,setprojInfo]=useState({
     projName:"",
@@ -80,56 +80,56 @@ fetchMyProjects()
     projDescription:"",
     
   })
-  const handleChange= (e)=>{
-    setprojInfo({...projInfo,[e.target.name]:e.target.value})
-  }
+  // const handleChange= (e)=>{
+  //   setprojInfo({...projInfo,[e.target.name]:e.target.value})
+  // }
   
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
   };
-  const handleClose = () => {
+  // const handleClose = () => {
 
-    setprojInfo({...projInfo,projName:"",
-        projStatus:"Not Started",
-        projDivision:"",
-        projDescription:"",
-        projDepartment:user.department,
-      })
-      setOpen(false);
-  };
-  const handleSubmit = async(e) => {
-    e.preventDefault();
-    let body = { ...projInfo, 
-      projStartDate:startDate,
-        projTargetEndDate:endDate
-      }
-    let jwt = localStorage.getItem('token')
-    try{
-    const options = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json", 'Authorization': 'Bearer ' + jwt
-            },
-            body: JSON.stringify(body)
-        }
-        const fetchResponse = await fetch('/api/projects/create', options)
-    if(!fetchResponse.ok)
-    { throw new Error('Fetch failed - Bad Request')}
-    setprojInfo({...projInfo,projName:"",
-        projDivision:"",
-        projStartDate:startDate,
-        projTargetEndDate:endDate,
-        projDescription:"",})
-        setOpen(false)
-        setProjectAdded(!projectAdded)
-      }
-   catch(err){
-    console.log(err)
-    console.log ("Project Creation error");
+  //   setprojInfo({...projInfo,projName:"",
+  //       projStatus:"Not Started",
+  //       projDivision:"",
+  //       projDescription:"",
+  //       projDepartment:user.department,
+  //     })
+  //     setOpen(false);
+  // };
+  // const handleSubmit = async(e) => {
+  //   e.preventDefault();
+  //   let body = { ...projInfo, 
+  //     projStartDate:startDate,
+  //       projTargetEndDate:endDate
+  //     }
+  //   let jwt = localStorage.getItem('token')
+  //   try{
+  //   const options = {
+  //           method: "POST",
+  //           headers: {
+  //               "Content-Type": "application/json", 'Authorization': 'Bearer ' + jwt
+  //           },
+  //           body: JSON.stringify(body)
+  //       }
+  //       const fetchResponse = await fetch('/api/projects/create', options)
+  //   if(!fetchResponse.ok)
+  //   { throw new Error('Fetch failed - Bad Request')}
+  //   setprojInfo({...projInfo,projName:"",
+  //       projDivision:"",
+  //       projStartDate:startDate,
+  //       projTargetEndDate:endDate,
+  //       projDescription:"",})
+  //       setOpen(false)
+  //       setProjectAdded(!projectAdded)
+  //     }
+  //  catch(err){
+  //   console.log(err)
+  //   console.log ("Project Creation error");
     
-  }
-      };
+  // }
+  //     };
 
   return (
     <div className="projectspage">
@@ -137,7 +137,21 @@ fetchMyProjects()
       <ProjectList user={user} myProjects={myProjects} resource={resource}/>
 
       <div className='.modal'>
-       <Dialog open={open} 
+
+        <CreateProject
+        open={open}
+        projectAdded={projectAdded}
+        setProjectAdded={setProjectAdded}
+        setOpen={setOpen}
+        projInfo={projInfo}
+        setprojInfo={setprojInfo}
+        user={user}
+        startDate={startDate}
+        setStartDate={setStartDate}
+        endDate={endDate}
+        setEndDate={setEndDate}/>
+
+       {/* <Dialog open={open} 
          onClose={handleClose}>
          <DialogTitle>Create Project</DialogTitle>
          <DialogContent>
@@ -209,7 +223,7 @@ fetchMyProjects()
           <Button variant='contained' onClick={handleClose}>Cancel</Button>
           <Button variant='contained' onClick={handleSubmit}>Save Project</Button>
         </DialogActions>
-       </Dialog>
+       </Dialog> */}
        </div>
           
       </div>

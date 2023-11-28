@@ -215,18 +215,20 @@ let projName=task.taskParentProject.projName
           </div>
       
         <div>
-          <IconButton
+         {user.id===task.taskParentProject.projOwner? <><IconButton
         id="priority-button"
         onClick={handlePriorityMenuClick}>
           <EditIcon sx={{
           fontSize:'15px'
-        }}/></IconButton>
-          {task.taskPriority}  
+        }}/></IconButton>{task.taskPriority}</>:<div style={{paddingLeft: '32px',paddingTop:'10px'}}>{task.taskPriority}</div>}
+            
         </div>
         
-        <div><IconButton onClick={()=>{setDeleteConfirmation(true)}}><DeleteForeverIcon sx={{
+        <div>
+          {user.id===task.taskParentProject.projOwner?
+          <><IconButton onClick={()=>{setDeleteConfirmation(true)}}><DeleteForeverIcon sx={{
           fontSize:'20px'
-        }}/></IconButton>Delete Task</div>
+        }}/></IconButton>Delete Task</>:<div style={{paddingLeft: '32px', paddingTop:'15px'}}>Delete Task</div>}</div>
          
       </div>
       <Divider orientation="vertical" flexItem/>
