@@ -10,6 +10,7 @@ import IconButton from '@mui/material/IconButton';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
+import Tooltip from '@mui/material/Tooltip';
 
 
 
@@ -43,7 +44,7 @@ export default function ProjectItem({project,user,resource}) {
       <div className='projectItem' onClick ={handleClick}>
         <div style={{width:'300px',display:'flex',flexDirection:'row',alignItems:'center'}}>
         {utils.logoSelect(project.projDivision)}&nbsp;
-        <IconButton size='small' onClick={showDescription}><InfoIcon color='secondary'/></IconButton>&nbsp;
+        <Tooltip title="Project information"><IconButton size='small' onClick={showDescription}><InfoIcon color='secondary'/></IconButton></Tooltip>&nbsp;
         {project.projName}
         </div>
     
@@ -59,10 +60,13 @@ export default function ProjectItem({project,user,resource}) {
 <Dialog
         open={descShow}
         onClose={closeDescription}>
-           <DialogTitle>Project Description and requirements</DialogTitle>
+           <DialogTitle>Project: {project.projName}</DialogTitle>
             <DialogContent>
           <DialogContentText>
+           <h4>Description:</h4>
            {project.projDescription}
+            <h4>Requirements:</h4>
+           {project.projRequirements.map(requirement=><div>-&nbsp;{requirement}</div>)}
           </DialogContentText>
         </DialogContent>
         </Dialog>

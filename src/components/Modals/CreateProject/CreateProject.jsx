@@ -28,6 +28,9 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
+import Box from '@mui/material/Box';
+
+
 
 export default function CreateProject({open,projectAdded,setProjectAdded,setOpen,projInfo,setprojInfo,user,startDate,setStartDate,endDate,setEndDate}) {
 
@@ -45,6 +48,7 @@ export default function CreateProject({open,projectAdded,setProjectAdded,setOpen
         projDepartment:user.department,
       })
       setOpen(false);
+      setReqArray([])
   };
 
   const [ongoing,setOngoing] = useState(false)
@@ -54,7 +58,8 @@ export default function CreateProject({open,projectAdded,setProjectAdded,setOpen
     e.preventDefault();
     let body = { ...projInfo, 
       projStartDate:startDate,
-        projTargetEndDate:endDate
+        projTargetEndDate:endDate,
+        projRequirements:reqArray
       }
     let jwt = localStorage.getItem('token')
     try{
@@ -75,6 +80,7 @@ export default function CreateProject({open,projectAdded,setProjectAdded,setOpen
         projDescription:"",})
         setOpen(false)
         setProjectAdded(!projectAdded)
+        setReqArray([])
       }
    catch(err){
     console.log(err)
@@ -91,6 +97,11 @@ export default function CreateProject({open,projectAdded,setProjectAdded,setOpen
     const pushToArray=()=>{
       setReqArray([...reqArray,requirement])
       setRequirement('')
+    }
+
+    const delreq=(e)=>{
+      reqArray.splice(e.currentTarget.name,1)
+      setReqArray([...reqArray])
     }
   return (
     <div>
@@ -169,7 +180,12 @@ export default function CreateProject({open,projectAdded,setProjectAdded,setOpen
               <OutlinedInput label="Add Requirement" value={requirement} onChange={handleReqChange}/>
               <Button variant='contained' onClick={pushToArray}>Add</Button>
            </FormControl>
-         {reqArray.length?reqArray.map(ele=><div>{ele}</div>):null}
+          {reqArray.length? <Box  sx={{ p: 2, border: '5px solid grey',borderRadius:'10px' }}>
+           <span style={{fontSize:'18px',fontWeight:'bold',textDecoration:'underline'}}>Project Requirements (click requirement to delete):</span>
+         {reqArray.map(ele=><Button fullWidth name={reqArray.indexOf(ele)}onClick={delreq} sx={{display:'flex',alignItems:'center',justifyContent:'flex-start', "&:hover":{textDecoration:'line-through',color:'red'}}}>
+
+         {ele}</Button>)}
+         </Box>:null}
         </Stack>
          </DialogContent>
          <DialogActions>
