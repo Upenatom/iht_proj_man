@@ -11,23 +11,24 @@ module.exports = {
 };
 
 async function create(req, res) {
+  console.log("users create controller hit");
   try {
     const hashedPassword = await bcrypt.hash(
       req.body.userPass,
       parseInt(process.env.SALT_ROUNDS)
     );
+    console.log(hashedPassword);
 
     const user = await User.create({
       firstName: req.body.firstName,
       lastName: req.body.lastName,
-      fullName: fullName,
       authLevel: req.body.authLevel,
       statusLevel: "active",
       department: req.body.department,
       userName: req.body.userName,
       userPass: hashedPassword,
     });
-
+    console.log(user);
     const token = jwt.sign({ user }, process.env.SECRET, {
       expiresIn: "24h",
     });

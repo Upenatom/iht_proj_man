@@ -228,7 +228,7 @@ let projName=task.taskParentProject.projName
           {user.id===task.taskParentProject.projOwner?
           <><IconButton onClick={()=>{setDeleteConfirmation(true)}}><DeleteForeverIcon sx={{
           fontSize:'20px'
-        }}/></IconButton>Delete Task</>:<div style={{paddingLeft: '32px', paddingTop:'15px'}}>Delete Task</div>}</div>
+        }}/></IconButton>Delete Task</>:null}</div>
          
       </div>
       <Divider orientation="vertical" flexItem/>

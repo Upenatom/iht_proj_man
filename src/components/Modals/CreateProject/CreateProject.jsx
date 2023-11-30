@@ -30,6 +30,8 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 
 export default function CreateProject({open,projectAdded,setProjectAdded,setOpen,projInfo,setprojInfo,user,startDate,setStartDate,endDate,setEndDate}) {
+
+
     const handleChange= (e)=>{
     setprojInfo({...projInfo,[e.target.name]:e.target.value})
   }
@@ -81,18 +83,21 @@ export default function CreateProject({open,projectAdded,setProjectAdded,setOpen
   }
       };
 
-const [requirement,setRequirement] = useState('')
-const handleRequirementChange=(e)=>setRequirement(e.target.value)
-let reqsArray=[]
-const pushReqArray=()=>{ reqsArray.push(requirement)
-    setRequirement('')
-console.log(reqsArray)
-}
+    const [reqArray,setReqArray]=useState([])
+    const [requirement,setRequirement]=useState('')
+    const handleReqChange=(e)=>{
+      setRequirement(e.target.value)
+    }
+    const pushToArray=()=>{
+      setReqArray([...reqArray,requirement])
+      setRequirement('')
+    }
   return (
     <div>
         <Dialog open={open} 
          onClose={handleClose}
-         fullScreen>
+         fullScreen
+         >
          <DialogTitle>Create Project</DialogTitle>
          <DialogContent>
           <DialogContentText>
@@ -159,12 +164,12 @@ console.log(reqsArray)
       </DemoContainer>
     </LocalizationProvider>
           </FormControl>
-          {/* <FormControl>
-            <InputLabel>Add Requirement</InputLabel>
-            <OutlinedInput label="Add Requirement" name='requirement' value={requirement} onChange={handleRequirementChange}/><Button variant='contained'
-            onClick={pushReqArray}>Add</Button>
-          </FormControl>
-          {reqsArray.length?reqsArray.map(req=><div>{req}</div>):null} */}
+           <FormControl fullWidth>
+             <InputLabel>Add Requirement</InputLabel>
+              <OutlinedInput label="Add Requirement" value={requirement} onChange={handleReqChange}/>
+              <Button variant='contained' onClick={pushToArray}>Add</Button>
+           </FormControl>
+         {reqArray.length?reqArray.map(ele=><div>{ele}</div>):null}
         </Stack>
          </DialogContent>
          <DialogActions>

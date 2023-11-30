@@ -40,7 +40,7 @@ fetchMyTasks()
     <div>
       
       {allMyTasks.length?
-      allMyTasks.map(task=>(<MyTaskItem user={user} task={task}  key={task._id} setTaskUpdateWatch={setTaskUpdateWatch} taskUpdateWatch={taskUpdateWatch}/>)):<h4>No Tasks for this project. To add a task click +</h4>
+      allMyTasks.map(task=>(<MyTaskItem user={user} task={task}  key={task._id} setTaskUpdateWatch={setTaskUpdateWatch} taskUpdateWatch={taskUpdateWatch}/>)):<h4>You have not been Assigned any tasks yet</h4>
     }
     </div>
   )

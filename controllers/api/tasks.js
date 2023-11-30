@@ -49,7 +49,7 @@ async function myTasksIndex(req, res) {
   try {
     let myTasks = await Task.find({ taskOwner: req.user._id })
       .populate("taskParentProject")
-      .sort({ taskParentProject: "asc" });
+      .sort({ taskTargetEndDate: "asc" });
     res.status(200).json(myTasks);
   } catch (err) {
     res.status(400).json(err);

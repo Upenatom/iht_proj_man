@@ -32,13 +32,13 @@ const userSchema = new Schema(
     },
     userName: {
       type: String,
-      unique: true,
+      // unique: true,
       trim: true, //removes white spaces from start or end
       required: true,
     },
     userPass: {
       type: String,
-      unique: true,
+      // unique: true,
       trim: true, //removes white spaces from start or end
       minLength: 8,
       required: true,

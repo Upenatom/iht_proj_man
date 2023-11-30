@@ -17,7 +17,7 @@ const [createUser,setCreateUser]=useState({firstName:"",lastName:"",userName:"",
 let departments=utils.departmentEnums()
 
 const handleChange = (e) =>{
-  console.log(user)
+  console.log(createUser)
   setCreateUser({...createUser,[e.target.name]:e.target.value})
   }
 const handleSubmit = async (e) =>{
@@ -67,19 +67,22 @@ const handleSubmit = async (e) =>{
           name='firstName'
           value={createUser.firstName}
           onChange={handleChange}
+          autoComplete="off"
+          
         />
         </FormControl>
 
-        <FormControl>
+        <FormControl >
           <InputLabel>Last Name</InputLabel>
           <OutlinedInput label="Last Name"
           name='lastName'
           value={createUser.lastName}
           onChange={handleChange}
+          autoComplete="off"
           />
         </FormControl>
 
-        <FormControl fullWidth>
+        <FormControl fullWidth >
             <InputLabel>Division</InputLabel>
             <Select
                 label="Division"
@@ -93,7 +96,7 @@ const handleSubmit = async (e) =>{
             </Select>
           </FormControl>
         
-         <FormControl fullWidth>
+         <FormControl fullWidth >
             <InputLabel>Authorization Level</InputLabel>
             <Select
                 label="Authorization Level"
@@ -115,15 +118,17 @@ const handleSubmit = async (e) =>{
           name='userName'
           value={createUser.userName}
           onChange={handleChange}
+          autoComplete="off"
           />
         </FormControl>
 
-        <FormControl>
+        <FormControl >
           <InputLabel>Temporary Password</InputLabel>
           <OutlinedInput label="Temporary Password"
           name='userPass'
           value={createUser.userPass}
           onChange={handleChange}
+          autoComplete="off"
           />
         </FormControl>
         <Button onClick={handleSubmit}>
