@@ -1,6 +1,12 @@
 const Project = require("../../models/Project");
 
-module.exports = { create, myProjectsIndex, update, allProjects };
+module.exports = {
+  create,
+  myProjectsIndex,
+  update,
+  allProjects,
+  projectFilters,
+};
 
 async function create(req, res) {
   try {
@@ -63,6 +69,28 @@ async function allProjects(req, res) {
       })
       .populate("projOwner");
     res.status(200).json(allProjects);
+  } catch (err) {
+    res.status(400).json(err);
+    console.log(err);
+  }
+}
+async function projectFilters(req, res) {
+  let filter = { [req.params.filter1]: [req.params.filter2] };
+  if (req.params.showInactive === true) {
+    filter = {
+      [req.params.filter1]: [req.params.filter2],
+      projStatus: "Paused",
+      projStatus: "Cancelled",
+    };
+  }
+  try {
+    const filteredProject = await Project.find(filter)
+      .sort({
+        projTargetEndDate: "asc",
+      })
+      .populate("projOwner");
+
+    res.status(200).json(filteredProject);
   } catch (err) {
     res.status(400).json(err);
     console.log(err);

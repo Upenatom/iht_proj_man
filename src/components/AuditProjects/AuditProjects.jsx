@@ -4,12 +4,20 @@ import ProjectList from'../ProjectList/ProjectList'
 import './AuditProjects.css'
 export default function AuditProjects({user,resource}) {
  const[allProjects,setAllProjects]=useState([])
+  const[filter1,setFilter1]=useState(null)
+  const[filter2,setFilter2]=useState(null)
+  const[filterWatch,setfilterWatch]=useState(false)
+  const [showInactive,setShowInactive] = useState(false)
 
-   
+  const getFilteredProjects = ()=>{
+    setfilterWatch(!filterWatch)
+  } 
   //fetch projects on mount
   useEffect(()=>{
     const fetchAllProjects = async () =>{
+      
       try {
+    
     let jwt = localStorage.getItem("token");
     const options = {
       method: "GET",
@@ -18,8 +26,8 @@ export default function AuditProjects({user,resource}) {
         Authorization: "Bearer " + jwt,
       },
     };
-
-    const fetchResponse = await fetch("/api/projects/index", options);
+    
+    const fetchResponse = await fetch(`/api/projects/filteredProject/${filter1}/${filter2}/${showInactive}`, options)
     if (!fetchResponse.ok) {
       throw new Error("Fetch failed - Bad Request");
     }
@@ -32,13 +40,21 @@ export default function AuditProjects({user,resource}) {
   }
   }
 fetchAllProjects()
-    },[])
+    },[filterWatch])
 
   return (
     <div className='auditprojectspage'>
-    <AuditSearchHeader/>
-    <div calssName='projectList' >Search results</div>
-    <ProjectList resource={resource} user={user} myProjects={allProjects}/>
+    <AuditSearchHeader
+    filter1={filter1}
+    setFilter1={setFilter1}
+    filter2={filter2}
+    setFilter2={setFilter2}
+    getFilteredProjects={getFilteredProjects}
+    showInactive={showInactive}
+    setShowInactive={setShowInactive}
+    />
+    <ProjectList resource={resource} user={user} myProjects={allProjects}
+    />
     </div>
   )
 }
