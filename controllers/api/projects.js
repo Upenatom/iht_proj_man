@@ -49,7 +49,11 @@ async function update(req, res) {
     projTasks: req.body.projTasks,
   };
   try {
-    if (req.user._id === update.projOwner) {
+    if (
+      req.user._id === update.projOwner ||
+      req.user.authLevel === "admin" ||
+      req.user.authLevel === "superadmin"
+    ) {
       let project = await Project.findOneAndUpdate(filter, update, {
         new: true,
       });
@@ -57,7 +61,7 @@ async function update(req, res) {
       res.status(200).json("OK. Project updated ");
     }
   } catch (err) {
-    console.log(error);
+    console.log(err);
   }
 }
 
@@ -75,13 +79,15 @@ async function allProjects(req, res) {
   }
 }
 async function projectFilters(req, res) {
-  let filter = { [req.params.filter1]: [req.params.filter2] };
+  let filter;
   if (req.params.showInactive === true) {
     filter = {
       [req.params.filter1]: [req.params.filter2],
       projStatus: "Paused",
       projStatus: "Cancelled",
     };
+  } else {
+    filter = { [req.params.filter1]: [req.params.filter2] };
   }
   try {
     const filteredProject = await Project.find(filter)

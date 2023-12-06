@@ -27,6 +27,9 @@ export default function SearchHeader({filter1,setFilter1,filter2,setFilter2,getF
     
 
   const handlSelectChange = (e) => {
+    if(e.target.value==='All'){
+      setFilter1(null)
+    }
     setFilter1(e.target.value);
     setFilter2(null)
   };
@@ -51,8 +54,10 @@ export default function SearchHeader({filter1,setFilter1,filter2,setFilter2,getF
       label="Filter"
       value={filter1}
       onChange={handlSelectChange}>
+      <MenuItem value={'All'}>All</MenuItem>
+      <MenuItem value={'projOwner'}>Project Manager</MenuItem>
         <MenuItem value={'projDivision'}>Division</MenuItem>
-        <MenuItem value={'projOwner'}>Project Manager</MenuItem>
+        
         <MenuItem value={'projDepartment'}>Department</MenuItem>
         </Select>
         </FormControl> &nbsp;
@@ -103,6 +108,9 @@ export default function SearchHeader({filter1,setFilter1,filter2,setFilter2,getF
       
       </div>
       {filter2? <><FormControlLabel
+      control={<Switch onChange={handleSwitchChange}/>} label='Show Inactive?' 
+  /><Button onClick={getFilteredProjects} variant='contained'> Search</Button></>:null}
+  {filter1==='All'? <><FormControlLabel
       control={<Switch onChange={handleSwitchChange}/>} label='Show Inactive?' 
   /><Button onClick={getFilteredProjects} variant='contained'> Search</Button></>:null}
       

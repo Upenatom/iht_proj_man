@@ -1,4 +1,4 @@
-import { useState} from "react";
+import { useEffect, useState} from "react";
 //component imports
 import {ReactComponent as IhtHeatingLogo} from '../../../resources/logo/iht-heating-avatar-gradient.svg'
 import {ReactComponent as IhtCoolingLogo} from '../../../resources/logo/iht-cooling-avatar-gradient.svg'
@@ -32,52 +32,62 @@ import Box from '@mui/material/Box';
 
 
 
-export default function CreateProject({open,projectAdded,setProjectAdded,setOpen,projInfo,setprojInfo,user,startDate,setStartDate,endDate,setEndDate}) {
 
+
+export default function CreateProject({open,projectAdded,setProjectAdded,setOpen,user,
+  project
+}) {
+  const[projInfo,setprojInfo]=useState({})
+    const [startDate, setStartDate] = useState(project.projStartDate)
+    const [endDate,setEndDate] = useState(project.projTargetEndDate)
+    const [reqArray,setReqArray]=useState(project.projRequirements)
+
+//load project info on modal open
+ useEffect (()=>{
+    
+    setprojInfo(project)   
+    
+ },[])
+    
 
     const handleChange= (e)=>{
+        
     setprojInfo({...projInfo,[e.target.name]:e.target.value})
   }
-    
-  const handleClose = () => {
+  
+  
 
-    setprojInfo({...projInfo,projName:"",
-        projStatus:"Not Started",
-        projDivision:"",
-        projDescription:"",
-        projDepartment:user.department,
-      })
+  const handleClose = () => {
+    
+      setReqArray(project.projRequirements)
       setOpen(false);
-      setReqArray([])
+      
   };
 
-  const [ongoing,setOngoing] = useState(false)
-  const handleOngoingChange = ()=>{setOngoing(!ongoing)}
+  
 
   const handleSubmit = async(e) => {
     e.preventDefault();
     let body = { ...projInfo, 
       projStartDate:startDate,
-        projTargetEndDate:endDate,
-        projRequirements:reqArray
+      projTargetEndDate:endDate,
+      projRequirements:reqArray
+     
+
       }
     let jwt = localStorage.getItem('token')
     try{
     const options = {
-            method: "POST",
+            method: "PUT",
             headers: {
                 "Content-Type": "application/json", 'Authorization': 'Bearer ' + jwt
             },
             body: JSON.stringify(body)
         }
-        const fetchResponse = await fetch('/api/projects/create', options)
+        const fetchResponse = await fetch(`/api/projects/update/${projInfo._id}`, options)
     if(!fetchResponse.ok)
     { throw new Error('Fetch failed - Bad Request')}
-    setprojInfo({...projInfo,projName:"",
-        projDivision:"",
-        projStartDate:startDate,
-        projTargetEndDate:endDate,
-        projDescription:"",})
+    
         setOpen(false)
         setProjectAdded(!projectAdded)
         setReqArray([])
@@ -89,15 +99,15 @@ export default function CreateProject({open,projectAdded,setProjectAdded,setOpen
   }
       };
 
-    const [reqArray,setReqArray]=useState([])
+    
     const [requirement,setRequirement]=useState('')
     const handleReqChange=(e)=>{
       setRequirement(e.target.value)
     }
     const pushToArray=()=>{
-      if(requirement!=""){
       setReqArray([...reqArray,requirement])
-      setRequirement('')}
+    
+      setRequirement('')
     }
 
     const delreq=(e)=>{
@@ -110,7 +120,7 @@ export default function CreateProject({open,projectAdded,setProjectAdded,setOpen
          onClose={handleClose}
          fullScreen
          >
-         <DialogTitle>Create Project</DialogTitle>
+         <DialogTitle>Update Project</DialogTitle>
          <DialogContent>
           <DialogContentText>
             Enter the details of your project
@@ -151,10 +161,7 @@ export default function CreateProject({open,projectAdded,setProjectAdded,setOpen
           
         />
           </FormControl>
-          <FormControlLabel
-      control={<Switch onChange={handleOngoingChange}/>} label='Ongoing?' 
-  />
-
+          
 
           <FormControl fullWidth>
            <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -162,17 +169,18 @@ export default function CreateProject({open,projectAdded,setProjectAdded,setOpen
          <DatePicker
           label="Start Date"
           name='projStartDate'
-          value={projInfo.projStartDate}
+          
+          value={dayjs(startDate)}
           onChange={(newValue) => setStartDate(newValue)}
           
           />
-          {ongoing?null:
+          
         <DatePicker
           label="Target End Date"
           name='projTargetEndDate'
-          value={projInfo.projTargetEndDate}
+          value={dayjs(endDate)}
           onChange={(newValue) => setEndDate(newValue)}
-        />}
+        />
       </DemoContainer>
     </LocalizationProvider>
           </FormControl>
@@ -181,12 +189,14 @@ export default function CreateProject({open,projectAdded,setProjectAdded,setOpen
               <OutlinedInput label="Add Requirement" value={requirement} onChange={handleReqChange}/>
               <Button variant='contained' onClick={pushToArray}>Add</Button>
            </FormControl>
-          {reqArray.length? <Box  sx={{ p: 2, border: '5px solid grey',borderRadius:'10px' }}>
+          {reqArray? 
+          <Box  sx={{ p: 2, border: '5px solid grey',borderRadius:'10px' }}>
            <span style={{fontSize:'18px',fontWeight:'bold',textDecoration:'underline'}}>Project Requirements (click requirement to delete):</span>
          {reqArray.map(ele=><Button fullWidth name={reqArray.indexOf(ele)}onClick={delreq} sx={{display:'flex',alignItems:'center',justifyContent:'flex-start', "&:hover":{textDecoration:'line-through',color:'red'}}}>
 
          {ele}</Button>)}
-         </Box>:null}
+         </Box>
+         :null}
         </Stack>
          </DialogContent>
          <DialogActions>

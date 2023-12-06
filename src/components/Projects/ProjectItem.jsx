@@ -12,9 +12,14 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import Tooltip from '@mui/material/Tooltip';
 
+import EditProject from '../Modals/EditProject/EditProject'
 
+export default function ProjectItem({project,user,resource,setProjectAdded,projectAdded}) {
+  //editproject modal stuff
 
-export default function ProjectItem({project,user,resource}) {
+  const [open, setOpen] = useState(false)
+  
+  
 
   const [taskShow,setTaskShow] =useState(false)
   let handleClick = ()=>{
@@ -56,6 +61,8 @@ export default function ProjectItem({project,user,resource}) {
         <div style={{ backgroundColor: '#a2da9c',color:'#006400', borderRadius:'10px', paddingLeft:'10px',paddingRight:'10px'}}>Remaining:&nbsp;{utils.calcDaysRemain(project.projTargetEndDate)} days&emsp;</div>
         }
         {resource==='auditProj'?<div>&emsp;{project.projOwner.fullName}</div>:null}
+        {user.authLevel==="superadmin" || user.authLevel==="admin"|| user.projOwner===user.id?<Button onClick={()=>setOpen(true)}>Edit</Button> 
+        :null} 
 
 <Dialog
         open={descShow}
@@ -76,6 +83,14 @@ export default function ProjectItem({project,user,resource}) {
       
      
     </Box>
+    <EditProject 
+    open={open}
+    setOpen={setOpen}
+    projectAdded={projectAdded}
+    setProjectAdded={setProjectAdded}
+    user={user}
+    project={project}
+    />
       {taskShow?<Tasks project={project}user={user}/>:null}
       
       </div>
