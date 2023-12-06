@@ -47,6 +47,7 @@ async function update(req, res) {
     projMembers: req.body.projMembers,
     projOwner: req.body.projOwner,
     projTasks: req.body.projTasks,
+    projRequirements: req.body.projRequirements,
   };
   try {
     if (
