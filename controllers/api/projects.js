@@ -37,6 +37,7 @@ async function myProjectsIndex(req, res) {
 async function update(req, res) {
   const filter = { _id: req.params.projectid };
   const update = {
+    projStatus: req.body.projStatus,
     projName: req.body.projName,
     projStatus: req.body.projStatus,
     projDivision: req.body.projDivision,

@@ -4,15 +4,18 @@ import * as utils from '../../resources/utils/utils'
 import InfoIcon from '@mui/icons-material/Info';
 import Tasks from '../Tasks/Tasks'
 import Box from '@mui/material/Box'
+import Menu from '@mui/material/Menu';
+import Stack from '@mui/material/Stack';
 import Dialog from '@mui/material/Dialog';
 import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
+import EditIcon from '@mui/icons-material/Edit';
 import Tooltip from '@mui/material/Tooltip';
-
 import EditProject from '../Modals/EditProject/EditProject'
+
 
 export default function ProjectItem({project,user,resource,setProjectAdded,projectAdded}) {
   //editproject modal stuff
@@ -37,7 +40,33 @@ export default function ProjectItem({project,user,resource,setProjectAdded,proje
     setDescShow(false)
   }
 
- 
+  //edit status menu
+  const [anchorEl, setAnchorEl] = useState(null);
+  const openEditStatus = Boolean(anchorEl);
+  const handleStatusMenuClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleStatusEditClose = () => {
+    setAnchorEl(null);
+  };
+  const handleStatusClick =async (e)=>{
+    e.preventDefault();
+        let body = {
+        projStatus:e.currentTarget.value,
+        }
+       let options=utils.putBuilder(body)
+       try{
+        
+        const fetchResponse = await fetch(`/api/projects/update/${project._id}`, options)
+        if(!fetchResponse.ok)
+        { throw new Error('Fetch failed - Bad Request')}
+        setProjectAdded(!projectAdded)
+        handleStatusEditClose()}
+        catch(err){
+          console.log(err)
+        }
+    
+  }
   
   return (
     <>
@@ -53,8 +82,8 @@ export default function ProjectItem({project,user,resource,setProjectAdded,proje
         {project.projName}
         </div>
     
-         <div style={{width:'105px',}}>
-          {project.projStatus}
+         <div style={{width:'150px',display:'flex', alignItems:'center'}}>
+          {project.projStatus} <IconButton  onClick={handleStatusMenuClick}><EditIcon sx={{fontSize:'20px'}}/></IconButton>
           </div>&emsp;
         {utils.shortDate(project.projTargetEndDate)}&emsp;
         {utils.calcDaysRemain(project.projTargetEndDate)<0?<div style={{ backgroundColor: '#d28b89',color:'#921515', borderRadius:'10px', paddingLeft:'10px',paddingRight:'10px'}}>Overdue:&nbsp;{utils.calcDaysRemain(project.projTargetEndDate)*-1} days&emsp;</div>:
@@ -94,6 +123,19 @@ export default function ProjectItem({project,user,resource,setProjectAdded,proje
       {taskShow?<Tasks project={project}user={user}/>:null}
       
       </div>
+  <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={openEditStatus}
+        onClose={handleStatusEditClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      ><Stack spacing ={1}>
+        {utils.taskStatusEnums().map(status=><Button onClick={handleStatusClick} value= {status}>{status}</Button>)}
+      
+        </Stack>
+      </Menu>
           </>
   )
 }
