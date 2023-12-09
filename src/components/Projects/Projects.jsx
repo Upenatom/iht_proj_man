@@ -8,6 +8,8 @@ import './Projects.css'
 export default function Projects({user,resource}) {
   const[myProjects,setMyProjects]=useState([])
   const[projectAdded,setProjectAdded]=useState(false)
+  const [sortName, setSortName]=useState(false)
+  const[order,setOrder]=useState(false)
    
   //fetch projects on mount
   useEffect(()=>{
@@ -35,7 +37,10 @@ export default function Projects({user,resource}) {
   }
   }
 fetchMyProjects()
+
     },[projectAdded])
+
+useEffect(()=>{console.log(myProjects)},[sortName])
 
   const [startDate, setStartDate] = useState(null)
   const [endDate,setEndDate] = useState(null)
@@ -56,14 +61,75 @@ fetchMyProjects()
   const handleClickOpen = () => {
     setOpen(true);
   };
+
+  //sorting stuff
   
+  const sortAsc=(header)=>{
+   
+ setMyProjects(myProjects.sort((a,b)=>{
+  let nameA
+  let nameB
+    if (header==='name'){
+      nameA =a.projName.toUpperCase();
+      nameB = b.projName.toUpperCase();}
+    if (header==='status'){
+      nameA =a.projStatus.toUpperCase();
+      nameB = b.projStatus.toUpperCase();  
+    }
+    if (header==='date'){
+      nameA =a.projTargetEndDate.toUpperCase();
+      nameB = b.projTargetEndDate.toUpperCase();  }
+
+     if (nameA < nameB) {
+    return -1;
+  }
+  if (nameA > nameB) {
+    return 1;
+  }
+  // names must be equal
+  return 0;
+  }))
+  setSortName(!sortName)
+}
+  
+
+  const onClickName=(e)=>{
+    setOrder(!order)
+    // console.log('name!')
+    sortAsc(e.currentTarget.name)
+  }
+
+  const [sortStatus, setSortStatus]=useState(false)
+  
+  const onClickStatus=()=>{
+    setSortStatus(!sortStatus)
+    console.log('Status!')
+  }
+
+  const [sortDate, setSortDate]=useState(false)
+  const onClickDate=()=>{
+    setSortDate(!sortDate)
+    console.log('Date!')
+  }
 
   return (
     <div className="projectspage">
-      <ProjectHeader handleClickOpen={handleClickOpen} />
-      <ProjectList user={user} myProjects={myProjects} resource={resource}
+      <ProjectHeader handleClickOpen={handleClickOpen}
+       onClickName={onClickName}
+       onClickStatus={onClickStatus}
+       onClickDate={onClickDate}/>
+      <ProjectList 
+      user={user}
+      myProjects={myProjects}
+      resource={resource}
       setProjectAdded={setProjectAdded}
-      projectAdded={projectAdded}/>
+      projectAdded={projectAdded}
+      sortName={sortName}
+      sortStatus={sortStatus}
+      sortDate={sortDate}
+      
+      
+      />
 
       <div className='.modal'>
 

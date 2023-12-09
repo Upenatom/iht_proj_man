@@ -3,7 +3,6 @@ import ProjectItem from '../Projects/ProjectItem'
 import './ProjectList.css'
 export default function ProjectList({myProjects,user, resource,setProjectAdded,projectAdded}) {
 
-  
 
   return (
     <div className='projectList'>
