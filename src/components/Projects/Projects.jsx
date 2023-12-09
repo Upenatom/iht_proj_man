@@ -10,6 +10,7 @@ export default function Projects({user,resource}) {
   const[projectAdded,setProjectAdded]=useState(false)
   const [sortName, setSortName]=useState(false)
   const[order,setOrder]=useState(false)
+  const [filter,setFilter]=useState('Active')
    
   //fetch projects on mount
   useEffect(()=>{
@@ -24,7 +25,7 @@ export default function Projects({user,resource}) {
       },
     };
 
-    const fetchResponse = await fetch("/api/projects/myProjects", options);
+    const fetchResponse = await fetch(`/api/projects/filteredProject/null/null/${filter}`, options);
     if (!fetchResponse.ok) {
       throw new Error("Fetch failed - Bad Request");
     }
@@ -38,7 +39,7 @@ export default function Projects({user,resource}) {
   }
 fetchMyProjects()
 
-    },[projectAdded])
+    },[projectAdded,filter])
 
 useEffect(()=>{console.log(myProjects)},[sortName])
 
@@ -79,6 +80,8 @@ useEffect(()=>{console.log(myProjects)},[sortName])
     if (header==='date'){
       nameA =a.projTargetEndDate.toUpperCase();
       nameB = b.projTargetEndDate.toUpperCase();  }
+    
+    if(order===false){
 
      if (nameA < nameB) {
     return -1;
@@ -87,37 +90,39 @@ useEffect(()=>{console.log(myProjects)},[sortName])
     return 1;
   }
   // names must be equal
+  return 0;}else{
+    if (nameA > nameB) {
+    return -1;
+  }
+  if (nameA < nameB) {
+    return 1;
+  }
+  // names must be equal
   return 0;
+
+  }
   }))
   setSortName(!sortName)
 }
+
+
   
 
-  const onClickName=(e)=>{
+  const onClickSort=(e)=>{
     setOrder(!order)
     // console.log('name!')
     sortAsc(e.currentTarget.name)
   }
 
-  const [sortStatus, setSortStatus]=useState(false)
-  
-  const onClickStatus=()=>{
-    setSortStatus(!sortStatus)
-    console.log('Status!')
-  }
-
-  const [sortDate, setSortDate]=useState(false)
-  const onClickDate=()=>{
-    setSortDate(!sortDate)
-    console.log('Date!')
-  }
-
+ 
   return (
     <div className="projectspage">
-      <ProjectHeader handleClickOpen={handleClickOpen}
-       onClickName={onClickName}
-       onClickStatus={onClickStatus}
-       onClickDate={onClickDate}/>
+      <ProjectHeader 
+      handleClickOpen={handleClickOpen}
+      onClickSort={onClickSort}
+      filter={filter}
+      setFilter={setFilter}
+       />
       <ProjectList 
       user={user}
       myProjects={myProjects}
@@ -125,8 +130,7 @@ useEffect(()=>{console.log(myProjects)},[sortName])
       setProjectAdded={setProjectAdded}
       projectAdded={projectAdded}
       sortName={sortName}
-      sortStatus={sortStatus}
-      sortDate={sortDate}
+    
       
       
       />

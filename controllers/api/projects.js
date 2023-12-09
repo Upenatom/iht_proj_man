@@ -82,13 +82,19 @@ async function allProjects(req, res) {
 }
 async function projectFilters(req, res) {
   let filter;
-  if (req.params.showInactive === true) {
+  if (req.params.display === "Active") {
     filter = {
       [req.params.filter1]: [req.params.filter2],
-      projStatus: "Paused",
-      projStatus: "Cancelled",
+      projStatus: { $in: ["Not Started", "In Progress"] },
     };
-  } else {
+  }
+  if (req.params.display === "Inactive") {
+    filter = {
+      [req.params.filter1]: [req.params.filter2],
+      projStatus: { $in: ["Cancelled", "Completed", "Paused"] },
+    };
+  }
+  if (req.params.display === "All" || req.params.display === "All") {
     filter = { [req.params.filter1]: [req.params.filter2] };
   }
   try {

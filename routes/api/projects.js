@@ -6,7 +6,7 @@ router.post("/create", projectCtrl.create);
 router.get("/myProjects", projectCtrl.myProjectsIndex);
 router.get("/index", projectCtrl.allProjects);
 router.get(
-  "/filteredProject/:filter1/:filter2/:showInactive",
+  "/filteredProject/:filter1/:filter2/:display",
   projectCtrl.projectFilters
 );
 router.put("/update/:projectid", projectCtrl.update);

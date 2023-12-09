@@ -1,12 +1,11 @@
-import { useState, useEffect} from "react";
+import { useState} from "react";
 import Select from '@mui/material/Select';
-import IconButton from '@mui/material/IconButton';
+
 import Button from '@mui/material/Button';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl'
-import Autocomplete from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
+
 import SearchUser from '../Modals/SearchUser/SearchUser'
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
@@ -24,15 +23,13 @@ export default function SearchHeader({filter1,setFilter1,filter2,setFilter2,getF
     //autocomplete selection
     const[allUsers, setAllUsers]=useState([])
     
-    
-
-  const handlSelectChange = (e) => {
-    if(e.target.value==='All'){
-      setFilter1(null)
-    }
-    setFilter1(e.target.value);
-    setFilter2(null)
-  };
+    const handlSelectChange = (e) => {
+      if(e.target.value==='All'){
+        setFilter1(null)
+      }
+      setFilter1(e.target.value);
+      setFilter2(null)
+    };
   const handlSelectChange2 = (e) => {
     setFilter2(e.target.value);
   };
