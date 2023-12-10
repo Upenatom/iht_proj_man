@@ -29,8 +29,8 @@ import './Tasks.css'
 import Paper from '@mui/material/Paper';
 
 
-export default function Tasks({project}) {
-  const[taskUpdateWatch,setTaskUpdateWatch] = useState(false)
+export default function Tasks({project,taskUpdateWatch,setTaskUpdateWatch}) {
+ 
   const[projectTasks,setProjectTasks]=useState([])
   const[taskAdded,setTaskAdded]=useState(false)
   const[filter,setFilter]=useState('Active')
@@ -164,8 +164,12 @@ fetchProjectTasks()
       </FormControl></div>
       
       </div>
-      <TaskList projectTasks={projectTasks} taskUpdateWatch={taskUpdateWatch}
-      setTaskUpdateWatch={setTaskUpdateWatch}/>
+      <TaskList 
+      projectTasks={projectTasks} 
+      taskUpdateWatch={taskUpdateWatch}
+      setTaskUpdateWatch={setTaskUpdateWatch}
+      
+      />
       <div className='.modal'>
        <Dialog open={open} 
          onClose={handleClose}>

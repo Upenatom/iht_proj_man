@@ -23,11 +23,47 @@ async function create(req, res) {
   }
 }
 async function myProjectsIndex(req, res) {
+  // try {
+  //   let myProjects = await Project.find({ projOwner: req.user._id }).sort({
+  //     projTargetEndDate: "desc",
+  //   });
+  //   res.status(200).json(myProjects);
+  // } catch (err) {
+  //   res.status(400).json(err);
+  //   console.log(err);
+  // }
+  let filter;
+  if (req.params.display === "Active") {
+    filter = {
+      [req.params.filter1]: [req.params.filter2],
+      projStatus: { $in: ["Not Started", "In Progress"] },
+      projOwner: req.user._id,
+    };
+  }
+  if (req.params.display === "Inactive") {
+    filter = {
+      [req.params.filter1]: [req.params.filter2],
+      projStatus: { $in: ["Cancelled", "Completed", "Paused"] },
+      projOwner: req.user._id,
+    };
+  }
+  if (req.params.display === "All" || req.params.display === "All") {
+    filter = {
+      [req.params.filter1]: [req.params.filter2],
+      projOwner: req.user._id,
+    };
+  }
   try {
-    let myProjects = await Project.find({ projOwner: req.user._id }).sort({
-      projTargetEndDate: "desc",
-    });
-    res.status(200).json(myProjects);
+    const filteredProject = await Project.find(filter)
+      .sort({
+        projTargetEndDate: "asc",
+      })
+      .populate(
+        // "projOwner"
+        [({ path: "projOwner" }, { path: "projTasks", select: "taskStatus" })]
+      );
+
+    res.status(200).json(filteredProject);
   } catch (err) {
     res.status(400).json(err);
     console.log(err);
@@ -102,7 +138,10 @@ async function projectFilters(req, res) {
       .sort({
         projTargetEndDate: "asc",
       })
-      .populate("projOwner");
+      .populate(
+        // "projOwner"
+        [({ path: "projOwner" }, { path: "projTasks", select: "taskStatus" })]
+      );
 
     res.status(200).json(filteredProject);
   } catch (err) {

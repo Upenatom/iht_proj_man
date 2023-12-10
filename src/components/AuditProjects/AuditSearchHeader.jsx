@@ -14,7 +14,7 @@ import './AuditSearchHeader.css'
 
 
 
-export default function SearchHeader({filter1,setFilter1,filter2,setFilter2,getFilteredProjects,showInactive,setShowInactive}) {
+export default function SearchHeader({filter1,setFilter1,filter2,setFilter2,getFilteredProjects}) {
   
 
 
@@ -33,10 +33,6 @@ export default function SearchHeader({filter1,setFilter1,filter2,setFilter2,getF
   const handlSelectChange2 = (e) => {
     setFilter2(e.target.value);
   };
-
-  //switch show inactive projects controls
-  const handleSwitchChange = ()=>{setShowInactive(!showInactive)}
-
 
 
 
@@ -104,12 +100,8 @@ export default function SearchHeader({filter1,setFilter1,filter2,setFilter2,getF
 
       
       </div>
-      {filter2? <><FormControlLabel
-      control={<Switch onChange={handleSwitchChange}/>} label='Show Inactive?' 
-  /><Button onClick={getFilteredProjects} variant='contained'> Search</Button></>:null}
-  {filter1==='All'? <><FormControlLabel
-      control={<Switch onChange={handleSwitchChange}/>} label='Show Inactive?' 
-  /><Button onClick={getFilteredProjects} variant='contained'> Search</Button></>:null}
+      {filter2? <><Button onClick={getFilteredProjects} variant='contained'> Search</Button></>:null}
+  {filter1==='All'? <><Button onClick={getFilteredProjects} variant='contained'> Search</Button></>:null}
       
     </div>
   )

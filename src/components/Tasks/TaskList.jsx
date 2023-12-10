@@ -1,6 +1,7 @@
 import React from 'react'
 import TaskItem from './TaskItem'
-export default function TaskList({projectTasks,taskUpdateWatch,setTaskUpdateWatch}) {
+export default function TaskList({projectTasks,taskUpdateWatch,setTaskUpdateWatch,
+}) {
   return (
     <div>
         {projectTasks.length?

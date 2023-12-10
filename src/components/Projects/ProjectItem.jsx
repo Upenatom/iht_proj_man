@@ -1,4 +1,4 @@
-import { useState} from "react";
+import { useState,useEffect} from "react";
 import './ProjectItem.css'
 import * as utils from '../../resources/utils/utils'
 import InfoIcon from '@mui/icons-material/Info';
@@ -19,19 +19,24 @@ import LinearProgress from '@mui/material/LinearProgress';
 
 
 
-export default function ProjectItem({project,user,resource,setProjectAdded,projectAdded}) {
+export default function ProjectItem({project,user,resource,setProjectAdded,projectAdded,projectProgress,setTaskUpdateWatch,taskUpdateWatch}) {
+
   //editproject modal stuff
 
   const [open, setOpen] = useState(false)
-
+ 
   
+  useEffect(()=>{},[taskUpdateWatch])
 
   const [taskShow,setTaskShow] =useState(false)
   let handleClick = ()=>{
       setTaskShow(!taskShow)
+     
+      
   }
 
 
+  
   //project info pop up
   const [descShow, setDescShow]=useState(false)
 
@@ -46,6 +51,7 @@ export default function ProjectItem({project,user,resource,setProjectAdded,proje
   const [anchorEl, setAnchorEl] = useState(null);
   const openEditStatus = Boolean(anchorEl);
   const handleStatusMenuClick = (event) => {
+    
     setAnchorEl(event.currentTarget);
   };
   const handleStatusEditClose = () => {
@@ -62,6 +68,7 @@ export default function ProjectItem({project,user,resource,setProjectAdded,proje
         const fetchResponse = await fetch(`/api/projects/update/${project._id}`, options)
         if(!fetchResponse.ok)
         { throw new Error('Fetch failed - Bad Request')}
+
         setProjectAdded(!projectAdded)
         handleStatusEditClose()}
         catch(err){
@@ -70,8 +77,32 @@ export default function ProjectItem({project,user,resource,setProjectAdded,proje
     
   }
   //project progress bar
-    const [totalTasks,setTotalTasks]=useState(0)
-    const [numCompletedTasks,setNumCompletedTasks]=useState(0)
+    const getProjectProgress=()=>{
+   
+      let percentCompleted
+      if (project.projTasks.length){
+      
+     const totalTasks = project.projTasks.filter((item)=>
+      {if(item.taskStatus==="In Progress" ||
+    item.taskStatus==="Not Started" || item.taskStatus==="Completed"){
+      return true
+    }
+    }).length
+    
+     const completedTasks=project.projTasks.filter((item)=>{if(item.taskStatus==='Completed'){
+      return true
+     }
+    }).length
+     percentCompleted = Math.round(completedTasks/totalTasks*100)
+    
+    }else{
+      percentCompleted=0
+    }
+
+    return (percentCompleted)
+  }
+
+  
    
   return (
     <>
@@ -97,7 +128,15 @@ export default function ProjectItem({project,user,resource,setProjectAdded,proje
         {resource==='auditProj'?<div>&emsp;{project.projOwner.fullName}</div>:null}
         {user.authLevel==="superadmin" || user.authLevel==="admin"|| user.projOwner===user.id?<Button onClick={()=>setOpen(true)}>Edit</Button> 
         :null} 
-<div ><LinearProgress sx={{width:'200px'}}variant='determinate' value={50}  /></div>
+
+
+<div >
+  {/* {getProjectProgress()} */}
+  <LinearProgress sx={{width:'100px'}}variant='determinate' value={getProjectProgress()}  />
+  </div>
+
+
+
 <Dialog
         open={descShow}
         onClose={closeDescription}>
@@ -130,7 +169,10 @@ export default function ProjectItem({project,user,resource,setProjectAdded,proje
       {taskShow?<Tasks 
       
       project={project}
-      user={user}/>:null}
+      user={user}
+      taskUpdateWatch={taskUpdateWatch}
+      setTaskUpdateWatch={setTaskUpdateWatch}/>:null}
+  
       
       </div>
   <Menu

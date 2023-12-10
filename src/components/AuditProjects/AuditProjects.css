@@ -6,7 +6,7 @@
     align-items:center;
     background-color: #d2cecc;}
 .projectList{
-position:fixed;
+/* position:fixed; */
 top:15vh;
 display:flex;
 flex-direction: column;

@@ -1,4 +1,16 @@
-.userDash{
+.userdash{
+
     position:relative;
-    top:10vh
+    top:10vh;
+    display:flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width:100vw;
+  
+   
+}
+.section{
+    width:25vw;
+    
+    
 }

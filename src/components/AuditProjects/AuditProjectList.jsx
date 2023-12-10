@@ -1,11 +1,10 @@
-import React from 'react'
 import ProjectItem from '../Projects/ProjectItem'
-import './ProjectList.css'
-export default function ProjectList({myProjects,user, resource,setProjectAdded,projectAdded,setTaskUpdateWatch,taskUpdateWatch}) {
+import './AuditProjectList.css'
+export default function ProjectList({myProjects,user, resource,setProjectAdded,projectAdded}) {
 
 
   return (
-    <div className='projectList'>
+    <div className='auditprojectList'>
         {myProjects.length?
       myProjects.map(project=>(<ProjectItem
          user={user}
@@ -14,9 +13,6 @@ export default function ProjectList({myProjects,user, resource,setProjectAdded,p
          resource={resource}
          setProjectAdded={setProjectAdded}
          projectAdded={projectAdded}
-         setTaskUpdateWatch={setTaskUpdateWatch}
-         taskUpdateWatch={taskUpdateWatch}
-        
          />))
          :<h1>No Projects. To add a project click +</h1>
     }

@@ -8,9 +8,11 @@ import './Projects.css'
 export default function Projects({user,resource}) {
   const[myProjects,setMyProjects]=useState([])
   const[projectAdded,setProjectAdded]=useState(false)
-  const [sortName, setSortName]=useState(false)
   const[order,setOrder]=useState(false)
-  const [filter,setFilter]=useState('Active')
+  const [filters,setFilters]=useState('Active')
+  const[taskUpdateWatch,setTaskUpdateWatch] = useState(false)
+  
+
    
   //fetch projects on mount
   useEffect(()=>{
@@ -25,13 +27,15 @@ export default function Projects({user,resource}) {
       },
     };
 
-    const fetchResponse = await fetch(`/api/projects/filteredProject/null/null/${filter}`, options);
+    const fetchResponse = await fetch(`/api/projects/myProjects/null/null/${filters}`, options);
     if (!fetchResponse.ok) {
       throw new Error("Fetch failed - Bad Request");
     }
     let myprojects = await fetchResponse.json();
-
+    
+        
     setMyProjects(myprojects)
+    
   } catch (err) {
     console.log(err);
     console.log("My Project fetch failed");
@@ -39,9 +43,9 @@ export default function Projects({user,resource}) {
   }
 fetchMyProjects()
 
-    },[projectAdded,filter])
+    },[projectAdded,filters,taskUpdateWatch])
 
-useEffect(()=>{console.log(myProjects)},[sortName])
+
 
   const [startDate, setStartDate] = useState(null)
   const [endDate,setEndDate] = useState(null)
@@ -102,7 +106,7 @@ useEffect(()=>{console.log(myProjects)},[sortName])
 
   }
   }))
-  setSortName(!sortName)
+  
 }
 
 
@@ -110,7 +114,6 @@ useEffect(()=>{console.log(myProjects)},[sortName])
 
   const onClickSort=(e)=>{
     setOrder(!order)
-    // console.log('name!')
     sortAsc(e.currentTarget.name)
   }
 
@@ -120,8 +123,8 @@ useEffect(()=>{console.log(myProjects)},[sortName])
       <ProjectHeader 
       handleClickOpen={handleClickOpen}
       onClickSort={onClickSort}
-      filter={filter}
-      setFilter={setFilter}
+      filter={filters}
+      setFilter={setFilters}
        />
       <ProjectList 
       user={user}
@@ -129,7 +132,9 @@ useEffect(()=>{console.log(myProjects)},[sortName])
       resource={resource}
       setProjectAdded={setProjectAdded}
       projectAdded={projectAdded}
-      sortName={sortName}
+      setTaskUpdateWatch={setTaskUpdateWatch}
+         taskUpdateWatch={taskUpdateWatch}
+      
     
       
       
