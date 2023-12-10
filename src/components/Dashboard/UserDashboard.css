@@ -1,16 +1,20 @@
 .userdash{
 
     position:relative;
-    top:10vh;
+    top:8vh;
     display:flex;
     flex-direction: row;
     justify-content: space-around;
     width:100vw;
+    height:100vh
   
    
 }
-.section{
+.sectionhor{
     width:25vw;
-    
-    
+      
+}
+.sectionvert{
+    height:50%;
+      
 }

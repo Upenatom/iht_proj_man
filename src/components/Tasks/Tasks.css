@@ -1,5 +1,7 @@
 .tasksPaper{
-    
    display:flex;
    flex-direction: column;
+}
+.taskpage{
+   top:10vh
 }

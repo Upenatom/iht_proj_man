@@ -212,7 +212,7 @@ function PieCenterLabel({ children }) {
 }
 
   return (
-    <div className='tasks' >
+    <div className='taskitem' >
      
     <div className='taskDetails'>
        

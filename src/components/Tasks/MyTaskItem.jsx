@@ -210,7 +210,7 @@ function PieCenterLabel({ children }) {
 let projName=task.taskParentProject.projName
 
   return (
-    <div className='tasks'>
+    <div className='taskitem'>
      
     <div className='taskDetails'>
        

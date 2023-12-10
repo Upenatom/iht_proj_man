@@ -138,7 +138,7 @@ fetchProjectTasks()
   }
 
     return (
-    <div >
+    <div className='taskpage'>
       <Paper square={false} elevation={20} sx={{margin:'10px',bgcolor:'#d2cecc',borderRadius: 5,paddingBottom:'5px'}}>
       <div style={{display:'flex',flexDirection:'row',justifyContent:'center'}}>
         <div style={{display:'flex',flexDirection:'row',alignItems:'center'}}><IconButton onClick={handleOpenTaskCreateModal} color= 'secondary'><AddCircleIcon sx={{

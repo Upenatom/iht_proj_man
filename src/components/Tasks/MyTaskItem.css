@@ -1,7 +1,8 @@
 
-.tasks{
+.taskitem{
   color:#173A5E;
-  height:100%;
+  height:225px;
+  width:90vw;
     border:none;
     cursor: pointer;
     display:flex;
@@ -10,8 +11,8 @@
     /* justify-content: left; */
     gap:10px;
     border-radius: 12px;
-    padding-left: 0px;
-    padding-right:0px;
+    /* padding-left: 0px;
+    padding-right:0px; */
     margin:00px 20px 20px 40px;
     background-color:#b3c4c2;
    box-shadow: 5px 5px 5px#496361;
