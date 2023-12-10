@@ -15,6 +15,9 @@ import PlaylistRemoveIcon from '@mui/icons-material/PlaylistRemove';
 import Tooltip from '@mui/material/Tooltip';
 import Badge from '@mui/material/Badge';
 import TodoModal from '../Modals/Todo/Todo'
+import { PieChart } from '@mui/x-charts/PieChart';
+import { useDrawingArea } from '@mui/x-charts/hooks';
+import { styled } from '@mui/material/styles';
 import * as utils from '../../resources/utils/utils'
 import * as utilfetch from '../../resources/utils/fetches'
 import './TaskItem.css'
@@ -192,6 +195,22 @@ const handleCloseModal=()=>{
   setTodoOpen(false)
 }
 
+//piechart Data
+const StyledText = styled('text')(({ theme }) => ({
+  fill: theme.palette.text.primary,
+  textAnchor: 'middle',
+  dominantBaseline: 'central',
+  fontSize: 20,
+}));
+function PieCenterLabel({ children }) {
+  const { width, height, left, top } = useDrawingArea();
+  return (
+    <StyledText x={left + width / 2} y={top + height / 2}>
+      {children}
+    </StyledText>
+  );
+}
+
   return (
     <div className='tasks' >
      
@@ -260,9 +279,30 @@ const handleCloseModal=()=>{
         :null}
       </div>
        <Divider orientation="vertical" flexItem/>
-      <div style = {{width:'100px', padding:'0'}}>
-        Coming Soon:<br/>Progress Bar
+      <div style = {{width:'150px',display:'flex',flexDirection:'row',justifyContent:'center',alignContent:'center'}}>
+       {taskTodos.length?<PieChart
+        series={[{ 
+         
+          innerRadius:60,
+          outerRadius:75,
+          
+          data:
+           [
+            {label:'Pending Todo', value: Number(todoNum),color:'#b3c4c2' }, 
+            { label:'Completed Todos',value: taskTodos.length-Number(todoNum),color: '#15cb2b' },
+          ] 
+        }]}
+        margin={{ right: 5 }}
+        width={200}
+        height={200}
+        slotProps={{
+        legend: { hidden: true },
+      }}
+      
+        ><PieCenterLabel>{Math.round((taskTodos.length-Number(todoNum))/taskTodos.length*100)}%</PieCenterLabel></PieChart>:<span>No Todos</span>}
+       
       </div>
+
 
       {/* Edit menu items */}
       <AssignTask reassignModal={reassignModal} closeReassign={closeReassign} 

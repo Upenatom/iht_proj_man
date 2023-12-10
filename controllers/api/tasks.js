@@ -30,10 +30,26 @@ async function create(req, res) {
 }
 
 async function projectTasksIndex(req, res) {
+  let filter;
+  if (req.params.display === "Active") {
+    filter = {
+      taskStatus: { $in: ["Not Started", "In Progress"] },
+    };
+  }
+  if (req.params.display === "Inactive") {
+    filter = {
+      taskStatus: { $in: ["Cancelled", "Completed", "Paused"] },
+    };
+  }
+  if (req.params.display === "All" || req.params.display === "All") {
+    filter = {};
+  }
+
   try {
     let projectTask = await Project.findById(req.params.projectid).populate([
       {
         path: "projTasks",
+        match: filter,
         populate: [{ path: "taskOwner" }],
       },
     ]);

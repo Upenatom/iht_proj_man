@@ -33,7 +33,7 @@ export default function Tasks({project}) {
   const[taskUpdateWatch,setTaskUpdateWatch] = useState(false)
   const[projectTasks,setProjectTasks]=useState([])
   const[taskAdded,setTaskAdded]=useState(false)
-  
+  const[filter,setFilter]=useState('Active')
   //fetch tasks on mount
   useEffect(()=>{
     const fetchProjectTasks = async () =>{
@@ -49,7 +49,7 @@ export default function Tasks({project}) {
      
     };
 
-    const fetchResponse = await fetch(`/api/tasks/projectTasks/${projectid}`, options);
+    const fetchResponse = await fetch(`/api/tasks/projectTasks/${projectid}/${filter}`, options);
     if (!fetchResponse.ok) {
       throw new Error("Fetch failed - Bad Request");
     }
@@ -64,13 +64,12 @@ export default function Tasks({project}) {
   }
 fetchProjectTasks()
 
-    },[taskAdded,taskUpdateWatch])
+    },[taskAdded,taskUpdateWatch,filter])
 
   const [startDate, setStartDate] = useState(null)
   const [endDate,setEndDate] = useState(null)
   
-  const [ongoing,setOngoing] = useState(false)
-  const handleOngoingChange = ()=>{setOngoing(!ongoing)}
+
  
   
 
@@ -132,15 +131,39 @@ fetchProjectTasks()
     
   }
       };
-      
+    
+      //filter stuff
+    const handleFilterChange=(e)=>{
+    setFilter(e.target.value)
+  }
 
     return (
     <div >
       <Paper square={false} elevation={20} sx={{margin:'10px',bgcolor:'#d2cecc',borderRadius: 5,paddingBottom:'5px'}}>
-      <div><IconButton onClick={handleOpenTaskCreateModal} color= 'secondary'><AddCircleIcon sx={{
+      <div style={{display:'flex',flexDirection:'row',justifyContent:'center'}}>
+        <div style={{display:'flex',flexDirection:'row',alignItems:'center'}}><IconButton onClick={handleOpenTaskCreateModal} color= 'secondary'><AddCircleIcon sx={{
           fontSize:'20px'
         }}/></IconButton>
-      Add a Task</div>
+      Add a Task</div> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+      <div style={{display:'flex',alignItems:'center'}}>Task Filter:&nbsp;<FormControl sx={{paddingRight:'10px'}}>
+        <InputLabel id="select filter"></InputLabel>
+        <Select sx={{height:'40px'}}
+          autoWidth
+          labelId="select filter"
+          id="demo-simple-select"
+          value={filter}
+          defaultValue='Active'
+          label="Filter"
+          onChange={handleFilterChange}
+        >
+          <MenuItem value={'Active'}>Active</MenuItem>
+          <MenuItem value={'Inactive'}>Inactive</MenuItem>
+          <MenuItem value={'All'}>All</MenuItem>
+        </Select>
+      </FormControl></div>
+      
+      </div>
       <TaskList projectTasks={projectTasks} taskUpdateWatch={taskUpdateWatch}
       setTaskUpdateWatch={setTaskUpdateWatch}/>
       <div className='.modal'>
@@ -169,9 +192,7 @@ fetchProjectTasks()
   
 </FormControl>
 
-          <FormControlLabel
-          control={<Switch onChange={handleOngoingChange}/>} label='Ongoing?'
-          />
+          
 
           <FormControl fullWidth>
            <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -183,13 +204,13 @@ fetchProjectTasks()
           onChange={(newValue) => setStartDate(newValue)}
           
           />
-          {ongoing?null:
+          
         <DatePicker
           label="Target End Date"
           name='taskTargetEndDate'
           value={taskInfo.taskTargetEndDate}
           onChange={(newValue) => setEndDate(newValue)}
-        />}
+        />
       </DemoContainer>
     </LocalizationProvider>
           </FormControl>

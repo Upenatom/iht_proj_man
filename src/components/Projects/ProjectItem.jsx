@@ -15,13 +15,15 @@ import DialogContentText from '@mui/material/DialogContentText';
 import EditIcon from '@mui/icons-material/Edit';
 import Tooltip from '@mui/material/Tooltip';
 import EditProject from '../Modals/EditProject/EditProject'
+import LinearProgress from '@mui/material/LinearProgress';
+
 
 
 export default function ProjectItem({project,user,resource,setProjectAdded,projectAdded}) {
   //editproject modal stuff
 
   const [open, setOpen] = useState(false)
-  
+
   
 
   const [taskShow,setTaskShow] =useState(false)
@@ -67,7 +69,10 @@ export default function ProjectItem({project,user,resource,setProjectAdded,proje
         }
     
   }
-  
+  //project progress bar
+    const [totalTasks,setTotalTasks]=useState(0)
+    const [numCompletedTasks,setNumCompletedTasks]=useState(0)
+   
   return (
     <>
       
@@ -92,7 +97,7 @@ export default function ProjectItem({project,user,resource,setProjectAdded,proje
         {resource==='auditProj'?<div>&emsp;{project.projOwner.fullName}</div>:null}
         {user.authLevel==="superadmin" || user.authLevel==="admin"|| user.projOwner===user.id?<Button onClick={()=>setOpen(true)}>Edit</Button> 
         :null} 
-
+<div ><LinearProgress sx={{width:'200px'}}variant='determinate' value={50}  /></div>
 <Dialog
         open={descShow}
         onClose={closeDescription}>
@@ -120,7 +125,12 @@ export default function ProjectItem({project,user,resource,setProjectAdded,proje
     user={user}
     project={project}
     />
-      {taskShow?<Tasks project={project}user={user}/>:null}
+    
+
+      {taskShow?<Tasks 
+      
+      project={project}
+      user={user}/>:null}
       
       </div>
   <Menu

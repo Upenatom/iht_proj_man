@@ -27,7 +27,6 @@ export default function MyTasks({user}) {
     let removedInactive = tasks.filter((task)=>{
       return task.taskParentProject.projStatus ==="In Progress"
     })
-    console.log(removedInactive)
     setAllMyTasks(removedInactive)
     
 

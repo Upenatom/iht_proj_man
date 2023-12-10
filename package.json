@@ -9,6 +9,7 @@
     "@fontsource/roboto": "^5.0.8",
     "@mui/icons-material": "^5.14.9",
     "@mui/material": "^5.14.10",
+    "@mui/x-charts": "^6.18.3",
     "@mui/x-date-pickers": "^6.15.0",
     "@tanstack/react-table": "^8.10.3",
     "@testing-library/jest-dom": "^5.16.5",
