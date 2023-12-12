@@ -146,8 +146,9 @@ const handleSubmit = async (e) =>{
   
   return (
    
-    <div>
-        UPDATE USER
+    <div style={{marginTop: '7vh'}}>
+        <p>UPDATE USER</p>
+        
         <Stack spacing={10}>
         <div>
         <Autocomplete 
