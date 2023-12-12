@@ -26,8 +26,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
+
 import Box from '@mui/material/Box';
 
 
@@ -51,9 +50,7 @@ export default function CreateProject({open,projectAdded,setProjectAdded,setOpen
       setReqArray([])
   };
 
-  const [ongoing,setOngoing] = useState(false)
-  const handleOngoingChange = ()=>{setOngoing(!ongoing)}
-
+  
   const handleSubmit = async(e) => {
     e.preventDefault();
     let body = { ...projInfo, 
@@ -151,9 +148,7 @@ export default function CreateProject({open,projectAdded,setProjectAdded,setOpen
           
         />
           </FormControl>
-          <FormControlLabel
-      control={<Switch onChange={handleOngoingChange}/>} label='Ongoing?' 
-  />
+        
 
 
           <FormControl fullWidth>
@@ -166,13 +161,13 @@ export default function CreateProject({open,projectAdded,setProjectAdded,setOpen
           onChange={(newValue) => setStartDate(newValue)}
           
           />
-          {ongoing?null:
+          
         <DatePicker
           label="Target End Date"
           name='projTargetEndDate'
           value={projInfo.projTargetEndDate}
           onChange={(newValue) => setEndDate(newValue)}
-        />}
+        />
       </DemoContainer>
     </LocalizationProvider>
           </FormControl>
