@@ -4,7 +4,8 @@
     display:flex;
     flex-direction: column;
     align-items:center;
-    background-color: #d2cecc;
+    /* background-color: #d2cecc; */
+    background:radial-gradient(circle at 100%, #93a0aa , #d2cecc 20%, #eee 50%, #93a0aa 90%);
     
 }
 .projectList{

@@ -59,6 +59,56 @@ export function uiTheme() {
   });
   return theme;
 }
+
+export function adminTheme() {
+  //create theme for material UI
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#9a5567",
+      },
+      secondary: {
+        main: "#987d5e",
+      },
+      chip: {
+        main: "#aa9d93",
+        contrastText: "#000",
+      },
+      error: {
+        light: "#ff7961",
+        main: "#f44336",
+        dark: "#ba000d",
+        contrastText: "#000",
+      },
+      warning: {
+        light: "#ff7961",
+        main: "#f44336",
+        dark: "#ba000d",
+        contrastText: "#000",
+      },
+      info: {
+        main: "#876478",
+
+        contrastText: "#000",
+      },
+      neutral: {
+        main: "#46505A",
+      },
+      success: {
+        light: "#ff7961",
+        main: "#f44336",
+        dark: "#ba000d",
+        contrastText: "#000",
+      },
+      text: {
+        primary: "#173A5E",
+        secondary: "#46505A",
+      },
+    },
+  });
+  return theme;
+}
+
 export function logoSelect(division) {
   if (division === "IHTheating") {
     return <IhtHeatingLogo style={{ height: "20px", width: "20px" }} />;

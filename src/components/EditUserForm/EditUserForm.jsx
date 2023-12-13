@@ -14,6 +14,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import { Box } from '@mui/system';
 import * as utils from '../../resources/utils/utils'
 import * as fetches from '../../resources/utils/fetches'
+import './EditUserForm.css'
 
 
 export default function EditUserForm({user}) 
@@ -146,7 +147,8 @@ const handleSubmit = async (e) =>{
   
   return (
    
-    <div style={{marginTop: '7vh'}}>
+    <div className='edituserform' >
+      <div style={{display:'flex',flexDirection:'column',alignItems:'center'}}>
         <p>UPDATE USER</p>
         
         <Stack spacing={10}>
@@ -186,9 +188,9 @@ const handleSubmit = async (e) =>{
            
 
         </div>
-        {editUser.authLevel?<div>
+        {editUser.authLevel?<div style={{width:'300px'}}>
         <Stack spacing={2}>
-        <FormControl >
+        <FormControl style={{}} >
           <InputLabel>First Name</InputLabel>
           <OutlinedInput label="Project Name"
           name='firstName'
@@ -268,6 +270,8 @@ const handleSubmit = async (e) =>{
       </Stack>
       </div>:null}
       </Stack>
+      </div>
+    
     </div>
   )
 }

@@ -14,7 +14,7 @@ export default function UserDashboardPage({setUser,user,theme}) {
   useEffect(()=>{},[resource])
   return (
     <div className='userdashboard'>
-      <HeaderNav setUser={setUser} user={user} setResource={setResource} className='headerNav'/>
+      <HeaderNav resource={resource} setUser={setUser} user={user} setResource={setResource} className='headerNav'/>
      {resource==='dashboard'?<UserDashboard />:null}
      {resource==='tasks'?<MyTasks user={user} />:null}
      {resource==='projects'?<Projects resource={resource} user={user} />:null}

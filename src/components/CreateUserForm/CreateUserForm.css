@@ -1,9 +1,11 @@
 .createUser{
-    margin-top: 10vh;
+    padding-top: 10vh;
     display:flex;
     flex-direction: column;
     width:100%;
     height:100%;
     align-items: center;
-    
+    /* background-color: #7e819b; */
+     background:radial-gradient(circle at 100%, #93a0aa , #d2cecc 20%, #eee 50%, #93a0aa 90%);
+
 }

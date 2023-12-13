@@ -27,15 +27,19 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
 
 
-export default function HeaderNav({setUser,user,setResource}) {
+export default function HeaderNav({setUser,user,setResource,resource}) {
     //get Avatar initials
+    let theme
     let firstInit= user.firstName
     let lastInit=user.lastName
     firstInit = firstInit.slice(0, 1);
     lastInit=lastInit.slice(0, 1);
     let avatarInit=firstInit.concat(lastInit)
     //set theme from utils
-    let theme = utils.uiTheme();
+    if (resource ==='editUser'||resource ==='addUser'||resource ==='auditProj'){
+        theme = utils.adminTheme()
+    }else{
+    theme = utils.uiTheme();}
 
     //highlight and un highlight navbar buttons
     const [alignment, setAlignment] = useState('dashboard');
@@ -81,6 +85,21 @@ return(
                 <NavLogo style={{height:'5vh',width:'5vw'}}/>
                 </div>
 
+                {resource ==='editUser'||resource ==='addUser'||resource ==='auditProj'?
+                 <ToggleButtonGroup
+
+                value={alignment}
+                exclusive
+                onChange={handleAlignment}color='secondary'>
+               
+                <ToggleButton
+                value='dashboard'
+                onClick={handleNavigation}
+                style={{color:'black'}}>
+                Exit Admin Mode
+                </ToggleButton>
+                </ToggleButtonGroup>:
+
                 <ToggleButtonGroup
 
                 value={alignment}
@@ -105,7 +124,7 @@ return(
                 onClick={handleNavigation}>
                     <TrackChangesIcon style={{pointerEvents: 'none'}}/>&nbsp;My Projects
                 </ToggleButton>
-                </ToggleButtonGroup>
+                </ToggleButtonGroup>}
 
             <LogoutButton setUser={setUser}/>
             </Toolbar>
