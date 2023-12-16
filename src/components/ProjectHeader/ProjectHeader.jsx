@@ -16,7 +16,7 @@ export default function ProjectHeader({handleClickOpen,onClickSort,filter,setFil
 
   return (
     <div className='projectsdiv'>
-    <div className='projaddandtitle' ><div style={{display:'flex',flexDirection:'row',alignItems:'center'}}>PROJECTS<IconButton onClick={handleClickOpen} color= 'success'><AddCircleIcon /></IconButton></div> 
+    <div className='projaddandtitle' ><div style={{display:'flex',flexDirection:'row',alignItems:'center'}}>PROJECTS<IconButton onClick={handleClickOpen} color= 'error'><AddCircleIcon /></IconButton></div> 
 
     <div style={{display:'flex',alignItems:'center'}}>Project Filter:&nbsp;<FormControl sx={{paddingRight:'10px'}}>
         <InputLabel id="select filter"></InputLabel>

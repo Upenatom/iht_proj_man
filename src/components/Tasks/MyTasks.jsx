@@ -24,7 +24,6 @@ export default function MyTasks({user}) {
       throw new Error("Fetch failed - Bad Request");
     }
     let tasks = await fetchResponse.json();
-    // console.log (tasks)
     let removedInactive = tasks.filter((task)=>{
       return task.taskParentProject.projStatus ==="In Progress"
     })

@@ -16,10 +16,10 @@ import EditIcon from '@mui/icons-material/Edit';
 import Tooltip from '@mui/material/Tooltip';
 import EditProject from '../Modals/EditProject/EditProject'
 import LinearProgress from '@mui/material/LinearProgress';
+import Typography from '@mui/material/Typography';
 
 
-
-export default function ProjectItem({project,user,resource,setProjectAdded,projectAdded,projectProgress,setTaskUpdateWatch,taskUpdateWatch}) {
+export default function ProjectItem({project,user,resource,setProjectAdded,projectAdded,setTaskUpdateWatch,taskUpdateWatch}) {
 
   //editproject modal stuff
 
@@ -126,14 +126,43 @@ export default function ProjectItem({project,user,resource,setProjectAdded,proje
         <div style={{ backgroundColor: '#a2da9c',color:'#006400', borderRadius:'10px', paddingLeft:'10px',paddingRight:'10px'}}>Remaining:&nbsp;{utils.calcDaysRemain(project.projTargetEndDate)} days&emsp;</div>
         }
         {resource==='auditProj'?<div>&emsp;{project.projOwner.fullName}</div>:null}
-        {user.authLevel==="superadmin" || user.authLevel==="admin"|| user.projOwner===user.id?<Button onClick={()=>setOpen(true)}>Edit</Button> 
+        {user.authLevel==="superadmin" || user.authLevel==="admin"|| user.projOwner===user.id?
+        <Button
+        variant="contained"
+        sx={{height:'40%'}}
+        onClick={()=>setOpen(true)}
+        
+        >Edit</Button> 
         :null} 
 
 
 <div >
-  {/* {getProjectProgress()} */}
-  <LinearProgress sx={{width:'100px'}}variant='determinate' value={getProjectProgress()}  />
+  
+  
+    <div style={{display:'flex', alignItems:'center' }}>
+  <LinearProgress className="progress-bar"  sx={{width:'100px',height:'20px',backgroundColor:'inherit',
+  border:'2px solid #6a7d88',
+  borderRadius:'7px',
+  "& .MuiLinearProgress-bar":
+  {background: 'linear-gradient(#3ca636,#7fcc7b,#3ca636)',
+ borderRadius:'4px'}
+ 
+     }}variant='determinate' value={getProjectProgress()}  />
+  <Typography
+          style={{
+               
+            color: "black",
+            transform: "translateX(-66px)",
+          }}
+        >
+  {getProjectProgress()}%
+  </Typography>
   </div>
+  
+  
+  </div>
+
+  
 
 
 

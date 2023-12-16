@@ -46,14 +46,19 @@ export function uiTheme() {
         main: "#46505A",
       },
       success: {
-        light: "#ff7961",
-        main: "#f44336",
+        main: "#5BEC34",
         dark: "#ba000d",
         contrastText: "#000",
       },
       text: {
         primary: "#173A5E",
         secondary: "#46505A",
+      },
+      progress: {
+        light: "",
+        main: "#00f000",
+        dark: "#ba000d",
+        contrastText: "#000",
       },
     },
   });
@@ -95,7 +100,7 @@ export function adminTheme() {
         main: "#46505A",
       },
       success: {
-        light: "#ff7961",
+        light: "#f5f7f5",
         main: "#f44336",
         dark: "#ba000d",
         contrastText: "#000",

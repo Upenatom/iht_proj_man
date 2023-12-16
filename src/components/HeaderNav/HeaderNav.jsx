@@ -70,7 +70,7 @@ return(
         <ThemeProvider theme={theme}>
             <Box sx={{ flexGrow: 1 }}>
         <AppBar position="sticky">
-            <Toolbar sx={{ justifyContent: 'space-between' }}>
+            <Toolbar sx={{ justifyContent:'space-between'}}>
                 
                 <div style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
                 <Button><Avatar onClick={handleAvatarClick}>{avatarInit}</Avatar></Button>
@@ -91,7 +91,7 @@ return(
                 value={alignment}
                 exclusive
                 onChange={handleAlignment}color='secondary'>
-               
+                
                 <ToggleButton
                 value='dashboard'
                 onClick={handleNavigation}
