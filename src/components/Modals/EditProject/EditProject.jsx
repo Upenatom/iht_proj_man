@@ -29,18 +29,22 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import Box from '@mui/material/Box';
+import SearchUser from '../SearchUser/SearchUser'
 
 
 
 
 
-export default function CreateProject({open,projectAdded,setProjectAdded,setOpen,user,
+export default function EditProject({open,projectAdded,setProjectAdded,setOpen,user,
   project
 }) {
   const[projInfo,setprojInfo]=useState({})
     const [startDate, setStartDate] = useState(project.projStartDate)
     const [endDate,setEndDate] = useState(project.projTargetEndDate)
     const [reqArray,setReqArray]=useState(project.projRequirements)
+
+    const[projOwner,setProjOwner]=useState()
+    const[allUsers, setAllUsers]=useState([])
 
 //load project info on modal open
  useEffect (()=>{
@@ -71,7 +75,8 @@ export default function CreateProject({open,projectAdded,setProjectAdded,setOpen
     let body = { ...projInfo, 
       projStartDate:startDate,
       projTargetEndDate:endDate,
-      projRequirements:reqArray
+      projRequirements:reqArray,
+      projOwner:projOwner
      
 
       }
@@ -123,10 +128,20 @@ export default function CreateProject({open,projectAdded,setProjectAdded,setOpen
          <DialogTitle>Update Project</DialogTitle>
          <DialogContent>
           <DialogContentText>
-            Enter the details of your project
+            Project Owner:
           </DialogContentText>
           <Stack spacing={2}>
-          
+          {user.authLevel==='admin'||user.authLevel==='superadmin'?
+       <FormControl fullWidth >
+       
+     <SearchUser
+     
+     allUsers={allUsers}
+     setAllUsers={setAllUsers}
+     setUser={setProjOwner}
+     user={project.projOwner.fullName}
+     />
+     </FormControl>:null}
           <FormControl fullWidth>
             <InputLabel>Project Name</InputLabel>
             <OutlinedInput label="Project Name" name='projName' value={projInfo.projName} onChange={handleChange}/>

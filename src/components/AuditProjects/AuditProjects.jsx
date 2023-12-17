@@ -3,7 +3,10 @@ import AuditSearchHeader from './AuditSearchHeader'
 import AuditProjectList from'./AuditProjectList'
 import AuditProjectHeader from './AuditProjectHeader'
 import './AuditProjects.css'
+
+
 export default function AuditProjects({user,resource}) {
+
  const[allProjects,setAllProjects]=useState([])
   const[filter1,setFilter1]=useState(null)
   const[filter2,setFilter2]=useState(null)
@@ -54,7 +57,7 @@ export default function AuditProjects({user,resource}) {
 }
 
   const onClickSort=(e)=>{    setOrder(!order)
-    // console.log('name!')
+
     sortAsc(e.currentTarget.name)
   }
 
@@ -114,6 +117,7 @@ fetchAllProjects()
     resource={resource}
      user={user} 
      myProjects={allProjects}
+     setProjectAdded={getFilteredProjects}
     />
     </div>
   )

@@ -5,7 +5,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
 import * as fetches from '../../../resources/utils/fetches'
 //returns a user ID with the setUser function
-export default function SearchUser({allUsers,setAllUsers,setUser}) {
+export default function SearchUser({allUsers,setAllUsers,setUser, user}) {
     //save user to state
     const selectedUser=(value)=>{
     value?setUser(value._id):setUser([])}
@@ -65,6 +65,7 @@ const fetchAllUsers = async ()=>{
   return (
     <div>
          <Autocomplete 
+         
         id ='user search'
         sx={{ width: 300 }}
         open={open}
@@ -83,7 +84,7 @@ const fetchAllUsers = async ()=>{
         renderInput={(params) => (
              <TextField
               {...params}
-              label="Search By First Name"
+              label={user}
               InputProps={{
                 ...params.InputProps,
                 endAdornment: (

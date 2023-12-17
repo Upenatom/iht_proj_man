@@ -140,8 +140,10 @@ async function projectFilters(req, res) {
       })
       .populate(
         // "projOwner"
-        [({ path: "projOwner" }, { path: "projTasks", select: "taskStatus" })]
-      );
+        { path: "projTasks", select: "taskStatus" }
+      )
+
+      .populate({ path: "projOwner" });
 
     res.status(200).json(filteredProject);
   } catch (err) {

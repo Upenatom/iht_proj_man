@@ -36,7 +36,7 @@ const[allMyTasks,setAllMyTasks]=useState([])
     }
     let myprojects = await fetchResponse.json();
     
-    console.log(myprojects)  
+    
     setMyProjects(myprojects)
     
   } catch (err) {
@@ -63,7 +63,7 @@ const[allMyTasks,setAllMyTasks]=useState([])
     let tasks = await fetchResponse.json();
     
     setAllMyTasks(tasks)
-    console.log(tasks)
+    
 
     
   } catch (err) {

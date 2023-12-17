@@ -56,6 +56,7 @@ export default function ProjectItem({project,user,resource,setProjectAdded,proje
   };
   const handleStatusEditClose = () => {
     setAnchorEl(null);
+    console.log(project)
   };
   const handleStatusClick =async (e)=>{
     e.preventDefault();
@@ -125,7 +126,7 @@ export default function ProjectItem({project,user,resource,setProjectAdded,proje
         {utils.calcDaysRemain(project.projTargetEndDate)<0?<div style={{ backgroundColor: '#d28b89',color:'#921515', borderRadius:'10px', paddingLeft:'10px',paddingRight:'10px'}}>Overdue:&nbsp;{utils.calcDaysRemain(project.projTargetEndDate)*-1} days&emsp;</div>:
         <div style={{ backgroundColor: '#a2da9c',color:'#006400', borderRadius:'10px', paddingLeft:'10px',paddingRight:'10px'}}>Remaining:&nbsp;{utils.calcDaysRemain(project.projTargetEndDate)} days&emsp;</div>
         }
-        {resource==='auditProj'?<div>&emsp;{project.projOwner.fullName}</div>:null}
+        {resource==='auditProj'?<div className='projOwner' >&emsp;{project.projOwner.fullName}</div>:null}
         {user.authLevel==="superadmin" || user.authLevel==="admin"|| user.projOwner===user.id?
         <Button
         variant="contained"

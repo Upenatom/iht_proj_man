@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import AuthPage from "../AuthPage/AuthPage";
-import UserAdminPage from "../UserAdminPage/UserAdminPage";
+import Projects from "../../components/AuditProjects/AuditProjects";
 import UserDashboardPage from "../UserDashboardPage/UserDashboardPage";
 import * as utils from "../../resources/utils/utils";
 import "./App.css";
@@ -18,13 +18,13 @@ function App() {
     let token = localStorage.getItem("token");
     if (token) {
       const payload = JSON.parse(atob(token.split(".")[1]));
-      if (payload.exp < Date.now() / 1000) {
-        localStorage.removeItem("token");
-        token = null;
-      } else {
-        const user = payload.user;
-        setUser(user);
-      }
+      // if (payload.exp < Date.now() / 1000) {
+      //   localStorage.removeItem("token");
+      //   token = null;
+      // } else {
+      const user = payload.user;
+      setUser(user);
+      // }
     }
   }, []);
 
@@ -45,10 +45,10 @@ function App() {
             }
           />
           <Route
-            path="/admin/createUser"
+            path="/display"
             element={
               <ThemeProvider theme={theme}>
-                <UserAdminPage user={user} />
+                <Projects user={user} />
               </ThemeProvider>
             }
           />
