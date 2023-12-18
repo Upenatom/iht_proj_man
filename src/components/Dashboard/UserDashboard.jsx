@@ -393,8 +393,8 @@ function PieCenterLabel({ children }) {
       </div>
 
 
-<div style={{display:'flex', flexDirection:'column',height:'100vh',width:'30%'}}>
-     <div className='sectionvert' style={{display:'flex', alignItems:'center',justifyContent:'center'}}>
+<div style={{display:'flex', flexDirection:'column',height:'80vh',width:'30%',marginTop:'10vh'}}>
+     <div className='sectionvert' style={{display:'flex', alignItems:'center',justifyContent:'center',border:'3px solid #647887',borderRadius:'15px',marginBottom:'30px'}}>
                 
                <PieChart series={[
           {
@@ -404,7 +404,7 @@ function PieCenterLabel({ children }) {
 
         ]}
         width={500}
-        height={300}
+        height={250}
         slotProps={{
         // legend: { hidden: true },
       }}
@@ -414,7 +414,7 @@ function PieCenterLabel({ children }) {
               
       </div>
 
-      <div className='sectionvert' style={{display:'flex', alignItems:'center',justifyContent:'center'}}>
+      <div className='sectionvert' style={{display:'flex', alignItems:'center',justifyContent:'center',border:'3px solid #647887',borderRadius:'15px',marginTop:'30px'}}>
         <PieChart series={[
           {
             data:getProjectSummaryData(),
@@ -424,9 +424,9 @@ function PieCenterLabel({ children }) {
 
         ]}
         width={500}
-        height={300}
+        height={250}
         slotProps={{
-        // legend: { hidden: true },
+    
       }}
   
      

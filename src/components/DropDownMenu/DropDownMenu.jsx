@@ -121,9 +121,7 @@ export default function DropDownMenu({open,setAnchorEl,anchorEl,setUser,user,set
                     </ListItemButton>
                 </List>
             </Collapse>
-            <MenuItem name='logout' onClick={handleMenuItemClick}>
-                <LogoutButton setUser={setUser}/>Logout
-            </MenuItem>
+      
         </Menu>
     </div>
   )

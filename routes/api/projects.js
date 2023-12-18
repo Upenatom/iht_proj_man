@@ -13,4 +13,5 @@ router.get(
   projectCtrl.projectFilters
 );
 router.put("/update/:projectid", projectCtrl.update);
+router.delete("/delete/:projectid", projectCtrl.delete);
 module.exports = router;

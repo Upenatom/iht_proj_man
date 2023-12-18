@@ -1,4 +1,5 @@
 const Project = require("../../models/Project");
+const Task = require("../../models/Task");
 
 module.exports = {
   create,
@@ -6,6 +7,7 @@ module.exports = {
   update,
   allProjects,
   projectFilters,
+  delete: deleteProject,
 };
 
 async function create(req, res) {
@@ -23,15 +25,6 @@ async function create(req, res) {
   }
 }
 async function myProjectsIndex(req, res) {
-  // try {
-  //   let myProjects = await Project.find({ projOwner: req.user._id }).sort({
-  //     projTargetEndDate: "desc",
-  //   });
-  //   res.status(200).json(myProjects);
-  // } catch (err) {
-  //   res.status(400).json(err);
-  //   console.log(err);
-  // }
   let filter;
   if (req.params.display === "Active") {
     filter = {
@@ -150,6 +143,23 @@ async function projectFilters(req, res) {
       .populate({ path: "projOwner" });
 
     res.status(200).json(filteredProject);
+  } catch (err) {
+    res.status(400).json(err);
+    console.log(err);
+  }
+}
+
+async function deleteProject(req, res) {
+  try {
+    //find project first
+    let project = await Project.findById(req.params._id);
+
+    //delete all tasks first
+    for await (const taskid of project.projTasks) {
+      let deleteTask = await Task.findByIdAndDelete(taskid);
+    }
+    let deletedProject = await findByIdAndDelete(req.params._id);
+    res.status(200).json(`Project and related Tasks and comments deleted`);
   } catch (err) {
     res.status(400).json(err);
     console.log(err);
