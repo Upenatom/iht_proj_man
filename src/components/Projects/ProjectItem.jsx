@@ -62,6 +62,7 @@ export default function ProjectItem({project,user,resource,setProjectAdded,proje
     e.preventDefault();
         let body = {
         projStatus:e.currentTarget.value,
+        projOwner:user._id
         }
        let options=utils.putBuilder(body)
        try{
@@ -127,7 +128,7 @@ export default function ProjectItem({project,user,resource,setProjectAdded,proje
         <div style={{ backgroundColor: '#a2da9c',color:'#006400', borderRadius:'10px', paddingLeft:'10px',paddingRight:'10px'}}>Remaining:&nbsp;{utils.calcDaysRemain(project.projTargetEndDate)} days&emsp;</div>
         }
         {resource==='auditProj'?<div className='projOwner' >&emsp;{project.projOwner.fullName}</div>:null}
-        {user.authLevel==="superadmin" || user.authLevel==="admin"|| user.projOwner===user.id?
+        {user.authLevel==="superadmin" || user.authLevel==="admin"|| project.projOwner===user.id?
         <Button
         variant="contained"
         sx={{height:'40%'}}

@@ -76,7 +76,7 @@ export default function EditProject({open,projectAdded,setProjectAdded,setOpen,u
       projStartDate:startDate,
       projTargetEndDate:endDate,
       projRequirements:reqArray,
-      projOwner:projOwner
+      
      
 
       }

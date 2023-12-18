@@ -62,8 +62,28 @@ async function projectTasksIndex(req, res) {
 }
 
 async function myTasksIndex(req, res) {
+  let filter;
+  if (req.params.display === "Active") {
+    filter = {
+      taskStatus: { $in: ["Not Started", "In Progress"] },
+      taskOwner: req.user._id,
+    };
+  }
+  if (req.params.display === "Inactive") {
+    filter = {
+      taskStatus: { $in: ["Cancelled", "Completed", "Paused"] },
+      taskOwner: req.user._id,
+    };
+  }
+  if (req.params.display === "All" || req.params.display === "All") {
+    filter = { taskOwner: req.user._id };
+  }
+
   try {
-    let myTasks = await Task.find({ taskOwner: req.user._id })
+    let myTasks = await Task.find(
+      // { taskOwner: req.user._id, }
+      filter
+    )
       .populate("taskParentProject")
       .sort({ taskTargetEndDate: "asc" });
 

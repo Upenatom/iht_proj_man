@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import AuthPage from "../AuthPage/AuthPage";
-import Projects from "../../components/AuditProjects/AuditProjects";
+import DisplayProjects from "../../components/Display/DisplayProjects";
 import UserDashboardPage from "../UserDashboardPage/UserDashboardPage";
 import * as utils from "../../resources/utils/utils";
 import "./App.css";
@@ -48,7 +48,7 @@ function App() {
             path="/display"
             element={
               <ThemeProvider theme={theme}>
-                <Projects user={user} />
+                <DisplayProjects user={user} />
               </ThemeProvider>
             }
           />

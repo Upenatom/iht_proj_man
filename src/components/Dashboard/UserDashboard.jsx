@@ -56,7 +56,7 @@ const[allMyTasks,setAllMyTasks]=useState([])
       },
      
     };
-    const fetchResponse = await fetch(`/api/tasks/myTasks`, options);
+    const fetchResponse = await fetch(`/api/tasks/myTasks/All`, options);
     if (!fetchResponse.ok) {
       throw new Error("Fetch failed - Bad Request");
     }

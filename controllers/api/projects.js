@@ -71,27 +71,31 @@ async function myProjectsIndex(req, res) {
 }
 
 async function update(req, res) {
+  console.log("contoller hit!!!");
   const filter = { _id: req.params.projectid };
   const update = {
-    projStatus: req.body.projStatus,
-    projName: req.body.projName,
-    projStatus: req.body.projStatus,
-    projDivision: req.body.projDivision,
-    projStartDate: req.body.projStartDate,
-    projTargetEndDate: req.body.projTargetEndDate,
-    projDescription: req.body.projDescription,
-    projDepartment: req.body.projDepartment,
-    projMembers: req.body.projMembers,
-    projOwner: req.body.projOwner,
-    projTasks: req.body.projTasks,
-    projRequirements: req.body.projRequirements,
+    ...req.body,
+    // projStatus: req.body.projStatus,
+    // projName: req.body.projName,
+    // projStatus: req.body.projStatus,
+    // projDivision: req.body.projDivision,
+    // projStartDate: req.body.projStartDate,
+    // projTargetEndDate: req.body.projTargetEndDate,
+    // projDescription: req.body.projDescription,
+    // projDepartment: req.body.projDepartment,
+    // projMembers: req.body.projMembers,
+    // projOwner: req.body.projOwner,
+    // projTasks: req.body.projTasks,
+    // projRequirements: req.body.projRequirements,
   };
+  console.log("update==>", update);
   try {
     if (
       req.user._id === update.projOwner ||
       req.user.authLevel === "admin" ||
       req.user.authLevel === "superadmin"
     ) {
+      console.log("finding");
       let project = await Project.findOneAndUpdate(filter, update, {
         new: true,
       });
