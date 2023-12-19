@@ -11,6 +11,7 @@ import Divider from '@mui/material/Divider';
 import AssignTask from '../Modals/AssignTask/AssignTask'
 import DeleteTask from '../Modals/DeleteTask/DeleteTask'
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
+import EditTask from '../Modals/EditTask/EditTask'
 import PlaylistRemoveIcon from '@mui/icons-material/PlaylistRemove';
 import Tooltip from '@mui/material/Tooltip';
 import Badge from '@mui/material/Badge';
@@ -210,6 +211,12 @@ function PieCenterLabel({ children }) {
     </StyledText>
   );
 }
+// edit task description and dates
+const [editTaskModal,setEditTaskModal]=useState(false)
+
+const handleOpenEditTaskModal=()=>{
+  setEditTaskModal(true)
+}
 
   return (
     <div className='taskitem' >
@@ -268,6 +275,12 @@ function PieCenterLabel({ children }) {
             <Tooltip title="No Todos Added, Click to Add"><PlaylistRemoveIcon color={'info'}/></Tooltip>}
             </Badge>
             </IconButton>{task.taskDescription}
+            <IconButton
+        id="status-button"
+        onClick={handleOpenEditTaskModal}
+        ><EditIcon sx={{
+          fontSize:'15px'
+        }}/></IconButton>
         </div>
         <Divider/>
       {recentComment?<Comments
@@ -352,6 +365,13 @@ function PieCenterLabel({ children }) {
       todoOpen={todoOpen} 
       handleCloseModal={handleCloseModal}
       task={task}
+      />
+      <EditTask
+      editTaskModal={editTaskModal}
+      task={task}
+      setEditTaskModal={setEditTaskModal}
+      setTaskUpdateWatch={setTaskUpdateWatch}
+      taskUpdateWatch={taskUpdateWatch}
       />
       
       </div>
