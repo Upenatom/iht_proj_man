@@ -11,7 +11,10 @@ async function update(req, res) {
   let updateData = req.body;
   const options = { new: true };
   try {
-    if (req.user.authLevel === "admin" || req.user.authLevel === "superadmin") {
+    if (
+      (req.user.authLevel === "admin" && req.body.authLevel !== "superadmin") ||
+      req.user.authLevel === "superadmin"
+    ) {
       const hashedPassword = await bcrypt.hash(
         req.body.userPass,
         parseInt(process.env.SALT_ROUNDS)
@@ -21,9 +24,10 @@ async function update(req, res) {
       res
         .status(200)
         .json(`User ${user.firstName} ${user.lastName} has been updated`);
-    }
+    } else throw new Error("admin<superadmin");
   } catch (err) {
     console.log(err);
+    res.status(400).json(`you do not have the priviliges to change this user`);
   }
 }
 

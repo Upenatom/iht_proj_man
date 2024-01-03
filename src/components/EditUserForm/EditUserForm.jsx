@@ -9,6 +9,7 @@ import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
+import Alert from '@mui/material/Alert';
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { Box } from '@mui/system';
@@ -20,8 +21,7 @@ import './EditUserForm.css'
 export default function EditUserForm({user}) 
 {
     const [passReset, setPassReset]=useState(false)
-
-
+    const [serverResp, setserverResp]=useState('')
     const[allUsers, setAllUsers]=useState([])
     const [open, setOpen] = useState(false);
     const loading = open && allUsers.length === 0;
@@ -128,10 +128,14 @@ const handleSubmit = async (e) =>{
     }
 
     }
-    console.log(options)
-    const fetchResponse = await fetch (`/api/user/update/${editUser._id}`,options)
+     const fetchResponse = await fetch (`/api/user/update/${editUser._id}`,options)
     if(!fetchResponse.ok)
-    { throw new Error('Fetch failed - Bad Request')}
+    { throw new Error('Fetch failed - Bad Request')
+    
+  }
+    else{
+      let notification = await fetchResponse.status() 
+      console.log('notification===>', notification)}
     
         
     setEditUser({firstName:"",lastName:"",userName:"",userPass:"",department:"",authLevel:"",statusLevel:'active'})
@@ -143,6 +147,11 @@ const handleSubmit = async (e) =>{
     setEditUser({firstName:"",lastName:"",userName:"",userPass:"",department:"",authLevel:"",statusLevel:'active'})
   }
   }
+
+  const errorDisplay = ()=>{
+    if(serverResp==='Bad Password'||serverResp==="Cannot read properties of null (reading 'userPass')")return(<Alert variant='filled' severity="error" sx={{ width: '100%' }}>Bad Username or Password</Alert>)
+    else if(serverResp==='ok')return(<Alert  variant='filled' severity="success" sx={{bgcolor:'green',width: '100%'}}>Password change success
+        </Alert>)}
 
   
   return (

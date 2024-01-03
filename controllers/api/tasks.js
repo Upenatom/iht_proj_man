@@ -80,6 +80,8 @@ async function myTasksIndex(req, res) {
   }
 
   try {
+    console.log(req.params.display);
+
     let myTasks = await Task.find(
       // { taskOwner: req.user._id, }
       filter
