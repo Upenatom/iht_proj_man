@@ -11,7 +11,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 export default function AddComment({commentModal,task,setCommentAdded,commentAdded,handleClose}) {
 const [commentInfo, setCommentInfo]=useState("")
-// const[commentAdded,setCommentAdded]=useState(false)
 const handleChange= (e)=>{
     setCommentInfo(e.target.value)
   }
@@ -46,7 +45,9 @@ const handleChange= (e)=>{
   return (
     <div>
          <Dialog open={commentModal} 
-          onClose={handleClose}>
+          onClose={handleClose}
+          maxWidth='md'
+          fullWidth>
             <DialogTitle>Create Comment</DialogTitle>
             <DialogContent>
               <Stack spacing={2}>
