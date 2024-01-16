@@ -1,9 +1,9 @@
-import { useState, useEffect} from "react";
+import { useState} from "react";
 import CommentItem from '../Comments/CommentItem'
 import { Box} from '@mui/system'
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
+import HistoryEduTwoToneIcon from '@mui/icons-material/HistoryEduTwoTone';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -14,6 +14,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle'
 import AddComment from '../Modals/AddComment/AddComment'
 import './Comments.css'
 import Divider from '@mui/material/Divider';
+import Tooltip from '@mui/material/Tooltip';
 
 export default function Comment({task,recentComment,commentAdded,setCommentAdded}) {
 
@@ -78,13 +79,13 @@ export default function Comment({task,recentComment,commentAdded,setCommentAdded
         }}>
           <Divider/>
           
-        <IconButton onClick={handleOpenCreateCommentModal} color= 'info'><AddCircleIcon sx={{
+        <IconButton onClick={handleOpenCreateCommentModal} color= 'info'><Tooltip title="Add A Comment"><AddCircleIcon sx={{
           fontSize:'20px'
-        }}/></IconButton><IconButton onClick={historyOpen}><HistoryEduIcon sx={{
-          fontSize:'20px'
-        }}/></IconButton>
+        }}/></Tooltip></IconButton><IconButton onClick={historyOpen} color= 'info'><Tooltip title="View Comment History"><HistoryEduTwoToneIcon sx={{
+          fontSize:'25px'
+        }}/></Tooltip></IconButton>
         
-        Added by:&nbsp; {recentComment.author}  &emsp;                    
+        &nbsp;Added by:&nbsp; {recentComment.author}  &emsp;                    
         Created:&nbsp;{utils.shortDate(recentComment.createdAt)}&emsp;
         Edited:&nbsp;{utils.shortDate(recentComment.updatedAt)}
         </Box>
