@@ -147,30 +147,30 @@ fetchProjectTasks()
       <Paper square={false} elevation={20} sx={{margin:'10px',bgcolor:'#d2cecc',borderRadius: 5,paddingBottom:'5px'}}>
       <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between', height:'50px',margin:'0px 100px 10px 40px',paddingTop:'10px'}}>
         
-        <div style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'space-between',width:'300px'}}>
+        <div style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'space-between',width:'30%'}}>
           
           <Tooltip title="Add a Task">
-          <Button sx={{ boxShadow: 3,borderRadius:'25%' }} onClick={handleOpenTaskCreateModal} color= 'primary'><AssignmentRoundedIcon sx={{fontSize:'40px',color:'#6b65ac'}}/><AddCircleTwoToneIcon 
+          <Button sx={{ border:'1px solid #6b65ac',boxShadow: 4,borderRadius:'10px' }} onClick={handleOpenTaskCreateModal} color= 'primary'><AssignmentRoundedIcon sx={{fontSize:'40px',color:'#6b65ac'}}/><AddCircleTwoToneIcon 
           sx={{fontSize:'20px',color:'#6b65ac',transform:'translate(-5px,-10px)'}}
         /></Button></Tooltip> 
         &nbsp;
 
           <Tooltip title="Meeting Notes (Coming Soon)">
-            <Button sx={{ boxShadow: 3,borderRadius:'25%' }} >
+            <Button sx={{ border:'1px solid #6b65ac',boxShadow: 4,borderRadius:'10px' }} >
             <GroupsIcon sx={{paddingLeft:'15px',fontSize:'40px',transform:'translate(0,5px)',color:'#6b65ac'}}/><EditNoteIcon sx={{transform:'translate(-15px,-8px)',fontSize:'20px',color:'#6b65ac'}}/>
          
             </Button>
           </Tooltip>
           &nbsp;
           <Tooltip title="Project Expenses(Coming Soon)">
-            <Button sx={{ boxShadow: 3,borderRadius:'25%' }} color='secondary'>
+            <Button sx={{ border:'1px solid #6b65ac' ,boxShadow: 4,borderRadius:'10px' }} color='secondary'>
               <FunctionsIcon sx={{paddingLeft:'15px',fontSize:'40px',color:'#6b65ac'}}/>
               <AttachMoneyIcon  sx={{transform:'translate(-19px,0)',fontSize:'25px',color:'#6b65ac'}}/>
             </Button>
           </Tooltip>
           &nbsp;
           <Tooltip title="Project Hours (Coming Soon)">
-          <Button sx={{ boxShadow: 3,borderRadius:'25%' }} color='secondary'><FunctionsIcon sx={{paddingLeft:'15px',fontSize:'40px',color:'#6b65ac'}}/><HourglassBottomSharpIcon  sx={{transform:'translate(-19px,0)',fontSize:'20px',color:'#6b65ac'}}
+          <Button sx={{ border:'1px solid #6b65ac',boxShadow: 4,borderRadius:'10px' }} color='secondary'><FunctionsIcon sx={{paddingLeft:'15px',fontSize:'40px',color:'#6b65ac'}}/><HourglassBottomSharpIcon  sx={{transform:'translate(-19px,0)',fontSize:'20px',color:'#6b65ac'}}
           /></Button></Tooltip>
 
            </div> 

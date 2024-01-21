@@ -229,7 +229,7 @@ const handleOpenEditTaskModal=()=>{
         
         
         <div>          
-          <IconButton onClick={openReassign} ><ChangeCircleIcon color={'info'} sx={{
+          <IconButton sx={{margin:'5px',padding:'5px', boxShadow: 4}}onClick={openReassign} ><ChangeCircleIcon color={'info'} sx={{
           fontSize:'15px',
         }}/></IconButton>
         {fullName}      
@@ -237,7 +237,7 @@ const handleOpenEditTaskModal=()=>{
         
         
           <div>
-            <IconButton
+            <IconButton sx={{margin:'5px',padding:'5px',boxShadow: 4}}
         id="status-button"
         onClick={handleStatusMenuClick}
           ><EditIcon 
@@ -251,7 +251,7 @@ const handleOpenEditTaskModal=()=>{
           </div>
       
         <div>
-          <IconButton
+          <IconButton sx={{margin:'5px',padding:'5px',boxShadow: 4}}
         id="priority-button"
         onClick={handlePriorityMenuClick}>
           <EditIcon color={'info'} sx={{
@@ -260,7 +260,8 @@ const handleOpenEditTaskModal=()=>{
           {task.taskPriority}  
         </div>
         
-        <div><IconButton onClick={()=>{setDeleteConfirmation(true)}}><DeleteForeverIcon color={'info'} sx={{
+        <div><IconButton sx={{margin:'5px',padding:'5px',boxShadow: 4}}
+        onClick={()=>{setDeleteConfirmation(true)}}><DeleteForeverIcon color={'info'} sx={{
           fontSize:'20px'
         }}/></IconButton></div>
          
@@ -268,8 +269,8 @@ const handleOpenEditTaskModal=()=>{
       <Divider orientation="vertical" flexItem/>
      
       <div className='taskDesc'>
-        <div style={{fontWeight:'bold',display:'flex',alignItems:'center'}}>
-        <IconButton onClick={handleOpenModal}>
+        <div style={{fontWeight:'bold',display:'flex',alignItems:'center',paddingBottom:'5px'}}>
+        <IconButton sx={{margin:'5px',padding:'1px',boxShadow: 4}} onClick={handleOpenModal}>
           <Badge badgeContent={todoNum} color="info" 
           >
             {taskTodos.length>0?
@@ -277,7 +278,7 @@ const handleOpenEditTaskModal=()=>{
             <Tooltip title="No Todos Added, Click to Add"><PlaylistRemoveIcon color={'info'}/></Tooltip>}
             </Badge>
             </IconButton>{task.taskDescription}
-            <IconButton
+            <IconButton color='info' sx={{margin:'5px',padding:'5px',boxShadow: 4}}
         id="status-button"
         onClick={handleOpenEditTaskModal}
         ><EditIcon sx={{

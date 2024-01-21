@@ -116,12 +116,12 @@ export default function ProjectItem({project,user,resource,setProjectAdded,proje
       <div className='projectItem' onClick ={handleClick}>
         <div style={{width:'300px',display:'flex',flexDirection:'row',alignItems:'center'}}>
         {utils.logoSelect(project.projDivision)}&nbsp;
-        <Tooltip title="Project information"><IconButton size='small' onClick={showDescription}><InfoIcon color='secondary'/></IconButton></Tooltip>&nbsp;
+        <Tooltip title="Project information"><IconButton sx={{margin:'5px',padding:'5px',boxShadow: 4}} size='small' onClick={showDescription}><InfoIcon color='secondary'/></IconButton></Tooltip>&nbsp;
         {project.projName}
         </div>
     
          <div style={{width:'150px',display:'flex', alignItems:'center'}}>
-          {project.projStatus} <IconButton  onClick={handleStatusMenuClick}><EditIcon sx={{fontSize:'20px'}}/></IconButton>
+          {project.projStatus} <IconButton sx={{margin:'5px',padding:'5px',boxShadow: 4}}  onClick={handleStatusMenuClick}><EditIcon sx={{fontSize:'20px'}}/></IconButton>
           </div>&emsp;
         {utils.shortDate(project.projTargetEndDate)}&emsp;
         {utils.calcDaysRemain(project.projTargetEndDate)<0?<div style={{ backgroundColor: '#d28b89',color:'#921515', borderRadius:'10px', paddingLeft:'10px',paddingRight:'10px'}}>Overdue:&nbsp;{utils.calcDaysRemain(project.projTargetEndDate)*-1} days&emsp;</div>:
@@ -129,7 +129,7 @@ export default function ProjectItem({project,user,resource,setProjectAdded,proje
         }
         {resource==='auditProj'?<div className='projOwner' >&emsp;{project.projOwner.fullName}</div>:null}
         {user.authLevel==="superadmin" || user.authLevel==="admin"|| project.projOwner===user.id?
-        <Button
+        <Button 
         variant="contained"
         sx={{height:'40%'}}
         onClick={()=>setOpen(true)}

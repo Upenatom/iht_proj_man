@@ -80,10 +80,11 @@ export default function Comment({task,recentComment,commentAdded,setCommentAdded
         }}>
           <Divider/>
           
-        <IconButton onClick={handleOpenCreateCommentModal} color= 'info'><Tooltip title="Add A Comment"><AddCircleIcon sx={{
+        <IconButton sx={{margin:'5px',padding:'5px',boxShadow: 4}} onClick={handleOpenCreateCommentModal} color= 'info'><Tooltip title="Add A Comment"><AddCircleIcon sx={{
           fontSize:'20px'
-        }}/></Tooltip></IconButton><IconButton onClick={historyOpen} color= 'info'><Tooltip title="View Comment History"><HistoryEduTwoToneIcon sx={{
-          fontSize:'25px'
+        }}/></Tooltip></IconButton>
+        <IconButton sx={{margin:'5px',padding:'5px',boxShadow: 4}}onClick={historyOpen} color= 'info'><Tooltip title="View Comment History"><HistoryEduTwoToneIcon sx={{
+          fontSize:'20px'
         }}/></Tooltip></IconButton>
         
         &nbsp;Added by:&nbsp; {recentComment.author}  &emsp;                    
