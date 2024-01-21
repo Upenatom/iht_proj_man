@@ -1,16 +1,23 @@
 import { useState, useEffect} from "react";
 import TaskList from './TaskList'
 import IconButton from '@mui/material/IconButton';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
+import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
+import EditNoteIcon from '@mui/icons-material/EditNote';
+import GroupsIcon from '@mui/icons-material/Groups';
+import Tooltip from '@mui/material/Tooltip';
+import Divider from '@mui/material/Divider';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import FunctionsIcon from '@mui/icons-material/Functions';
+import HourglassBottomSharpIcon from '@mui/icons-material/HourglassBottomSharp';
+import AssignmentRoundedIcon from '@mui/icons-material/AssignmentRounded';
 import dayjs from 'dayjs';
-import EditIcon from '@mui/icons-material/Edit';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
-import OutlinedInput from '@mui/material/OutlinedInput';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -21,10 +28,6 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch';
-import * as utils from '../../resources/utils/utils'
-import Menu from '@mui/material/Menu';
 import './Tasks.css'
 import Paper from '@mui/material/Paper';
 
@@ -34,6 +37,15 @@ export default function Tasks({project,taskUpdateWatch,setTaskUpdateWatch}) {
   const[projectTasks,setProjectTasks]=useState([])
   const[taskAdded,setTaskAdded]=useState(false)
   const[filter,setFilter]=useState('Active')
+
+  //meeting notes icon
+  const meetingNotes= ()=>{
+    return(
+    <>
+    <GroupsIcon sx={{fontSize:'40px',transform:'translate(0,5px)'}}/><EditNoteIcon sx={{transform:'translate(-15px,-8px)',fontSize:'20px',}}/>
+    </>)
+  }
+
   //fetch tasks on mount
   useEffect(()=>{
     const fetchProjectTasks = async () =>{
@@ -69,10 +81,6 @@ fetchProjectTasks()
   const [startDate, setStartDate] = useState(null)
   const [endDate,setEndDate] = useState(null)
   
-
- 
-  
-
   const[taskInfo,setTaskInfo]=useState({
     taskStartDate:startDate,
     taskTargetEndDate:endDate,
@@ -92,10 +100,7 @@ fetchProjectTasks()
 
     setTaskInfo({...taskInfo,
         taskStatus:"Not Started",
-        taskDescription:"",
-        
-        
-        
+        taskDescription:"",                     
         })
       setOpen(false);
   };
@@ -140,11 +145,35 @@ fetchProjectTasks()
     return (
     <div className='taskpage'>
       <Paper square={false} elevation={20} sx={{margin:'10px',bgcolor:'#d2cecc',borderRadius: 5,paddingBottom:'5px'}}>
-      <div style={{display:'flex',flexDirection:'row',justifyContent:'center'}}>
-        <div style={{display:'flex',flexDirection:'row',alignItems:'center'}}><IconButton onClick={handleOpenTaskCreateModal} color= 'secondary'><AddCircleIcon sx={{
-          fontSize:'20px'
-        }}/></IconButton>
-      Add a Task</div> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between', height:'50px',margin:'0px 100px 10px 40px',paddingTop:'10px'}}>
+        
+        <div style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'space-between',width:'300px'}}>
+          
+          <Tooltip title="Add a Task">
+          <Button sx={{ boxShadow: 3,borderRadius:'25%' }} onClick={handleOpenTaskCreateModal} color= 'primary'><AssignmentRoundedIcon sx={{fontSize:'40px',color:'#6b65ac'}}/><AddCircleTwoToneIcon 
+          sx={{fontSize:'20px',color:'#6b65ac',transform:'translate(-5px,-10px)'}}
+        /></Button></Tooltip> 
+        &nbsp;
+
+          <Tooltip title="Meeting Notes (Coming Soon)">
+            <Button sx={{ boxShadow: 3,borderRadius:'25%' }} >
+            <GroupsIcon sx={{paddingLeft:'15px',fontSize:'40px',transform:'translate(0,5px)',color:'#6b65ac'}}/><EditNoteIcon sx={{transform:'translate(-15px,-8px)',fontSize:'20px',color:'#6b65ac'}}/>
+         
+            </Button>
+          </Tooltip>
+          &nbsp;
+          <Tooltip title="Project Expenses(Coming Soon)">
+            <Button sx={{ boxShadow: 3,borderRadius:'25%' }} color='secondary'>
+              <FunctionsIcon sx={{paddingLeft:'15px',fontSize:'40px',color:'#6b65ac'}}/>
+              <AttachMoneyIcon  sx={{transform:'translate(-19px,0)',fontSize:'25px',color:'#6b65ac'}}/>
+            </Button>
+          </Tooltip>
+          &nbsp;
+          <Tooltip title="Project Hours (Coming Soon)">
+          <Button sx={{ boxShadow: 3,borderRadius:'25%' }} color='secondary'><FunctionsIcon sx={{paddingLeft:'15px',fontSize:'40px',color:'#6b65ac'}}/><HourglassBottomSharpIcon  sx={{transform:'translate(-19px,0)',fontSize:'20px',color:'#6b65ac'}}
+          /></Button></Tooltip>
+
+           </div> 
 
       <div style={{display:'flex',alignItems:'center'}}>Task Filter:&nbsp;<FormControl sx={{paddingRight:'10px'}}>
         <InputLabel id="select filter"></InputLabel>
@@ -164,6 +193,8 @@ fetchProjectTasks()
       </FormControl></div>
       
       </div>
+      <Divider />
+      <br/>
       <TaskList 
       projectTasks={projectTasks} 
       taskUpdateWatch={taskUpdateWatch}
@@ -190,13 +221,8 @@ fetchProjectTasks()
              rows={4}/>
           </FormControl>
         
-          <FormControl fullWidth>
-             
-  
-  
-</FormControl>
 
-          
+         
 
           <FormControl fullWidth>
            <LocalizationProvider dateAdapter={AdapterDayjs}>

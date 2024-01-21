@@ -68,8 +68,9 @@ export default function Comment({task,recentComment,commentAdded,setCommentAdded
     <div >  
       {recentComment.comment? 
       <div style ={{display:'flex', flexDirection:'column'}}>
-        <div className='commentitem' 
-      >{recentComment.comment}</div>
+        <div className='commentitem' dangerouslySetInnerHTML={{__html: recentComment.comment}}/>
+        {/* <div className='commentitem' 
+      >{recentComment.comment}</div> */}
       
       <Divider/>
         

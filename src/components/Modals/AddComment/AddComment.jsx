@@ -1,19 +1,30 @@
-import { useState, useEffect} from "react";
-import FormControl from '@mui/material/FormControl';
+import { useState} from "react";
+import { Editor } from 'react-draft-wysiwyg';
+import { EditorState,RichUtils } from 'draft-js';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import '../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
+import { convertToHTML } from 'draft-convert';
+import './AddComment.css'
 
 
 export default function AddComment({commentModal,task,setCommentAdded,commentAdded,handleClose}) {
-const [commentInfo, setCommentInfo]=useState("")
-const handleChange= (e)=>{
-    setCommentInfo(e.target.value)
-  }
+const [commentInfo, setCommentInfo]=useState()
+const [editorState, setEditorState] = useState(
+    () => EditorState.createEmpty(),
+  );
+
+const handleChange= ()=>{
+  //convert comment to html
+  
+  let html = convertToHTML(editorState.getCurrentContent())
+  setCommentInfo(html)
+
+}
  
         const handleSubmit = async(e) => {
     e.preventDefault();
@@ -32,6 +43,7 @@ const handleChange= (e)=>{
     if(!fetchResponse.ok)
     { throw new Error('Fetch failed - Bad Request')}
         setCommentInfo("")
+        setEditorState(() => EditorState.createEmpty())
         handleClose()
         setCommentAdded(!commentAdded)
       }
@@ -51,7 +63,7 @@ const handleChange= (e)=>{
             <DialogTitle>Create Comment</DialogTitle>
             <DialogContent>
               <Stack spacing={2}>
-                <FormControl>
+                {/* <FormControl>
                   <TextField
                   id="Task comment"
                   label="Task comment"
@@ -59,7 +71,16 @@ const handleChange= (e)=>{
                   value = {commentInfo}
                   multiline
                   rows={4}/>
-                </FormControl>
+                </FormControl> */}
+                <Editor
+        editorState={editorState}
+        onEditorStateChange={setEditorState}
+        wrapperClassName="wrapper-class"
+        editorClassName="editor-class"
+        toolbarClassName="toolbar-class"
+        onChange={handleChange}
+      />
+
               </Stack>
             </DialogContent>
              <DialogActions>

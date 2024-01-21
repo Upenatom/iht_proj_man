@@ -229,8 +229,8 @@ const handleOpenEditTaskModal=()=>{
         
         
         <div>          
-          <IconButton onClick={openReassign} ><ChangeCircleIcon sx={{
-          fontSize:'15px' 
+          <IconButton onClick={openReassign} ><ChangeCircleIcon color={'info'} sx={{
+          fontSize:'15px',
         }}/></IconButton>
         {fullName}      
         </div>
@@ -240,7 +240,9 @@ const handleOpenEditTaskModal=()=>{
             <IconButton
         id="status-button"
         onClick={handleStatusMenuClick}
-          ><EditIcon sx={{
+          ><EditIcon 
+          color={'info'}
+          sx={{
           fontSize:'15px'
         }}/></IconButton>
            {task.taskStatus}
@@ -252,13 +254,13 @@ const handleOpenEditTaskModal=()=>{
           <IconButton
         id="priority-button"
         onClick={handlePriorityMenuClick}>
-          <EditIcon sx={{
+          <EditIcon color={'info'} sx={{
           fontSize:'15px'
         }}/></IconButton>
           {task.taskPriority}  
         </div>
         
-        <div><IconButton onClick={()=>{setDeleteConfirmation(true)}}><DeleteForeverIcon sx={{
+        <div><IconButton onClick={()=>{setDeleteConfirmation(true)}}><DeleteForeverIcon color={'info'} sx={{
           fontSize:'20px'
         }}/></IconButton></div>
          

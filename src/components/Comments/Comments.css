@@ -9,7 +9,9 @@
     font-size: 15px;
     height: 100px;
     width:100%;
-    overflow-y:auto
+    overflow-y:auto;
+   
 
     
 }
+p {margin-bottom: .01em;  margin-top: 0.1em;}
