@@ -1,6 +1,35 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+const AgendaItemSchema = new Schema(
+  {
+    agendaItem: String,
+    discussion: String,
+  },
+  { timestamps: true }
+);
+
+const ActionItemsSchema = new Schema(
+  {
+    item: String,
+    complete: Boolean,
+    comment: String,
+  },
+  { timestamps: true }
+);
+
+const projectMeetingSchema = new Schema(
+  {
+    minuteKeeper: { type: Schema.Types.ObjectId, ref: "User" },
+    meetingDate: Date,
+    participents: String,
+    agendaItems: [AgendaItemSchema],
+    previousActionItems: [ActionItemsSchema],
+    ActionItems: String,
+  },
+  { timestamps: true }
+);
+
 const projectSchema = new Schema(
   {
     projName: String,
@@ -29,6 +58,7 @@ const projectSchema = new Schema(
     projOwner: { type: Schema.Types.ObjectId, ref: "User" },
     projTasks: [{ type: Schema.Types.ObjectId, ref: "Task" }],
     projBudget: Number,
+    projMeetings: [projectMeetingSchema],
   },
 
   { timestamps: true }

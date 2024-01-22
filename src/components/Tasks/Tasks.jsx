@@ -31,19 +31,18 @@ import MenuItem from '@mui/material/MenuItem';
 import './Tasks.css'
 import Paper from '@mui/material/Paper';
 
+import ViewMeetings from'../Modals/Meeting/ViewMeetings'
+
 
 export default function Tasks({project,taskUpdateWatch,setTaskUpdateWatch}) {
  
   const[projectTasks,setProjectTasks]=useState([])
   const[taskAdded,setTaskAdded]=useState(false)
   const[filter,setFilter]=useState('Active')
-
-  //meeting notes icon
-  const meetingNotes= ()=>{
-    return(
-    <>
-    <GroupsIcon sx={{fontSize:'40px',transform:'translate(0,5px)'}}/><EditNoteIcon sx={{transform:'translate(-15px,-8px)',fontSize:'20px',}}/>
-    </>)
+  const [meetingOpen,setMeetingOpen]=useState(false)
+//Open Meetings modal
+  const handleOpenMeeting=()=>{
+    setMeetingOpen(true)
   }
 
   //fetch tasks on mount
@@ -150,13 +149,13 @@ fetchProjectTasks()
         <div style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'space-between',width:'30%'}}>
           
           <Tooltip title="Add a Task">
-          <Button sx={{ border:'1px solid #6b65ac',boxShadow: 4,borderRadius:'10px' }} onClick={handleOpenTaskCreateModal} color= 'primary'><AssignmentRoundedIcon sx={{fontSize:'40px',color:'#6b65ac'}}/><AddCircleTwoToneIcon 
+          <Button  sx={{ border:'1px solid #6b65ac',boxShadow: 4,borderRadius:'10px' }} onClick={handleOpenTaskCreateModal} color= 'primary'><AssignmentRoundedIcon sx={{fontSize:'40px',color:'#6b65ac'}}/><AddCircleTwoToneIcon 
           sx={{fontSize:'20px',color:'#6b65ac',transform:'translate(-5px,-10px)'}}
         /></Button></Tooltip> 
         &nbsp;
 
-          <Tooltip title="Meeting Notes (Coming Soon)">
-            <Button sx={{ border:'1px solid #6b65ac',boxShadow: 4,borderRadius:'10px' }} >
+          <Tooltip title="Meeting Notes (Under Development)">
+            <Button onClick={handleOpenMeeting} sx={{ border:'1px solid #6b65ac',boxShadow: 4,borderRadius:'10px' }} >
             <GroupsIcon sx={{paddingLeft:'15px',fontSize:'40px',transform:'translate(0,5px)',color:'#6b65ac'}}/><EditNoteIcon sx={{transform:'translate(-15px,-8px)',fontSize:'20px',color:'#6b65ac'}}/>
          
             </Button>
@@ -253,6 +252,11 @@ fetchProjectTasks()
        </Dialog>
        </div>
        </Paper>
+
+       <ViewMeetings
+       meetingOpen={meetingOpen}
+       setMeetingOpen={setMeetingOpen}
+        />
       </div>
   )
 }

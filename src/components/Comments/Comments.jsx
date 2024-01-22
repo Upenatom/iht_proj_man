@@ -10,7 +10,9 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import * as utils from '../../resources/utils/utils'
 import IconButton from '@mui/material/IconButton';
-import AddCircleIcon from '@mui/icons-material/AddCircle'
+
+import AddCommentIcon from '@mui/icons-material/AddComment';
+import ForumIcon from '@mui/icons-material/Forum';
 import AddComment from '../Modals/AddComment/AddComment'
 import './Comments.css'
 import Divider from '@mui/material/Divider';
@@ -80,10 +82,10 @@ export default function Comment({task,recentComment,commentAdded,setCommentAdded
         }}>
           <Divider/>
           
-        <IconButton sx={{margin:'5px',padding:'5px',boxShadow: 4}} onClick={handleOpenCreateCommentModal} color= 'info'><Tooltip title="Add A Comment"><AddCircleIcon sx={{
+        <IconButton sx={{margin:'5px',padding:'5px',boxShadow: 4}} onClick={handleOpenCreateCommentModal} color= 'info'><Tooltip title="Add A Comment"><AddCommentIcon sx={{
           fontSize:'20px'
         }}/></Tooltip></IconButton>
-        <IconButton sx={{margin:'5px',padding:'5px',boxShadow: 4}}onClick={historyOpen} color= 'info'><Tooltip title="View Comment History"><HistoryEduTwoToneIcon sx={{
+        <IconButton sx={{margin:'5px',padding:'5px',boxShadow: 4}}onClick={historyOpen} color= 'info'><Tooltip title="View Comment History"><ForumIcon sx={{
           fontSize:'20px'
         }}/></Tooltip></IconButton>
         
@@ -91,7 +93,7 @@ export default function Comment({task,recentComment,commentAdded,setCommentAdded
         Created:&nbsp;{utils.shortDate(recentComment.createdAt)}&emsp;
         Edited:&nbsp;{utils.shortDate(recentComment.updatedAt)}
         </Box>
-        </div> : <>No comments for this task yet<IconButton onClick={handleOpenCreateCommentModal} color= 'info'><AddCircleIcon sx={{
+        </div> : <>No comments for this task yet<IconButton onClick={handleOpenCreateCommentModal} color= 'info'><AddCommentIcon sx={{
           fontSize:'20px'
         }}/></IconButton></>}
         
