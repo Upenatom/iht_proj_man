@@ -25,7 +25,7 @@ function App() {
       const user = payload.user;
       setUser(user);
       // }
-    }
+    } else setUser(null);
   }, []);
 
   return (

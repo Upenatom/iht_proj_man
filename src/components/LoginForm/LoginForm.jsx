@@ -52,7 +52,7 @@ export default function LoginForm({setUser}) {
   }
   }
   const errorDisplay = ()=>{
-    if(serverResp==='Bad Password'||serverResp==="Cannot read properties of null (reading 'userPass')")return(<Alert variant='filled' severity="error" sx={{ width: '100%' }}>Bad Username or Password</Alert>)
+    if(serverResp==='Bad Password'||serverResp==="Cannot read properties of null (reading 'userPass')")return(<Alert variant='filled' severity="error" sx={{ width: '100%' }}>Incorrect Username or Password</Alert>)
     else if(serverResp==='ok')return(<Alert  variant='filled' severity="success" sx={{bgcolor:'green',width: '100%'}}>Password change success
         </Alert>)}
 

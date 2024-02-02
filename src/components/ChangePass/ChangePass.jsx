@@ -28,7 +28,7 @@ export default function ChangePass() {
   }
   
 const errorDisplay = ()=>{
-    if(serverResp==='Bad Password')return(<Alert o variant='filled' severity="error" sx={{ width: '100%' }}>Incorrect Password</Alert>)
+    if(serverResp==='Bad Password')return(<Alert variant='filled' severity="error" sx={{ width: '100%' }}>Incorrect Password</Alert>)
     else if(serverResp==='ok')return(<Alert  variant='filled' severity="success" sx={{bgcolor:'green',width: '100%'}}>Password change success
         </Alert>)
     else if(serverResp==='checkCompare')return(

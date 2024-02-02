@@ -30,7 +30,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import './Tasks.css'
 import Paper from '@mui/material/Paper';
-
+import Alert from '@mui/material/Alert';
 import ViewMeetings from'../Modals/Meeting/ViewMeetings'
 
 
@@ -40,6 +40,7 @@ export default function Tasks({project,taskUpdateWatch,setTaskUpdateWatch}) {
   const[taskAdded,setTaskAdded]=useState(false)
   const[filter,setFilter]=useState('Active')
   const [meetingOpen,setMeetingOpen]=useState(false)
+  const [noDate,setNoDate]=useState(false)
 //Open Meetings modal
   const handleOpenMeeting=()=>{
     setMeetingOpen(true)
@@ -101,9 +102,11 @@ fetchProjectTasks()
         taskStatus:"Not Started",
         taskDescription:"",                     
         })
+      setNoDate(false)
       setOpen(false);
   };
   const handleSubmit = async(e) => {
+    if(startDate!==null || endDate!==null){
     e.preventDefault();
     let body = { ...taskInfo, 
       taskStartDate:startDate,
@@ -133,12 +136,17 @@ fetchProjectTasks()
     console.log(err)
     console.log ("Task Creation error");
     
+  }}else{
+    setNoDate(true)
   }
       };
     
       //filter stuff
     const handleFilterChange=(e)=>{
     setFilter(e.target.value)
+  }
+  const errorDisplay = ()=>{
+    if(noDate){return(<Alert variant='filled' severity="error" sx={{ width: '100%' }}>A Start and End Date Must Be Selected</Alert>)}
   }
 
     return (
@@ -218,8 +226,7 @@ fetchProjectTasks()
              value = {taskInfo.taskDescription}
              multiline
              rows={4}/>
-          </FormControl>
-        
+          </FormControl>       
 
          
 
@@ -249,6 +256,7 @@ fetchProjectTasks()
           <Button variant='contained' onClick={handleClose}>Cancel</Button>
           <Button variant='contained' onClick={handleSubmit}>Save Task</Button>
         </DialogActions>
+        {errorDisplay()}
        </Dialog>
        </div>
        </Paper>

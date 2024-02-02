@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState} from "react";
 
 //import Material UI utils
 import dayjs from 'dayjs';
@@ -23,19 +23,25 @@ import MenuItem from '@mui/material/MenuItem';
 import Divider from '@mui/material/Divider';
 import './ViewMeetings.css'
 import Box from '@mui/material/Box';
-
+import CreateMeeting from '../CreateMeeting/CreateMeeting'
 //mui Icons
-import CloseIcon from '@mui/icons-material/Close';
 
+import CloseIcon from '@mui/icons-material/Close';
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import GroupsIcon from '@mui/icons-material/Groups';
+import Tooltip from '@mui/material/Tooltip';
 
 export default function ViewMeetings({meetingOpen,setMeetingOpen}) {
-
+    const[openCreate,setOpenCreate]=useState(false)
     const handleClose = () => {
-
-    
+   
       setMeetingOpen(false);
       
   };
+
+  const handleAddMeeting = ()=>{
+    setOpenCreate(true)
+  }
 
   return (
     <div>
@@ -44,9 +50,20 @@ export default function ViewMeetings({meetingOpen,setMeetingOpen}) {
          fullScreen
          >
              <DialogTitle style={{display:'flex',justifyContent:'space-between'}}>
-                <div>Meetings</div>
+                <div style={{display:'flex',justifyContent:'space-between',fontSize:'27px',width: '300px'}}>Meetings 
+                    <Tooltip title="Add a Meeting">
+                    <Button onClick={handleAddMeeting} sx={{ border:'1px solid #6b65ac',boxShadow: 4,borderRadius:'10px',  }} >
+            
+            <GroupsIcon sx={{paddingLeft:'15px',fontSize:'40px',transform:'translate(0,5px)',color:'#6b65ac'}}/>
+         
+            <AddRoundedIcon sx={{transform:'translate(-15px,-8px)',fontSize:'20px',color:'#6b65ac'}}/>            
+         
+            </Button>
+            </Tooltip>
+                </div>
                 <IconButton size='large' onClick={handleClose}><CloseIcon/></IconButton>
             </DialogTitle>
+            <Divider />
             <div className='viewMeetingsPage'>
                 <div className='dateMenu'><DialogTitle> Date<Divider/></DialogTitle>
                 Under Development</div>
@@ -54,6 +71,10 @@ export default function ViewMeetings({meetingOpen,setMeetingOpen}) {
                 <div className='meetingContents'><DialogTitle>Meeting Minutes<Divider/></DialogTitle>Under Development</div>
             </div>
         </Dialog>
+        <CreateMeeting 
+        openCreate={openCreate}
+        setOpenCreate={setOpenCreate}
+        />
         
     </div>
   )

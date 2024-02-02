@@ -22,10 +22,9 @@ const projectMeetingSchema = new Schema(
   {
     minuteKeeper: { type: Schema.Types.ObjectId, ref: "User" },
     meetingDate: Date,
-    participents: String,
     agendaItems: [AgendaItemSchema],
     previousActionItems: [ActionItemsSchema],
-    ActionItems: String,
+    ActionItem: String,
   },
   { timestamps: true }
 );

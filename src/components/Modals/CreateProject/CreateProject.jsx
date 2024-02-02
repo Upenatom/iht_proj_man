@@ -28,11 +28,12 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 
 import Box from '@mui/material/Box';
-
+import Alert from '@mui/material/Alert';
 
 
 export default function CreateProject({open,projectAdded,setProjectAdded,setOpen,projInfo,setprojInfo,user,startDate,setStartDate,endDate,setEndDate}) {
-
+  
+  const [noDate,setNoDate]=useState(false)
 
     const handleChange= (e)=>{
     setprojInfo({...projInfo,[e.target.name]:e.target.value})
@@ -46,13 +47,18 @@ export default function CreateProject({open,projectAdded,setProjectAdded,setOpen
         projDescription:"",
         projDepartment:user.department,
       })
+      setNoDate(false)
       setOpen(false);
       setReqArray([])
   };
 
-  
+   const errorDisplay = ()=>{
+    if(noDate){return(<Alert variant='filled' severity="error" sx={{ width: '100%' }}>A Start and End Date Must Be Selected</Alert>)}
+  }
   const handleSubmit = async(e) => {
-    e.preventDefault();
+    if(startDate!==null || endDate!==null){
+
+     e.preventDefault();
     let body = { ...projInfo, 
       projStartDate:startDate,
         projTargetEndDate:endDate,
@@ -83,6 +89,8 @@ export default function CreateProject({open,projectAdded,setProjectAdded,setOpen
     console.log(err)
     console.log ("Project Creation error");
     
+  }}else{
+    setNoDate(true)
   }
       };
 
@@ -159,7 +167,6 @@ export default function CreateProject({open,projectAdded,setProjectAdded,setOpen
           name='projStartDate'
           value={projInfo.projStartDate}
           onChange={(newValue) => setStartDate(newValue)}
-          
           />
           
         <DatePicker
@@ -188,6 +195,7 @@ export default function CreateProject({open,projectAdded,setProjectAdded,setOpen
           <Button variant='contained' onClick={handleClose}>Cancel</Button>
           <Button variant='contained' onClick={handleSubmit}>Save Project</Button>
         </DialogActions>
+       {errorDisplay()}
        </Dialog>
     </div>
   )
