@@ -7,6 +7,7 @@ import {ReactComponent as IhtLightingLogo} from '../../../resources/logo/iht-lig
 //import Material UI Icon
 
 //import Material UI utils
+import Alert from '@mui/material/Alert';
 import dayjs from 'dayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -45,6 +46,7 @@ export default function EditProject({open,projectAdded,setProjectAdded,setOpen,u
 
     const[projOwner,setProjOwner]=useState()
     const[allUsers, setAllUsers]=useState([])
+    const [noDate,setNoDate]=useState(false)
 
 //load project info on modal open
  useEffect (()=>{
@@ -52,7 +54,9 @@ export default function EditProject({open,projectAdded,setProjectAdded,setOpen,u
     setprojInfo(project)   
     
  },[])
-    
+     const onKeyDown = (e) => {
+    e.preventDefault();
+ };
 
     const handleChange= (e)=>{
         
@@ -65,19 +69,21 @@ export default function EditProject({open,projectAdded,setProjectAdded,setOpen,u
     
       setReqArray(project.projRequirements)
       setOpen(false);
+      setNoDate(false)
       
   };
 
-  
+  const errorDisplay = ()=>{
+    if(noDate){return(<Alert variant='filled' severity="error" sx={{ width: '100%' }}>A Start and End Date Must Be Selected</Alert>)}
+  }
 
   const handleSubmit = async(e) => {
+    if(projInfo.startDate!==null && projInfo.endDate!==null){
     e.preventDefault();
     let body = { ...projInfo, 
       projStartDate:startDate,
       projTargetEndDate:endDate,
-      projRequirements:reqArray,
-      
-     
+      projRequirements:reqArray,    
 
       }
     let jwt = localStorage.getItem('token')
@@ -101,6 +107,8 @@ export default function EditProject({open,projectAdded,setProjectAdded,setOpen,u
     console.log(err)
     console.log ("Project Creation error");
     
+  }}else{
+    setNoDate(true)
   }
       };
 
@@ -187,7 +195,11 @@ export default function EditProject({open,projectAdded,setProjectAdded,setOpen,u
           
           value={dayjs(startDate)}
           onChange={(newValue) => setStartDate(newValue)}
-          
+         slotProps={{
+        textField: {
+            readOnly: true,
+        },
+    }}
           />
           
         <DatePicker
@@ -195,6 +207,11 @@ export default function EditProject({open,projectAdded,setProjectAdded,setOpen,u
           name='projTargetEndDate'
           value={dayjs(endDate)}
           onChange={(newValue) => setEndDate(newValue)}
+          slotProps={{
+        textField: {
+            readOnly: true,
+        },
+    }}
         />
       </DemoContainer>
     </LocalizationProvider>
@@ -218,6 +235,7 @@ export default function EditProject({open,projectAdded,setProjectAdded,setOpen,u
           <Button variant='contained' onClick={handleClose}>Cancel</Button>
           <Button variant='contained' onClick={handleSubmit}>Save Project</Button>
         </DialogActions>
+        {errorDisplay()}
        </Dialog>
     </div>
   )

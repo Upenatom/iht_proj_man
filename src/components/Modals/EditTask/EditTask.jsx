@@ -91,6 +91,11 @@ setTaskInfo({...taskInfo,[e.target.name]:e.target.value})}
           name='projStartDate'
           value={dayjs(task.taskStartDate)}
           onChange={(newValue) => setStartDate(newValue)}
+           slotProps={{
+        textField: {
+            readOnly: true,
+        },
+    }}
           
           />
           
@@ -99,6 +104,11 @@ setTaskInfo({...taskInfo,[e.target.name]:e.target.value})}
           name='taskTargetEndDate'
           value={dayjs(task.taskTargetEndDate)}
           onChange={(newValue) => setEndDate(newValue)}
+           slotProps={{
+        textField: {
+            readOnly: true,
+        },
+    }}
         />
       </DemoContainer>
     </LocalizationProvider>

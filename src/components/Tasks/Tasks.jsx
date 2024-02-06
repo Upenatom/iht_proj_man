@@ -41,6 +41,9 @@ export default function Tasks({project,taskUpdateWatch,setTaskUpdateWatch}) {
   const[filter,setFilter]=useState('Active')
   const [meetingOpen,setMeetingOpen]=useState(false)
   const [noDate,setNoDate]=useState(false)
+  const [startDate, setStartDate] = useState(null)
+  const [endDate,setEndDate] = useState(null)
+
 //Open Meetings modal
   const handleOpenMeeting=()=>{
     setMeetingOpen(true)
@@ -78,8 +81,7 @@ fetchProjectTasks()
 
     },[taskAdded,taskUpdateWatch,filter])
 
-  const [startDate, setStartDate] = useState(null)
-  const [endDate,setEndDate] = useState(null)
+  
   
   const[taskInfo,setTaskInfo]=useState({
     taskStartDate:startDate,
@@ -104,9 +106,11 @@ fetchProjectTasks()
         })
       setNoDate(false)
       setOpen(false);
+      setStartDate(null)
+      setEndDate(null)
   };
   const handleSubmit = async(e) => {
-    if(startDate!==null || endDate!==null){
+    if(startDate!==null && endDate!==null){
     e.preventDefault();
     let body = { ...taskInfo, 
       taskStartDate:startDate,

@@ -56,7 +56,7 @@ export default function CreateProject({open,projectAdded,setProjectAdded,setOpen
     if(noDate){return(<Alert variant='filled' severity="error" sx={{ width: '100%' }}>A Start and End Date Must Be Selected</Alert>)}
   }
   const handleSubmit = async(e) => {
-    if(startDate!==null || endDate!==null){
+    if(startDate!==null && endDate!==null){
 
      e.preventDefault();
     let body = { ...projInfo, 
