@@ -16,11 +16,12 @@ import * as utils from '../../../resources/utils/utils'
 export default function AssignTask({reassignModal,closeReassign,department,setDepartment,usersByDept,setUsersByDept,task,setTaskUpdateWatch,taskUpdateWatch})
  {
 const[newAssignedUser,setNewAssignedUser] =useState("")
-
+const [showuser,setShowUser]=useState(false)
 useEffect(()=>{
     
     },[usersByDept])
-    
+
+
     let user="null"
     const handleSubmit = async (e)=> {
         e.preventDefault();
@@ -41,6 +42,7 @@ useEffect(()=>{
     if(!fetchResponse.ok)
     { throw new Error('Fetch failed - Bad Request')}
     setTaskUpdateWatch(!taskUpdateWatch)
+    setDepartment(null)
     closeReassign()
 
 }catch(err){
@@ -71,6 +73,7 @@ useEffect(()=>{
         }
 
     const handleChange = async (e)=>{
+        setShowUser(true)
        let dept=e.target.value
         setDepartment(dept)}
 
@@ -79,6 +82,9 @@ useEffect(()=>{
        user=e.target.value
        setNewAssignedUser(user)
        
+       }
+       const onOpen =()=>{
+        setShowUser(false)
        }
         
 
@@ -99,6 +105,7 @@ useEffect(()=>{
                     value={department}
                     label="Users"
                     onChange={handleChange}
+                    onOpen={onOpen}
                     > {departmentEnums.map(dept=><MenuItem value={dept} key = {dept}>{dept}</MenuItem>)}
                         
                     </Select>

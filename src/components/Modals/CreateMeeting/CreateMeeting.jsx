@@ -31,7 +31,7 @@ export default function CreateMeeting({openCreate,setOpenCreate}) {
  
   const[meetingDate,setMeetingDate]=useState()
   const [agendaItems,setAgendaItems]=useState([])
-  
+  const [saveTrigger, setSaveTrigger]=useState(false)
   const handleClose = () => {
    
       setOpenCreate(false);
@@ -91,19 +91,7 @@ export default function CreateMeeting({openCreate,setOpenCreate}) {
         agendaItems={agendaItems}
         setAgendaItems={setAgendaItems}
              />):<div> No Agenda Items Added for this meeting</div>}
-        {/* <AgendaItem
-        agendaItems={agendaItems}
-        setAgendaItems={setAgendaItems}
-        meetingInfo={meetingInfo}
-        setMeetingInfo={setMeetingInfo}
-        /> */}
-     
-      </div>
-      {/* <FormControl>
-        <InputLabel>Add Action Item</InputLabel>
-              <OutlinedInput label="Add Requirement" name='actionItem' value={meetingInfo.agendaItem} onChange={handleChange}/>+
-      </FormControl> */}
-
+           </div> 
       
         </Stack>
     </Dialog>

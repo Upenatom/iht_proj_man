@@ -50,13 +50,12 @@ export default function EditProject({open,projectAdded,setProjectAdded,setOpen,u
 
 //load project info on modal open
  useEffect (()=>{
-    
+   
     setprojInfo(project)   
+    setProjOwner(project.projOwner)
     
  },[])
-     const onKeyDown = (e) => {
-    e.preventDefault();
- };
+   
 
     const handleChange= (e)=>{
         
@@ -83,7 +82,8 @@ export default function EditProject({open,projectAdded,setProjectAdded,setOpen,u
     let body = { ...projInfo, 
       projStartDate:startDate,
       projTargetEndDate:endDate,
-      projRequirements:reqArray,    
+      projRequirements:reqArray, 
+      projOwner:projOwner   
 
       }
     let jwt = localStorage.getItem('token')
@@ -143,12 +143,12 @@ export default function EditProject({open,projectAdded,setProjectAdded,setOpen,u
        <FormControl fullWidth >
        
      <SearchUser
-     
-     allUsers={allUsers}
-     setAllUsers={setAllUsers}
-     setUser={setProjOwner}
-     user={project.projOwner.fullName}
+          allUsers={allUsers}
+          setAllUsers={setAllUsers}
+          setUser={setProjOwner}
+          user={project.projOwner}
      />
+
      </FormControl>:null}
           <FormControl fullWidth>
             <InputLabel>Project Name</InputLabel>

@@ -7,8 +7,10 @@ import * as fetches from '../../../resources/utils/fetches'
 //returns a user ID with the setUser function
 export default function SearchUser({allUsers,setAllUsers,setUser, user}) {
     //save user to state
+    //setUser=setProjOwner
     const selectedUser=(value)=>{
-    value?setUser(value._id):setUser([])}
+    value?setUser(value._id):setUser(null)
+  console.log(value._id)}
     
    
 
@@ -84,7 +86,7 @@ const fetchAllUsers = async ()=>{
         renderInput={(params) => (
              <TextField
               {...params}
-              label={user}
+              label={'Project Owner'}
               InputProps={{
                 ...params.InputProps,
                 endAdornment: (

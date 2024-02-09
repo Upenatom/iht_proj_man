@@ -54,7 +54,7 @@ export default function AgendaItem({agendaItems,setAgendaItems}) {
         toolbarClassName="toolbar-class"
         onChange={handleChangeEditor}
       />
-              {/* <OutlinedInput label="details" name='agendaItemDetails' value={meetingInfo.agendaItemDetails} onChange={handleChange}/> */}
+              
               </FormControl>
               </Stack>
     </div>
