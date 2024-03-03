@@ -56,7 +56,7 @@ export default function Comment({task,recentComment,commentAdded,setCommentAdded
     }
     let getComments=await fetchResponse.json()
     getComments.sort((a,b)=>a.createdAt - b.createdAt)
-    console.log(getComments)
+    
       setAllComments(getComments)
       }
       catch(err){

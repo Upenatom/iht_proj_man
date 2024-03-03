@@ -1,6 +1,6 @@
-import { useState} from "react";
+import { useState,useEffect} from "react";
 
-import "./CreateMeeting.css"
+import "./EditMeeting.css"
 
 //import Material UI utils
 import dayjs from 'dayjs';
@@ -18,32 +18,51 @@ import Alert from '@mui/material/Alert';
 
 
 import { Editor } from 'react-draft-wysiwyg';
-import { EditorState,convertToRaw} from 'draft-js';
-import '../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
-import { convertToHTML} from 'draft-convert';
+import { EditorState,convertFromHTML,ContentState,convertToRaw} from 'draft-js';
+import htmlToDraft from 'html-to-draftjs';
 import draftToHtml from 'draftjs-to-html';
 
-export default function CreateMeeting({openCreate,setOpenCreate,project,setMeetingUpdated,meetingUpdated}) {
- 
-  const[meeting,setMeeting]=useState({date:"",details:""})
+import '../../../../node_modules/react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
+import { convertToHTML,convertFromHtml } from 'draft-convert';
+
+export default function EditMeeting({openEdit,setOpenEdit,project,setMeetingUpdated,meetingUpdated,selectedMeeting,setSelectedMeeting,refreshEditModal,refreshMeetingView,setRefreshMeetingView}) {
+  
+  const[meeting,setMeeting]=useState
+  ({date:"",details:""})
   const[noDate,setNodate]=useState(false)
-  const [editorState, setEditorState] = useState(() =>
+  const[editorState,setEditorState] =useState(
     EditorState.createEmpty()
-  );
+  )
+
+    useEffect(()=>{
+      const contentBlock = htmlToDraft(selectedMeeting.details)
+    if (contentBlock) 
+    
+
+    {const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
+      
+       const editorContent = EditorState.createWithContent(contentState);
+       
+      setEditorState(editorContent)
+      setMeeting(({date:selectedMeeting.date,details:selectedMeeting.details}))
+    }
+         
+    },[refreshEditModal])
+
+  
 
   const handleClose = () => {
-    console.log(project)
-    setOpenCreate(false);
+    
+    setOpenEdit(false);
     setNodate(false)
-    setMeeting({date:"",details:""})
-    setEditorState(()=>EditorState.createEmpty())
+    setMeeting({date:null,details:null})
+    
   };
-  const handleChangeEditor= (e)=>{
+  const handleChangeEditor= (newState)=>{
     //convert comment to html
     let html = draftToHtml(convertToRaw(editorState.getCurrentContent()))
     setMeeting({...meeting,details:`${html}`})
-    // let raw = convertToRaw(editorState.getCurrentContent())
-    // setMeeting({...meeting,details:`${raw}`})
+   
   }
 
   const errorDisplay = ()=>{
@@ -52,34 +71,37 @@ export default function CreateMeeting({openCreate,setOpenCreate,project,setMeeti
 
   
   const handleSubmit = async (e) => {
-   if(meeting.date){
+   
    e.preventDefault();
    let body = {...meeting}
    let jwt =localStorage.getItem('token')
    try{
     const options = {
-            method: "POST",
+            method: "PUT",
             headers: {
                 "Content-Type": "application/json", 'Authorization': 'Bearer ' + jwt
             },
             body: JSON.stringify(body)
         }
-        const fetchResponse = await fetch(`/api/meetings/${project._id}/create`, options)
+        const fetchResponse = await fetch(`/api/meetings/update/${project._id}/${selectedMeeting._id}`, options)
     if(!fetchResponse.ok)
     { throw new Error('Fetch failed - Bad Request')}
    handleClose()
-  setMeetingUpdated(!meetingUpdated)}
+  setMeetingUpdated(!meetingUpdated)
+  setRefreshMeetingView(!refreshMeetingView)
+  setSelectedMeeting({...meeting})}
    catch(err){
     console.log(err)
     console.log ("Meeting Creation error");
    }
-  }else setNodate(true)
+  
+  
   }
 
  
   return (
     <div>
-    <Dialog open={openCreate} 
+    <Dialog open={openEdit} 
          onClose={handleClose}
          fullScreen>
       <DialogTitle style={{display:'flex',flexDirection:'row',alignItems:'center', justifyContent:'space-between'}}>
@@ -106,7 +128,7 @@ export default function CreateMeeting({openCreate,setOpenCreate,project,setMeeti
     }}
           label="Meeting Date"
           name='meetingDate'
-          // value={meetingInfo.meetingDate}
+          value={dayjs(meeting.date)}
           onChange={(newValue) => 
             {setMeeting({...meeting, date:newValue})
           setNodate(false)}}/>
@@ -114,14 +136,15 @@ export default function CreateMeeting({openCreate,setOpenCreate,project,setMeeti
         </LocalizationProvider>{errorDisplay()}
       </FormControl>
       <FormControl style={{height:'500px'}}>
-         <Editor
+       
+         <Editor 
         
         editorState={editorState}
         onEditorStateChange={setEditorState}
         wrapperClassName="wrapper-class"
         editorClassName="editor-class"
         toolbarClassName="toolbar-class"
-        onChange={handleChangeEditor}
+        onChange={handleChangeEditor}        
       />
               
               </FormControl>

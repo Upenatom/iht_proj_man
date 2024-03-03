@@ -1,19 +1,11 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const AgendaItemSchema = new Schema(
-  {
-    agendaItem: String,
-    agendaItemDetails: String,
-  },
-  { timestamps: true }
-);
-
 const projectMeetingSchema = new Schema(
   {
     minuteKeeper: { type: Schema.Types.ObjectId, ref: "User" },
-    meetingDate: Date,
-    agendaItems: [AgendaItemSchema],
+    date: Date,
+    details: String,
   },
   { timestamps: true }
 );

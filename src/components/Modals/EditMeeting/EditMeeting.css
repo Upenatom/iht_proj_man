@@ -1,0 +1,9 @@
+/* .wrapper-class {
+    resize: both;
+    overflow: auto;
+    height: 800px; 
+    width: 100%;} */
+    .editor-class {
+        height: 600px;
+        width: 100%;
+    }

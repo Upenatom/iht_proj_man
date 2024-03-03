@@ -25,6 +25,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
+import Badge from '@mui/material/Badge';
 import DialogTitle from '@mui/material/DialogTitle';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
@@ -32,6 +33,7 @@ import './Tasks.css'
 import Paper from '@mui/material/Paper';
 import Alert from '@mui/material/Alert';
 import ViewMeetings from'../Modals/Meeting/ViewMeetings'
+
 
 
 export default function Tasks({project,taskUpdateWatch,setTaskUpdateWatch}) {
@@ -166,22 +168,22 @@ fetchProjectTasks()
         /></Button></Tooltip> 
         &nbsp;
 
-          <Tooltip title="Meeting Notes (Under Development)">
-            <Button onClick={handleOpenMeeting} sx={{ border:'1px solid #6b65ac',boxShadow: 4,borderRadius:'10px' }} >
+          <Tooltip title="Meeting Notes">
+            <Badge badgeContent={'NEW!!'} color="success"><Button onClick={handleOpenMeeting} sx={{ border:'1px solid #6b65ac',boxShadow: 4,borderRadius:'10px' }} >
             <GroupsIcon sx={{paddingLeft:'15px',fontSize:'40px',transform:'translate(0,5px)',color:'#6b65ac'}}/><EditNoteIcon sx={{transform:'translate(-15px,-8px)',fontSize:'20px',color:'#6b65ac'}}/>
          
-            </Button>
+            </Button></Badge>
           </Tooltip>
           &nbsp;
           <Tooltip title="Project Expenses(Coming Soon)">
-            <Button sx={{ border:'1px solid #6b65ac' ,boxShadow: 4,borderRadius:'10px' }} color='secondary'>
+            <Button sx={{ border:'1px solid #6b65ac' ,boxShadow: 4,borderRadius:'10px' }} color='secondary'variant="contained" disabled>
               <FunctionsIcon sx={{paddingLeft:'15px',fontSize:'40px',color:'#6b65ac'}}/>
               <AttachMoneyIcon  sx={{transform:'translate(-19px,0)',fontSize:'25px',color:'#6b65ac'}}/>
             </Button>
           </Tooltip>
           &nbsp;
           <Tooltip title="Project Hours (Coming Soon)">
-          <Button sx={{ border:'1px solid #6b65ac',boxShadow: 4,borderRadius:'10px' }} color='secondary'><FunctionsIcon sx={{paddingLeft:'15px',fontSize:'40px',color:'#6b65ac'}}/><HourglassBottomSharpIcon  sx={{transform:'translate(-19px,0)',fontSize:'20px',color:'#6b65ac'}}
+          <Button sx={{ border:'1px solid #6b65ac',boxShadow: 4,borderRadius:'10px' }} color='secondary' variant="contained" disabled><FunctionsIcon sx={{paddingLeft:'15px',fontSize:'40px',color:'#6b65ac'}}/><HourglassBottomSharpIcon  sx={{transform:'translate(-19px,0)',fontSize:'20px',color:'#6b65ac'}}
           /></Button></Tooltip>
 
            </div> 
@@ -268,6 +270,7 @@ fetchProjectTasks()
        <ViewMeetings
        meetingOpen={meetingOpen}
        setMeetingOpen={setMeetingOpen}
+       project={project}
         />
       </div>
   )

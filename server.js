@@ -23,6 +23,7 @@ app.use(require("./config/auth"));
 app.use("/api/user", require("./routes/api/user"));
 
 app.use("/api/projects", require("./routes/api/projects"));
+app.use("/api/meetings", require("./routes/api/meetings"));
 
 app.use("/api/tasks", require("./routes/api/tasks"));
 app.use("/api/comments", require("./routes/api/comments"));
