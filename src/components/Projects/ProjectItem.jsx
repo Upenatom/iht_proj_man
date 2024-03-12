@@ -31,11 +31,8 @@ export default function ProjectItem({project,user,resource,setProjectAdded,proje
   const [taskShow,setTaskShow] =useState(false)
   let handleClick = ()=>{
       setTaskShow(!taskShow)
-     
-      
+           
   }
-
-
   
   //project info pop up
   const [descShow, setDescShow]=useState(false)
@@ -138,7 +135,7 @@ export default function ProjectItem({project,user,resource,setProjectAdded,proje
         :null} 
 
 
-<div >
+<div>
   
   
     <div style={{display:'flex', alignItems:'center' }}>

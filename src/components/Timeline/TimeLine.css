@@ -1,0 +1,19 @@
+.ganttPaper{
+   display:flex;
+   /* flex-direction: column; */
+}
+.ganttpage{
+  
+   display:flex;
+   justify-content:center ;
+   align-content:center;
+   /* border:1px black solid;
+   top:10vh;
+   padding-left: 100px;
+    padding-right:100px;
+    margin:20px 20px 20px 40px; */
+/*     
+   box-shadow: 5px 5px 5px#496361;
+   border-radius: 12px; */
+}
+

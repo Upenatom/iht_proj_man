@@ -1,8 +1,6 @@
 
 import { useState} from "react";
-import LogoutButton from '../../components/LogoutButton/LogoutButton'
 import Collapse from '@mui/material/Collapse';
-import { ThemeProvider } from "@mui/material/styles";
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import LockResetIcon from '@mui/icons-material/LockReset';
 import ExpandLess from '@mui/icons-material/ExpandLess';
@@ -17,21 +15,31 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import GradingIcon from '@mui/icons-material/Grading';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import TuneIcon from '@mui/icons-material/Tune';
+import Preferences from '../Modals/Preferences/Preferences'
 
 export default function DropDownMenu({open,setAnchorEl,anchorEl,setUser,user,setResource}) {
+    
+    const[prefMenu,setPrefMenu]=useState(false)
+
+
+
     const handleClose = (e) => {
         setAnchorEl(null);
+        
     };
-    
-    const handleMenuItemClick = (e)=>{
-        setAnchorEl(false)
-    console.log(e.currentTarget.value)
+
+  
+    const handlePrefOpen = ()=>{
+        setPrefMenu(true)
+        handleClose()
+        console.log(user.projPref)
     }
     //account settings expand menu
     const[accSet,setAccSet]=useState(false)
     const handleAccSetExp = ()=>{
         setAccSet(!accSet)
-    }
+    }   
 
     //admin panel expand menu
     const[adminPan,setAdminPan]=useState(false)
@@ -58,7 +66,6 @@ export default function DropDownMenu({open,setAnchorEl,anchorEl,setUser,user,set
 
     }
 
-
   return (
     //anchor avatar menu
     
@@ -68,6 +75,17 @@ export default function DropDownMenu({open,setAnchorEl,anchorEl,setUser,user,set
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}>
+
+            <MenuItem value ='preferences' onClick={handlePrefOpen}>
+                <ListItemIcon>
+                <TuneIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>
+                Preferences
+            </ListItemText>
+           
+            </MenuItem>
+         
         
         <MenuItem value ='settings' onClick={handleAccSetExp}>
             <ListItemIcon>
@@ -123,6 +141,13 @@ export default function DropDownMenu({open,setAnchorEl,anchorEl,setUser,user,set
             </Collapse>
       
         </Menu>
+        <Preferences
+        user={user}        
+        setPrefMenu={setPrefMenu}
+        prefMenu={prefMenu}
+        handleClose={handleClose}
+        setUser={setUser}
+        />
     </div>
   )
 }

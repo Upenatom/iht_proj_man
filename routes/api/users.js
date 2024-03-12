@@ -15,4 +15,6 @@ router.get("/index", usersCtrl.index);
 
 router.put("/update", usersCtrl.updatePass);
 
+router.put("/update/prefs/:userid", usersCtrl.updatePref);
+
 module.exports = router;

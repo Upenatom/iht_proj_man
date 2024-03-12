@@ -1,5 +1,6 @@
 import { useState, useEffect} from "react";
 import TaskList from './TaskList'
+import TimeLine from '../Timeline/TimeLine'
 import IconButton from '@mui/material/IconButton';
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
 import AddCircleTwoToneIcon from '@mui/icons-material/AddCircleTwoTone';
@@ -29,24 +30,29 @@ import Badge from '@mui/material/Badge';
 import DialogTitle from '@mui/material/DialogTitle';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import './Tasks.css'
+import ButtonGroup from '@mui/material/ButtonGroup';
 import Paper from '@mui/material/Paper';
 import Alert from '@mui/material/Alert';
 import ViewMeetings from'../Modals/Meeting/ViewMeetings'
+import './Tasks.css'
 
 
 
-export default function Tasks({project,taskUpdateWatch,setTaskUpdateWatch}) {
+export default function Tasks({project,taskUpdateWatch,setTaskUpdateWatch,user}) {
  
   const[projectTasks,setProjectTasks]=useState([])
   const[taskAdded,setTaskAdded]=useState(false)
-  const[filter,setFilter]=useState('Active')
+  const[filter,setFilter]=useState(()=>user.projPref==='list'? 'Active':'All')
   const [meetingOpen,setMeetingOpen]=useState(false)
   const [noDate,setNoDate]=useState(false)
   const [startDate, setStartDate] = useState(null)
   const [endDate,setEndDate] = useState(null)
-
+  const [scale,setScale] = useState('Week')
+  const [openTask,setOpenTask]=useState(false)
+  
 //Open Meetings modal
+
+  
   const handleOpenMeeting=()=>{
     setMeetingOpen(true)
   }
@@ -73,7 +79,8 @@ export default function Tasks({project,taskUpdateWatch,setTaskUpdateWatch}) {
     let tasks = await fetchResponse.json();
 
     setProjectTasks(tasks.projTasks)
-    
+    user.projPref==='list'?setFilter('Active'):setFilter('All')
+  
   } catch (err) {
     console.log(err);
     console.log("Project Tasks fetch failed");
@@ -208,12 +215,36 @@ fetchProjectTasks()
       </div>
       <Divider />
       <br/>
+      {user.projPref==='list'?
       <TaskList 
       projectTasks={projectTasks} 
       taskUpdateWatch={taskUpdateWatch}
       setTaskUpdateWatch={setTaskUpdateWatch}
       
-      />
+      />:
+      <div style={{
+        display:'flex',
+        flexDirection:'column',
+        
+        overflow:'auto',
+      width:'100%'}}>
+        
+          <ButtonGroup  variant="contained" style={{
+        display:'flex',justifyContent:'center'}}>
+        <Button sx={{backgroundColor:'#6b65ac'}}  onClick={()=>setScale('Day')}>Day</Button>
+      <Button sx={{backgroundColor:'#6b65ac'}}onClick={()=>setScale('Week')}>Week</Button>
+      <Button sx={{backgroundColor:'#6b65ac'}}onClick={()=>setScale('Month')}>Months</Button></ButtonGroup>
+     
+      <TimeLine      
+      projectTasks={projectTasks} 
+      taskUpdateWatch={taskUpdateWatch}
+      setTaskUpdateWatch={setTaskUpdateWatch}
+      scale={scale}
+      setScale={setScale}
+      openTask={openTask}
+      setOpenTask={setOpenTask}/>
+      </div>}
+
       <div className='.modal'>
        <Dialog open={open} 
          onClose={handleClose}>

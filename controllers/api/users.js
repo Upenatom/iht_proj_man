@@ -8,7 +8,20 @@ module.exports = {
   getUsersByDepartment,
   index,
   updatePass,
+  updatePref,
 };
+
+async function updatePref(req, res) {
+  try {
+    console.log("update Pref controller hit");
+    const user = await User.findById(req.params.userid);
+    user.projPref = req.body.projView;
+    await user.save();
+    res.status(200).json("preferences updated");
+  } catch (err) {
+    console.log(err);
+  }
+}
 
 async function create(req, res) {
   console.log("users create controller hit");

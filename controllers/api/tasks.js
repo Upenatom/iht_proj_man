@@ -50,7 +50,7 @@ async function projectTasksIndex(req, res) {
       {
         path: "projTasks",
         match: filter,
-        populate: [{ path: "taskOwner" }],
+        populate: [{ path: "taskOwner" }, { path: "taskTodos" }],
       },
     ]);
 

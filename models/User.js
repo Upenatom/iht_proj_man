@@ -43,6 +43,10 @@ const userSchema = new Schema(
       minLength: 8,
       required: true,
     },
+    projPref: {
+      type: String,
+      default: "list",
+    },
   },
   {
     virtuals: {
