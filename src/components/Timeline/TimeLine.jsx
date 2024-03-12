@@ -55,10 +55,11 @@ const handleClose=()=>{
     type: "task",
     progress:percentComplete,
  
-  }    
+  }
+  
     return container
 })
-
+ganttTasks=ganttTasks.sort((a,b)=>a.start-b.start)
 
   return (
     <div >

@@ -212,7 +212,7 @@ export default function ProjectItem({project,user,resource,setProjectAdded,proje
           'aria-labelledby': 'basic-button',
         }}
       ><Stack spacing ={1}>
-        {utils.taskStatusEnums().map(status=><Button onClick={handleStatusClick} value= {status}>{status}</Button>)}
+        {utils.taskStatusEnums().map(status=><Button onClick={handleStatusClick} key={status}value= {status}>{status}</Button>)}
       
         </Stack>
       </Menu>

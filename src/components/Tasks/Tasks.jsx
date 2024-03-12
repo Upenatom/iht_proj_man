@@ -79,7 +79,7 @@ export default function Tasks({project,taskUpdateWatch,setTaskUpdateWatch,user})
     let tasks = await fetchResponse.json();
 
     setProjectTasks(tasks.projTasks)
-    user.projPref==='list'?setFilter('Active'):setFilter('All')
+
   
   } catch (err) {
     console.log(err);
@@ -190,7 +190,7 @@ fetchProjectTasks()
           </Tooltip>
           &nbsp;
           <Tooltip title="Project Hours (Coming Soon)">
-          <Button sx={{ border:'1px solid #6b65ac',boxShadow: 4,borderRadius:'10px' }} color='secondary' variant="contained" disabled><FunctionsIcon sx={{paddingLeft:'15px',fontSize:'40px',color:'#6b65ac'}}/><HourglassBottomSharpIcon  sx={{transform:'translate(-19px,0)',fontSize:'20px',color:'#6b65ac'}}
+          <Button sx={{ border:'1px solid #6b65ac',boxShadow: 4,borderRadius:'10px' }} color='secondary' variant="contained"  disabled><FunctionsIcon sx={{paddingLeft:'15px',fontSize:'40px',color:'#6b65ac'}}/><HourglassBottomSharpIcon  sx={{transform:'translate(-19px,0)',fontSize:'20px',color:'#6b65ac'}}
           /></Button></Tooltip>
 
            </div> 

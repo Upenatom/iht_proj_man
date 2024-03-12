@@ -182,11 +182,11 @@ return (
             <div>Meeting Minutes:&nbsp;{dayjs(selectedMeeting.date).format('LL')}
             </div>
             <div>
-              <Tooltip title="Edit Meeting">
+              {/* <Tooltip title="Edit Meeting"> */}
                 <IconButton>
                   <EditIcon onClick={()=>OpeneditModal()}/>
                 </IconButton>
-              </Tooltip>
+              {/* </Tooltip> */}
               <Tooltip title="Delete Meeting">
                 <IconButton onClick={deleteMeeting}>
                   <DeleteIcon/>
