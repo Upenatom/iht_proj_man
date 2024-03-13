@@ -101,6 +101,28 @@ export default function ProjectItem({project,user,resource,setProjectAdded,proje
     return (percentCompleted)
   }
 
+  const statusIndicator =()=>{
+    
+    if (project.projStatus=== 'Completed'){
+      return(<div style={{ backgroundColor: '#76ff03',color:'#33691e',paddingLeft:'10px',paddingRight:'10px'}}>COMPLETED</div>)
+    }
+    else if (project.projStatus=== 'Paused'){
+      return(<div style={{ backgroundColor: '#fff176',color:'black',paddingLeft:'10px',paddingRight:'10px'}}>PAUSED</div>)
+    }
+     else if (project.projStatus=== 'Cancelled'){
+      return(<div style={{ backgroundColor: '#212121',color:'white',paddingLeft:'10px',paddingRight:'10px'}}>CANCELLED</div>)
+    }else if (project.projStatus=== 'In Progress'){
+      if(utils.calcDaysRemain(project.projTargetEndDate)<0){
+        return(<div style={{ border:'solid 3px #921515',backgroundColor: '#d28b89',color:'#921515', borderRadius:'10px', paddingLeft:'10px',paddingRight:'10px'}}>Overdue:&nbsp;{utils.calcDaysRemain(project.projTargetEndDate)*-1} days&emsp;</div>)
+      }
+      else return(<div style={{ border:'solid 3px #006400',backgroundColor: '#a2da9c',color:'#006400', borderRadius:'10px', paddingLeft:'10px',paddingRight:'10px'}}>Remaining:&nbsp;{utils.calcDaysRemain(project.projTargetEndDate)} days&emsp;</div>)
+      
+    }else if (project.projStatus=== 'Not Started'){
+      return(<div style={{ backgroundColor: '#757575',color:'white',paddingLeft:'10px',paddingRight:'10px'}}>NOT STARTED</div>)
+    }
+    
+    }
+
   
    
   return (
@@ -121,9 +143,10 @@ export default function ProjectItem({project,user,resource,setProjectAdded,proje
           {project.projStatus} <IconButton sx={{margin:'5px',padding:'5px',boxShadow: 4}}  onClick={handleStatusMenuClick}><EditIcon sx={{fontSize:'20px'}}/></IconButton>
           </div>&emsp;
         {utils.shortDate(project.projTargetEndDate)}&emsp;
-        {utils.calcDaysRemain(project.projTargetEndDate)<0?<div style={{ backgroundColor: '#d28b89',color:'#921515', borderRadius:'10px', paddingLeft:'10px',paddingRight:'10px'}}>Overdue:&nbsp;{utils.calcDaysRemain(project.projTargetEndDate)*-1} days&emsp;</div>:
-        <div style={{ backgroundColor: '#a2da9c',color:'#006400', borderRadius:'10px', paddingLeft:'10px',paddingRight:'10px'}}>Remaining:&nbsp;{utils.calcDaysRemain(project.projTargetEndDate)} days&emsp;</div>
-        }
+
+        {statusIndicator()}
+
+
         {resource==='auditProj'?<div className='projOwner' >&emsp;{project.projOwner.fullName}</div>:null}
         {user.authLevel==="superadmin" || user.authLevel==="admin"|| project.projOwner===user.id?
         <Button 

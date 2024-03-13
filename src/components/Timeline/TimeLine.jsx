@@ -1,8 +1,9 @@
 import { useState, useEffect} from "react";
-import { Gantt, Task, EventOption, StylingOption, ViewMode, DisplayOption } from 'gantt-task-react';
-import DialogContent from '@mui/material/DialogContent';
+import { Gantt } from 'gantt-task-react';
+
 import TaskItem from '../Tasks/TaskItem'
-import Dialog from '@mui/material/Dialog';
+
+import Modal from '@mui/material/Modal';
 import dayjs from 'dayjs';
 import "gantt-task-react/dist/index.css";
 import './TimeLine.css'
@@ -87,20 +88,21 @@ ganttTasks=ganttTasks.sort((a,b)=>a.start-b.start)
 
     />
     </div>:<div>No Tasks</div>}
-    <Dialog
-    sx={{width:'100%'}}
+    <Modal
+    // sx={{width:'100%'}}
     open={openTask} 
     onClose={handleClose}
-    fullWidth
-    maxWidth='xl'>
-      <DialogContent>
+
+    >
+      
       <TaskItem
       task={selectedTask}
       setTaskUpdateWatch={setTaskUpdateWatch}
       taskUpdateWatch={taskUpdateWatch}
+      
       />
-      </DialogContent>
-    </Dialog>
+      
+    </Modal>
     </div>
   )
 }

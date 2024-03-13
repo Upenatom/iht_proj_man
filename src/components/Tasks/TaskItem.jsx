@@ -33,8 +33,7 @@ export default function TaskItem({task,setTaskUpdateWatch,taskUpdateWatch}) {
   const[department,setDepartment] = useState("")
   const[usersByDept,setUsersByDept]=useState([])
   const[todoNum, setTodoNum]=useState(0)
-
-  //status menu stuff
+//status menu stuff
   const [anchorEl, setAnchorEl] = useState(null);
   const openEditStatus = Boolean(anchorEl);
   const handleStatusMenuClick = (event) => {
@@ -218,6 +217,8 @@ const [editTaskModal,setEditTaskModal]=useState(false)
 const handleOpenEditTaskModal=()=>{
   setEditTaskModal(true)
 }
+//refresh Task item modal in Gantt view
+useEffect(()=>{console.log(task.taskStatus)},[taskUpdateWatch])
 
   return (
     <div className='taskitem' >
