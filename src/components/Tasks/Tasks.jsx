@@ -88,6 +88,7 @@ export default function Tasks({project,taskUpdateWatch,setTaskUpdateWatch,user})
   }
 fetchProjectTasks()
 
+
     },[taskAdded,taskUpdateWatch,filter])
 
   

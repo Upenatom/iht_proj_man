@@ -53,7 +53,6 @@ async function projectTasksIndex(req, res) {
         populate: [{ path: "taskOwner" }, { path: "taskTodos" }],
       },
     ]);
-
     res.status(200).json(projectTask);
   } catch (err) {
     res.status(400).json(err);
